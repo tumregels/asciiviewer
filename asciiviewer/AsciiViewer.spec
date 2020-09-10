@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['AsciiViewer.py'],
-             pathex=['/vagrant/asciiviewer', '/vagrant/asciiviewer/source'],
+             pathex=['.', './source'],
              binaries=[],
              datas=[ ('splash.jpg', '.'), ('default.cfg', '.')  ],
              hiddenimports=[],
@@ -15,7 +15,7 @@ a = Analysis(['AsciiViewer.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-# a.datas += Tree('./fontconfig', prefix='fontconfig')
+a.datas += Tree('./example', prefix='example')
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,

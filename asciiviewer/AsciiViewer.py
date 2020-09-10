@@ -412,7 +412,10 @@ if __name__ == "__main__":
     lastfile = sys.argv[1]
   except IndexError:
     if lastfile == '':
-      lastfile = sys.path[0]+'/example/MultiCompoV4'
+      if getattr(sys, 'frozen', False):
+        lastfile = os.path.join(sys._MEIPASS, 'example', 'MCOMPO_UOX_TBH')
+      else:
+        lastfile = sys.path[0]+'/example/MCOMPO_UOX_TBH'
   # launch main window
   app = MyApp(lastfile)
   app.MainLoop()
