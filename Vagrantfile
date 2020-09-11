@@ -16,11 +16,14 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
   config.vm.provision "shell", inline: <<-SHELL
-    yum -y update
-    yum install -y epel-release
-    yum install -y wxPython-devel
+    yum -y update  
+    yum -y install epel-release
+    yum -y install python2-devel
+    yum -y install wxPython-devel
     yum install -y xorg-x11-xauth
     curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
     pip install pyinstaller==3.6
+    # yum install -y root
+    # yum install -y python2-root
   SHELL
 end
