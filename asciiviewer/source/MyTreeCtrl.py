@@ -460,7 +460,7 @@ class MyTreeCtrl(wx.TreeCtrl):
     root = self.GetRootItem()
     for e in elementList:
       if e.level == 1:
-        parent = self.AppendItem(root, e.label, data=wx.TreeItemData(e))
+        parent = self.AppendItem(root, e.label, data=e)
         self.AddAsciiChildren(elementList,e,parent,fExpand,fSort)
         fSort(parent)
         fExpand(parent)
@@ -476,7 +476,7 @@ class MyTreeCtrl(wx.TreeCtrl):
       nextElt = elementList[i]
       nextLevel = nextElt.level
       if nextLevel == parentLevel + 1:
-        node = self.AppendItem(parent, nextElt.label, data=wx.TreeItemData(nextElt))
+        node = self.AppendItem(parent, nextElt.label, data=nextElt)
         self.AddAsciiChildren(elementList,elementList[i], node, fExpand, fSort)
         fSort(node)
         if self.GetChildrenCount(node) < 10:

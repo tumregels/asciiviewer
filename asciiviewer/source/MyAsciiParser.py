@@ -168,7 +168,7 @@ def asciiToTree(filePath,tree):
             parentLevel = previousLevel
           # create a LinkedListElement
           element = LinkedListElement(id,level,labelType,label,contentType,content)
-          node = tree.AppendItem(parent, element.label, data=wx.TreeItemData(element))
+          node = tree.AppendItem(parent, element.label, data=element)
           #elementList.append(element)
           id+=1
           previousLevel = level
