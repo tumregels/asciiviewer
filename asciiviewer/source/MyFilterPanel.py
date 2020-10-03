@@ -29,7 +29,7 @@ class MyFilterPanel(wx.Panel):
     # panel1
 
     panel1 = wx.Panel(self, -1)
-    grid1 = wx.GridSizer(2, 2)
+    grid1 = wx.GridSizer(2, 2, 0, 0)
     grid1.Add(wx.StaticText(panel1, -1, 'Find: ', (5, 5)), 0,  wx.ALIGN_CENTER_VERTICAL)
     grid1.Add(wx.ComboBox(panel1, -1, size=(120, -1)))
     grid1.Add(wx.StaticText(panel1, -1, 'Replace with: ', (5, 5)), 0, wx.ALIGN_CENTER_VERTICAL)

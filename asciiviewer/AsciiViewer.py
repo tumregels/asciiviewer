@@ -8,6 +8,7 @@
 
 try:
     import wx
+    import wx.adv
 except ImportError:
     raise ImportError,"The wxPython module is required to run this program"
 
@@ -167,7 +168,7 @@ class MainWindow(wx.Frame):
   def OnOpenFile(self, event):
     root = self.tree.GetRootItem()
     defaultDir = os.path.dirname(self.tree.GetItemText(root))
-    filedlg = wx.FileDialog(self, style = wx.CHANGE_DIR, defaultDir = defaultDir)
+    filedlg = wx.FileDialog(self, style = wx.FD_CHANGE_DIR, defaultDir = defaultDir)
     if filedlg.ShowModal() == wx.ID_OK:
       filePath = filedlg.GetDirectory()+'/'+filedlg.GetFilename()
       if self.tree.GetRootItem():
@@ -342,18 +343,18 @@ class MainWindow(wx.Frame):
 
 #----------------------------------------------------------------------#
 
-class MySplashScreen(wx.SplashScreen):
+class MySplashScreen(wx.adv.SplashScreen):
   """
   Create a splash screen widget.
   """
   def __init__(self, parent, appLauncher):
     self.appLauncher = appLauncher
     aBitmap = wx.Image(name = sys.path[0]+'/splash.jpg').ConvertToBitmap()
-    splashStyle = wx.SPLASH_CENTRE_ON_SCREEN | wx.SPLASH_TIMEOUT
+    splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
     splashDuration = 1000 # milliseconds
     # Call the constructor with the above arguments in exactly the
     # following order.
-    wx.SplashScreen.__init__(self, aBitmap, splashStyle, splashDuration, parent)
+    wx.adv.SplashScreen.__init__(self, aBitmap, splashStyle, splashDuration, parent)
     self.Bind(wx.EVT_CLOSE, self.OnExit)
     wx.Yield()
 
