@@ -11,7 +11,10 @@ build-mac:
 run:
 	asciiviewer/dist/AsciiViewer
 
-conda_requirements: ## export/update conda requirements for mac
-	conda env export > requirements_mac.yml
+conda_env: ## create conda environment
+	conda env create --file environment.yml
 
-.PHONY: build build-mac run conda_requirements
+conda_requirements: ## export/update conda requirements for mac
+	conda env export > environment.yml
+
+.PHONY: build build-mac run conda_requirements conda_env
