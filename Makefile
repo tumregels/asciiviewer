@@ -7,7 +7,7 @@ build-mac:
 	./asciiviewer_mac.spec
 
 run:
-	asciiviewer/dist/AsciiViewer
+	dist/AsciiViewer
 
 conda_env: ## create conda environment
 	conda env create --file environment.yml
