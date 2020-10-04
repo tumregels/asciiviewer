@@ -66,14 +66,14 @@ class MainWindow(wx.Frame):
 
     self.rightPanel.Hide()
 
-    wx.EVT_MENU(self, ID_OPEN, self.OnOpenFile)
-    wx.EVT_MENU(self, ID_ABOUT, self.OnAbout)
-    wx.EVT_MENU(self, ID_EXIT,  self.OnQuit)
-    wx.EVT_MENU(self, ID_EXPAND_ALL,  self.OnExpandAll)
-    wx.EVT_MENU(self, ID_COLLAPSE_ALL,  self.OnCollapseAll)
-    wx.EVT_MENU(self, ID_COLLAPSE_CHILDREN,  self.OnCollapseChildren)
-    wx.EVT_MENU(self, ID_SEARCH,  self.OnSearch)
-    self.Bind(wx.EVT_KEY_DOWN,self.OnKeyDown)
+    self.Bind(wx.EVT_MENU, self.OnOpenFile, id=ID_OPEN)
+    self.Bind(wx.EVT_MENU, self.OnAbout, id=ID_ABOUT)
+    self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_EXIT)
+    self.Bind(wx.EVT_MENU, self.OnExpandAll, id=ID_EXPAND_ALL)
+    self.Bind(wx.EVT_MENU, self.OnCollapseAll, id=ID_COLLAPSE_ALL)
+    self.Bind(wx.EVT_MENU, self.OnCollapseChildren, id=ID_COLLAPSE_CHILDREN)
+    self.Bind(wx.EVT_MENU, self.OnSearch, id=ID_SEARCH)
+    self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
   def OnKeyDown(self,evt):
     keyCode = evt.GetKeyCode()
