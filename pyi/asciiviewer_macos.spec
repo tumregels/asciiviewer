@@ -3,11 +3,11 @@
 block_cipher = None
 
 
-a = Analysis(['AsciiViewer.py'],
-             pathex=['.', './source'],
+a = Analysis(['asciiviewer/AsciiViewer.py'],
+             pathex=['./asciiviewer/', './asciiviewer/source'],
              binaries=[],
-             datas=[ ('splash.jpg', '.'), ('default.cfg', '.')  ],
-             hiddenimports=[],
+             datas=[ ('./asciiviewer/splash.jpg', '.'), ('./asciiviewer/default.cfg', '.') ],
+             hiddenimports=['wx'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -15,7 +15,7 @@ a = Analysis(['AsciiViewer.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-a.datas += Tree('./example', prefix='example')
+a.datas += Tree('./asciiviewer/example', prefix='example')
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -24,11 +24,15 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='AsciiViewer',
-          debug=True,
+          name='asciiviewer',
+          debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True )
+          console=False )
+app = BUNDLE(exe,
+             name='asciiviewer.app',
+             icon=None,
+             bundle_identifier=None)

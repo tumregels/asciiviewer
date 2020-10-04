@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # install vagrant-vbguest to sync folders
+  config.vagrant.plugins = "vagrant-vbguest"
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "centos/6"
+
+  config.ssh.forward_x11 = true
+  config.ssh.forward_agent = true
+
+  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    yum -y update
+    yum -y install libcanberra-gtk2
+    yum -y install epel-release
+    yum -y install python2-devel
+    yum -y install wxPython-devel
+    yum install -y xorg-x11-xauth
+    curl --silent --show-error --retry 5 https://bootstrap.pypa.io/2.6/get-pip.py | sudo python
+    pip install pyinstaller==2.1
+    # yum install -y root
+    # yum install -y python2-root
+  SHELL
+end
