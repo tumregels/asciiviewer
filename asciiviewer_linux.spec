@@ -3,10 +3,10 @@
 block_cipher = None
 
 
-a = Analysis(['AsciiViewer.py'],
-             pathex=['.', './source'],
+a = Analysis(['./asciiviewer/AsciiViewer.py'],
+             pathex=['.', './asciiviewer/source'],
              binaries=[],
-             datas=[ ('splash.jpg', '.'), ('default.cfg', '.')  ],
+             datas=[ ('./asciiviewer/splash.jpg', '.'), ('./asciiviewer/default.cfg', '.')  ],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -15,7 +15,7 @@ a = Analysis(['AsciiViewer.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-a.datas += Tree('./example', prefix='example')
+a.datas += Tree('./asciiviewer/example', prefix='example')
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
