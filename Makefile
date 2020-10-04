@@ -1,5 +1,6 @@
 build7:
-	pyinstaller ./pyi/asciiviewer_centos7.spec
+	pyinstaller --clean --noconfirm \
+	./pyi/asciiviewer_centos7.spec
 
 build6:
 	pyinstaller --clean --noconfirm --onefile -n asciiviewer \
@@ -18,7 +19,14 @@ centos6_up:
 centos6_ssh:
 	-VAGRANT_VAGRANTFILE=vagrant/Vagrantfile_centos_6 vagrant ssh
 
+centos7_up:
+	-VAGRANT_VAGRANTFILE=vagrant/Vagrantfile_centos_7 vagrant up
+
+centos7_ssh:
+	-VAGRANT_VAGRANTFILE=vagrant/Vagrantfile_centos_7 vagrant ssh
+
 conda_requirements: ## export/update conda requirements for mac
 	conda env export > requirements_mac.yml
 
-.PHONY: build6 build7 build-mac run centos6_up centos6_ssh conda_requirements
+.PHONY: build6 build7 build-mac run \
+centos6_up centos6_ssh centos7_up centos7_ssh conda_requirements
