@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-import os, sys, ConfigParser
-from operator import isSequenceType
+
+import os
 
 import wx
+from six.moves import configparser
 
-import MyAsciiParser, MyParserTool
-from MyParserTool import LinkedListElement
+import MyParserTool
 from MyCalculation import MyMicroLib, MyCalculation
+from MyParserTool import LinkedListElement
 from MyRefcase import MyRefcase
+from MyUtils import isSequenceType
 
 try:
     import ROOT
@@ -245,7 +247,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         return lastVisibleChild
 
     def recoverAsciiFile(self, filePath):
-        config = ConfigParser.RawConfigParser()
+        config = configparser.RawConfigParser()
         config.read(os.path.expanduser('~/.asciiviewer.cfg'))
         sort = config.getboolean('mainconfig', 'sort')
         expand = config.getboolean('mainconfig', 'expand')

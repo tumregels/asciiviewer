@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from MyFilterPanel import MyFilterPanel
 
 
 class MyRefcase:

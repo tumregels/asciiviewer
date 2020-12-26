@@ -5,7 +5,7 @@
 # date : 24/11/09
 
 from __future__ import print_function
-import wx
+
 from MyParserTool import *
 
 

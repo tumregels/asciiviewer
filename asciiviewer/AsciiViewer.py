@@ -7,6 +7,8 @@
 # FIXME : table view overwrites standard view in edition ref-case
 from __future__ import print_function
 
+from six.moves import configparser
+
 try:
     import wx
     import wx.adv
@@ -14,18 +16,16 @@ except ImportError:
     raise ImportError("The wxPython module is required to run this program")
 
 import os, sys, time
-from operator import isSequenceType
 
 sys.path.append(sys.path[0] + '/source')
 
-import MyAsciiParser
 from MySheet import MySheet
 from MyTreeCtrl import MyTreeCtrl
 from MyMenuBar import *
-from MyCalculation import MyCalculation
 from MyFilterPanel import MyFilterPanel
 from MyTable import MyTableColumn, MySummaryTable
 from MyFindReplaceDialog import MyFindReplaceDialog
+from MyUtils import isSequenceType
 
 ID_BUTTON = 100
 
@@ -195,12 +195,11 @@ class MainWindow(wx.Frame):
         elapsed = end - start
         self.SetStatusText(filePath + " loaded in " + str(elapsed) + "s")
         # save last opened file in configuration file
-        import ConfigParser
-        config = ConfigParser.RawConfigParser()
+        config = configparser.RawConfigParser()
         config.read(os.path.expanduser('~/.asciiviewer.cfg'))
         config.set('mainconfig', 'lastfile', filePath)
         # Writing our configuration file to 'config.cfg'
-        config.write(open(os.path.expanduser('~/.asciiviewer.cfg'), 'wb'))
+        config.write(open(os.path.expanduser('~/.asciiviewer.cfg'), 'w'))
         self.Update()
         self.tree.bind(self)
         self.tree.SetFocus()
@@ -380,8 +379,7 @@ class MyApp(wx.App):
         wx.App.__init__(self)
 
     def OnInit(self):
-        import ConfigParser
-        config = ConfigParser.RawConfigParser()
+        config = configparser.RawConfigParser()
         config.read(os.path.expanduser('~/.asciiviewer.cfg'))
         splash = config.getboolean('mainconfig', 'splash')
         if splash:
@@ -403,9 +401,7 @@ class MyApp(wx.App):
 
 if __name__ == "__main__":
     # read the configuration file config.cfg
-    import ConfigParser
-
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     configFilePath = os.path.expanduser('~/.asciiviewer.cfg')
     if not (os.path.isfile(configFilePath)):
         # if config.cfg does not exist, create if from default.cfg
@@ -414,7 +410,7 @@ if __name__ == "__main__":
             config.read(os.path.join(sys._MEIPASS, 'default.cfg'))
         else:
             config.read(sys.path[0] + '/default.cfg')
-        with open(configFilePath, 'wb') as configFile:
+        with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
     # get last opened file from config.cfg, otherwise use example file

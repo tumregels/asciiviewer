@@ -9,6 +9,7 @@ from __future__ import print_function
 
 from array import array
 from copy import copy
+
 from MyParserTool import *
 
 iofmax = 30
