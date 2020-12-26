@@ -158,7 +158,7 @@ def asciiToTree(filePath,tree):
               content=pos_key[1].split()
           if previousLevel < 0: # we know that level >= 0.
             parent = tree.GetItemParent(previousNode)
-            while tree.GetPyData(parent).level >= level:
+            while tree.GetItemData(parent).level >= level:
               parent = tree.GetItemParent(parent)
               if parent == root:
                 break

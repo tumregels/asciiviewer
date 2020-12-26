@@ -48,7 +48,7 @@ class MyTreeCtrl(wx.TreeCtrl):
       if( self.ItemHasChildren( child ) ):
         nodeList += self.find( child, searchString )
       else:
-        content = self.GetPyData(child).content
+        content = self.GetItemData(child).content
         for i,c in enumerate(content):
           if searchString in c.lower():
             nodeList.append((child,i))
@@ -75,7 +75,7 @@ class MyTreeCtrl(wx.TreeCtrl):
       if( self.ItemHasChildren( child ) ):
         nodeList += self.find( child, searchString )
       else:
-        content = self.GetPyData(child).content
+        content = self.GetItemData(child).content
         for i,c in enumerate(content):
           if searchString in c:
             nodeList.append((child,i))
@@ -102,7 +102,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         #if( search != None ):
           #break
       #else:
-        #content = self.GetPyData(child).content
+        #content = self.GetItemData(child).content
         #if matchWholeField:
           #if searchString in content:
             #search = child
@@ -134,7 +134,7 @@ class MyTreeCtrl(wx.TreeCtrl):
       GetChild = self.GetNextChild
       if self.GetItemText(child) == childText:
         childId = child
-        childData = self.GetPyData(child)
+        childData = self.GetItemData(child)
         break
     return childId,childData
 
@@ -162,7 +162,7 @@ class MyTreeCtrl(wx.TreeCtrl):
       child, cookie = GetChild(parent, cookie)
       GetChild = self.GetNextChild
       childrenId.append(child)
-      childrenData.append(self.GetPyData(child))
+      childrenData.append(self.GetItemData(child))
     return childrenId,childrenData
 
   def getChildrenId(self,parent):
@@ -276,7 +276,7 @@ class MyTreeCtrl(wx.TreeCtrl):
 
   def computeMulticompoCalculation(self,eltId,eltData,parentId,parentData):
     nameDirId = self.GetItemParent(self.GetItemParent(self.GetItemParent(eltId)))
-    nameDirData = self.GetPyData(nameDirId)
+    nameDirData = self.GetItemData(nameDirId)
     eltDataStateVector = self.getChildData(nameDirId, "STATE-VECTOR")
     eltGlobalId = self.getChildId(nameDirId, "GLOBAL")
     eltParkey = self.getChildData(eltGlobalId, "PARKEY")
@@ -294,7 +294,7 @@ class MyTreeCtrl(wx.TreeCtrl):
     arbval = eltDataArbval.content.getContent()
     myCalculation = MyCalculation(ngroup)
     for cId in calcIdList:
-      c = self.GetPyData(cId)
+      c = self.GetItemData(cId)
       ical = int(c.label)
       muplet = MyParserTool.comupl(nvp,nptot,ical,ncals,debarb,arbval)
       c.contentType = 1
@@ -336,7 +336,7 @@ class MyTreeCtrl(wx.TreeCtrl):
     calcIdList = self.getChildrenId(eltId)
     dicoRefcase = MyRefcase()
     for cId in calcIdList:
-      c = self.GetPyData(cId)
+      c = self.GetItemData(cId)
       if c.label in isotopeNameList:
         eltXSList = self.getChildrenData(cId)
         for eltXS in eltXSList:
@@ -357,7 +357,7 @@ class MyTreeCtrl(wx.TreeCtrl):
     ny = len(meshYData.content)
     nz = len(meshZData.content)
     #nameDirId = self.GetItemParent(self.GetItemParent(self.GetItemParent(eltId)))
-    #nameDirData = self.GetPyData(nameDirId)
+    #nameDirData = self.GetItemData(nameDirId)
     #eltDataStateVector = self.getChildData(nameDirId, "STATE-VECTOR")
     #eltGlobalId = self.getChildId(nameDirId, "GLOBAL")
     #eltParkey = self.getChildData(eltGlobalId, "PARKEY")
@@ -375,7 +375,7 @@ class MyTreeCtrl(wx.TreeCtrl):
     #arbval = eltDataArbval.content
     myCalculation = MyCalculation(ngroup)
     for gId in groupIdList:
-      g = self.GetPyData(gId)
+      g = self.GetItemData(gId)
       igr = int(g.label)
       for ix,mx in enumerate(meshXData.content):
         for iy,my in enumerate(meshYData.content):

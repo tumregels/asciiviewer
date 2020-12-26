@@ -1,11 +1,11 @@
 # -*- Coding : UTF-8 -*-
 
 import wx
-from wx.grid import PyGridTableBase
+from wx.grid import GridTableBase
 
-class MyTableColumn(wx.grid.PyGridTableBase):
+class MyTableColumn(wx.grid.GridTableBase):
   def __init__(self,label,contentList):
-    wx.grid.PyGridTableBase.__init__(self)
+    wx.grid.GridTableBase.__init__(self)
     self.nRow = len(contentList)
     self.nCol = 1
     self.contentList = contentList
@@ -33,9 +33,9 @@ class MyTableColumn(wx.grid.PyGridTableBase):
   def GetRowLabelValue(self, row):
     return self.rowLabels[row]
 
-class MySummaryTable(wx.grid.PyGridTableBase):
+class MySummaryTable(wx.grid.GridTableBase):
   def __init__(self,summary):
-    wx.grid.PyGridTableBase.__init__(self)
+    wx.grid.GridTableBase.__init__(self)
     self.nCol = len(summary)
     self.nRow = 1
     self.rowLabels = []
@@ -79,9 +79,9 @@ class MySummaryTable(wx.grid.PyGridTableBase):
   def GetRowLabelValue(self, row):
     return self.rowLabels[row]
 
-class MyCalculationTable(wx.grid.PyGridTableBase):
+class MyCalculationTable(wx.grid.GridTableBase):
   def __init__(self,row,colLabels):
-    wx.grid.PyGridTableBase.__init__(self)
+    wx.grid.GridTableBase.__init__(self)
     self.nRow = len(row)
     self.nCol = len(row[0])
     self.row = row

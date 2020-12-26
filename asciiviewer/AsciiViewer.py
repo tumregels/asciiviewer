@@ -233,13 +233,13 @@ class MainWindow(wx.Frame):
   def OnClickedCalculation(self,evt):
     self.refresh()
     eltId = self.tree.GetSelection()
-    eltData = self.tree.GetPyData(eltId)
+    eltData = self.tree.GetItemData(eltId)
     self.OnMyCalculation(eltData)
 
   def OnClickedRefcase(self,evt):
     self.refresh()
     eltId = self.tree.GetSelection()
-    eltData = self.tree.GetPyData(eltId)
+    eltData = self.tree.GetItemData(eltId)
     self.rightPanel.Show()
     self.filterPanel.Show()
     self.filterPanel.clear()
@@ -263,9 +263,9 @@ class MainWindow(wx.Frame):
       start = time.time()
     self.refresh()
     eltId = evt.GetItem()
-    eltData = self.tree.GetPyData(eltId)
+    eltData = self.tree.GetItemData(eltId)
     parentId = self.tree.GetItemParent(eltId)
-    parentData = self.tree.GetPyData(parentId)
+    parentData = self.tree.GetItemData(parentId)
     eltDataLabel = ''
     eltDataContent = None
     if eltId != self.tree.GetRootItem():
