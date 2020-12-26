@@ -5,12 +5,13 @@
 # date : 25/11/09
 
 # FIXME : table view overwrites standard view in edition ref-case
+from __future__ import print_function
 
 try:
     import wx
     import wx.adv
 except ImportError:
-    raise ImportError, "The wxPython module is required to run this program"
+    raise ImportError("The wxPython module is required to run this program")
 
 import os, sys, time
 from operator import isSequenceType
@@ -303,7 +304,7 @@ class MainWindow(wx.Frame):
             self.tree.computeEditionRefcase(eltId, eltData, parentId, parentData)
             self.OnSelChanged(evt, False)
         elif eltDataLabel == 'GROUP' and eltData.content != []:
-            print 'coucou_not_none'
+            print('coucou_not_none')
         elif eltDataLabel == 'GROUP' and eltData.content == []:
             # try to compute reaction rate
             reactionRate = (self.tree.find(eltId, 'FLUX-INTG'.lower(), searchAll=False) != [])

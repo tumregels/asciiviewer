@@ -5,6 +5,7 @@
 # date : 10/10/10
 
 # original source code from Ganlib Version5 in C and FORTRAN77
+from __future__ import print_function
 
 from array import array
 from copy import copy
@@ -550,4 +551,4 @@ if __name__ == "__main__":
         iplist = xsm(myFile)
         browseXsm([iplist], elementList)
     for e in elementList:
-        print e
+        print(e)

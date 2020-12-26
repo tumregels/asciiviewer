@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 import os, sys, ConfigParser
 from operator import isSequenceType
 
@@ -14,7 +15,7 @@ try:
     import ROOT
     from ROOT import gROOT, TCanvas, TH2F
 except ImportError:
-    print "ROOT couldn't be imported, continuing anyway..."
+    print("ROOT couldn't be imported, continuing anyway...")
 
 
 class MyTreeCtrl(wx.TreeCtrl):
@@ -388,7 +389,7 @@ class MyTreeCtrl(wx.TreeCtrl):
                 for iy, my in enumerate(meshYData.content):
                     for iz, mz in enumerate(meshZData.content):
                         muplet = [ix, iy, iz, igr]
-                        print muplet, ix + nx * iy + nx * ny * iz
+                        print(muplet, ix + nx * iy + nx * ny * iz)
             # c.contentType = 1
             # c.content = muplet
             # stateVector  = self.getChildData(cId, "STATE-VECTOR")

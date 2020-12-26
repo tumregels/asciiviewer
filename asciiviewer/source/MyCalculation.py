@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from MyFilterPanel import MyFilterPanel
 from MyTable import MyCalculationTable
 
@@ -30,7 +31,7 @@ class MyMicroLib:
                     xsg = xsAllGroup[g * self.nGroup:(g + 1) * self.nGroup]
                 else:
                     xsg = [xsAllGroup[g]]
-        except IndexError, e:
+        except IndexError as e:
             xsg = ['Error']
         return xsg
 
@@ -309,9 +310,9 @@ class MyCalculation:
                             idxvalue = self.pvalList[idxparkey].index(value)
                             self.filteredMuplet[idxparkey] = [idxvalue + 1]
                         except ValueError:
-                            print 'Warning : ', value, ' not found in ', self.pvalList[idxparkey]
+                            print('Warning : ', value, ' not found in ', self.pvalList[idxparkey])
                 except ValueError:
-                    print 'Warning : ', name, ' not found in parkey ', self.parkey
+                    print('Warning : ', name, ' not found in parkey ', self.parkey)
 
     def getFilteredMupletList(self, isotope='*MAC*RES'):
         """

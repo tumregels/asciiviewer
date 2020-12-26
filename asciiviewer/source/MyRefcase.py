@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from MyFilterPanel import MyFilterPanel
 
 
@@ -58,7 +59,7 @@ class MyRefcase:
         if self.dicoIsotope.has_key(isotope):
             dicoXS = self.dicoIsotope[isotope]
         if dicoXS.has_key(nameXS):
-            print "XS ", nameXS, " already defined for this isotope ", isotope
+            print("XS ", nameXS, " already defined for this isotope ", isotope)
         dicoXS[nameXS] = eltData.content
         self.dicoIsotope[isotope] = dicoXS
         self.setXS.add(nameXS)

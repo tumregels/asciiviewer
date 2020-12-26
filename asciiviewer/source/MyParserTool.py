@@ -4,6 +4,9 @@
 # author : Benjamin Toueg
 # date : 30/10/10
 
+from __future__ import print_function
+
+
 def elementListFromFile(filePath):
     with open(filePath) as inputfile:
         # read the 4 first character
@@ -156,7 +159,7 @@ def comupl(nvp, nptot, ical, ncals, debarb, arbval):
     while (ipar > 0):
         for i in range(nvp):
             if int(debarb[i]) == 0:
-                print "problem", i
+                print("problem", i)
             if int(debarb[i]) > io:
                 io = i
                 break

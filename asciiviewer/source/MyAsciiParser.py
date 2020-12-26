@@ -4,6 +4,7 @@
 # author : Benjamin Toueg
 # date : 24/11/09
 
+from __future__ import print_function
 import wx
 from MyParserTool import *
 
@@ -22,9 +23,9 @@ def asciiToElementList(filePath):
 
 def asciiToElementListVersion4(readablefile):
     # split the string according to <- and ->
-    print 'reading file...'
+    print('reading file...')
     readablefile = readablefile.split('->')
-    print 'organizing data...'
+    print('organizing data...')
     elementList = []
     id = 0
     for r in readablefile:
@@ -45,7 +46,7 @@ def asciiToElementListVersion4(readablefile):
                 element = LinkedListElement(id, level, labelType, label, contentType, content)
                 elementList.append(element)
                 id = id + 1
-    print 'building tree...'
+    print('building tree...')
     return elementList
 
 
@@ -119,8 +120,8 @@ def asciiToTree(filePath, tree):
         if r != '':
             pos_key = r.split('<-')
             if len(pos_key) != 2:
-                print 'Problem with readable file'
-                print r
+                print('Problem with readable file')
+                print(r)
             # process the left part of <-
             pos_key[0] = pos_key[0].split()
             level = int(pos_key[0][0])
@@ -193,4 +194,4 @@ if __name__ == "__main__":
     elementList = asciiToElementList(myFilePath)
     for e in elementList:
         if True:  # e.level < 2:
-            print e
+            print(e)
