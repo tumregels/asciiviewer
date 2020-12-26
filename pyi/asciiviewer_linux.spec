@@ -4,10 +4,10 @@ block_cipher = None
 
 
 a = Analysis(['./asciiviewer/AsciiViewer.py'],
-             pathex=['./asciiviewer/source'],
+             pathex=['.', './asciiviewer/source'],
              binaries=[],
-             datas=[ ('./asciiviewer/splash.jpg', '.'), ('./asciiviewer/default.cfg', '.') ],
-             hiddenimports=['wx'],
+             datas=[('./asciiviewer/splash.jpg', '.'), ('./asciiviewer/default.cfg', '.')],
+             hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -25,14 +25,10 @@ exe = EXE(pyz,
           a.datas,
           [],
           name='AsciiViewer',
-          debug=False,
+          debug=True,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False )
-app = BUNDLE(exe,
-             name='AsciiViewer.app',
-             icon=None,
-             bundle_identifier=None)
+          console=True )

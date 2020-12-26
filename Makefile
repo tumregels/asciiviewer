@@ -1,10 +1,10 @@
 build-linux:
-	pyinstaller asciiviewer_linux.spec
+	pyinstaller ./pyi/asciiviewer_linux.spec
 
 build-mac:
 	python -m PyInstaller \
 	--onefile --windowed  --clean --noconfirm \
-	./asciiviewer_mac.spec
+	./pyi/asciiviewer_mac.spec
 
 run:
 	dist/AsciiViewer
