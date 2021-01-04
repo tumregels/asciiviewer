@@ -3,27 +3,25 @@
 
 Vagrant.configure("2") do |config|
 
-  # install vagrant-vbguest to sync folders
-  config.vagrant.plugins = "vagrant-vbguest"
+  config.vm.define "centos7" do |centos7|
+    centos7.vm.box = "centos/7"
+    centos7.vagrant.plugins = {"vagrant-vbguest" => {"version" => "0.21.0"}}
+    centos7.ssh.forward_x11 = true
+    centos7.ssh.forward_agent = true
+    centos7.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    centos7.vm.provision "shell", privileged: false, inline: <<-SHELL
+      sudo yum -y install gtk2
+      if [ ! -d ~/miniconda3 ]; then
+        mkdir -p ~/miniconda3
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output ~/miniconda3/miniconda.sh
+        bash ~/miniconda3/miniconda.sh -b -u -f -p ~/miniconda3
+        rm -rf ~/miniconda3/miniconda.sh
+        ~/miniconda3/bin/conda env create --file /vagrant/environment.yml
+      fi
+      cd /vagrant && \
+      ~/miniconda3/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux/centos7 --workpath /tmp \
+      ./pyi/asciiviewer_linux.spec
+    SHELL
+  end
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/7"
-
-  config.ssh.forward_x11 = true
-  config.ssh.forward_agent = true
-
-  config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
-
-  config.vm.provision "shell", inline: <<-SHELL
-    yum -y update  
-    yum -y install epel-release
-    yum -y install python2-devel
-    yum -y install wxPython-devel
-    yum install -y xorg-x11-xauth
-    curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
-    pip install pyinstaller==3.6
-    # yum install -y root
-    # yum install -y python2-root
-  SHELL
 end
