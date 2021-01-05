@@ -355,7 +355,12 @@ class MySplashScreen(wx.adv.SplashScreen):
 
     def __init__(self, parent, appLauncher):
         self.appLauncher = appLauncher
-        aBitmap = wx.Image(name=sys.path[0] + '/splash.jpg').ConvertToBitmap()
+        if getattr(sys, 'frozen', False):
+            # If the application is run as a bundle
+            splash_path = os.path.join(sys._MEIPASS, 'splash.jpg')
+        else:
+            splash_path = os.path.join(sys.path[0], 'splash.jpg')
+        aBitmap = wx.Image(name=splash_path).ConvertToBitmap()
         splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
         splashDuration = 1000  # milliseconds
         # Call the constructor with the above arguments in exactly the
@@ -377,6 +382,9 @@ class MyApp(wx.App):
     def __init__(self, file):
         self.file = file
         wx.App.__init__(self)
+
+    def InitLocale(self):
+        self.ResetLocale()
 
     def OnInit(self):
         config = configparser.RawConfigParser()
