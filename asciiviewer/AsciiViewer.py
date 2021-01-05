@@ -170,7 +170,10 @@ class MainWindow(wx.Frame):
 
     def OnOpenFile(self, event):
         root = self.tree.GetRootItem()
-        defaultDir = os.path.dirname(self.tree.GetItemText(root))
+        try:
+            defaultDir = os.path.dirname(self.tree.GetItemText(root))
+        except Exception:
+            defaultDir = os.path.expanduser('~')
         filedlg = wx.FileDialog(self, style=wx.FD_CHANGE_DIR, defaultDir=defaultDir)
         if filedlg.ShowModal() == wx.ID_OK:
             filePath = filedlg.GetDirectory() + '/' + filedlg.GetFilename()
@@ -408,13 +411,13 @@ class MyApp(wx.App):
 # ----------------------------------------------------------------------#
 
 if __name__ == "__main__":
-    # read the configuration file config.cfg
+    # read the configuration file
     config = configparser.RawConfigParser()
     configFilePath = os.path.expanduser('~/.asciiviewer.cfg')
     if not (os.path.isfile(configFilePath)):
-        # if config.cfg does not exist, create if from default.cfg
+        # if config.cfg does not exist, create it
         if getattr(sys, 'frozen', False):
-            # If the application is run as a bundle, use sys.executable
+            # if the application is run as a bundle
             config.read(os.path.join(sys._MEIPASS, 'default.cfg'))
         else:
             config.read(sys.path[0] + '/default.cfg')
@@ -426,7 +429,7 @@ if __name__ == "__main__":
     try:
         lastfile = sys.argv[1]
     except IndexError:
-        if lastfile == '':
+        if not (os.path.isfile(lastfile) and os.access(lastfile, os.R_OK)):
             if getattr(sys, 'frozen', False):
                 lastfile = os.path.join(sys._MEIPASS, 'example', 'MCOMPO_UOX_TBH')
             else:
