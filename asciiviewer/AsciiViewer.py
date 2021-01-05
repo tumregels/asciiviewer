@@ -17,7 +17,7 @@ except ImportError:
 
 import os, sys, time
 
-sys.path.append(sys.path[0] + '/source')
+sys.path.append(os.path.join(sys.path[0], 'source'))
 
 from MySheet import MySheet
 from MyTreeCtrl import MyTreeCtrl
@@ -176,7 +176,7 @@ class MainWindow(wx.Frame):
             defaultDir = os.path.expanduser('~')
         filedlg = wx.FileDialog(self, style=wx.FD_CHANGE_DIR, defaultDir=defaultDir)
         if filedlg.ShowModal() == wx.ID_OK:
-            filePath = filedlg.GetDirectory() + '/' + filedlg.GetFilename()
+            filePath = os.path.join(filedlg.GetDirectory(), filedlg.GetFilename())
             if self.tree.GetRootItem():
                 self.tree.Delete(self.tree.GetRootItem())
             self.SetStatusText("Opening file " + filePath + " ...")
@@ -199,10 +199,11 @@ class MainWindow(wx.Frame):
         self.SetStatusText(filePath + " loaded in " + str(elapsed) + "s")
         # save last opened file in configuration file
         config = configparser.RawConfigParser()
-        config.read(os.path.expanduser('~/.asciiviewer.cfg'))
+        configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
+        config.read(configFilePath)
         config.set('mainconfig', 'lastfile', filePath)
         # Writing our configuration file to 'config.cfg'
-        config.write(open(os.path.expanduser('~/.asciiviewer.cfg'), 'w'))
+        config.write(open(configFilePath, 'w'))
         self.Update()
         self.tree.bind(self)
         self.tree.SetFocus()
@@ -391,7 +392,8 @@ class MyApp(wx.App):
 
     def OnInit(self):
         config = configparser.RawConfigParser()
-        config.read(os.path.expanduser('~/.asciiviewer.cfg'))
+        configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
+        config.read(configFilePath)
         splash = config.getboolean('mainconfig', 'splash')
         if splash:
             MySplash = MySplashScreen(None, self.LaunchMainWindow)
@@ -413,14 +415,14 @@ class MyApp(wx.App):
 if __name__ == "__main__":
     # read the configuration file
     config = configparser.RawConfigParser()
-    configFilePath = os.path.expanduser('~/.asciiviewer.cfg')
+    configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
     if not (os.path.isfile(configFilePath)):
         # if config.cfg does not exist, create it
         if getattr(sys, 'frozen', False):
             # if the application is run as a bundle
             config.read(os.path.join(sys._MEIPASS, 'default.cfg'))
         else:
-            config.read(sys.path[0] + '/default.cfg')
+            config.read(os.path.join(sys.path[0], 'default.cfg'))
         with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
@@ -433,7 +435,7 @@ if __name__ == "__main__":
             if getattr(sys, 'frozen', False):
                 lastfile = os.path.join(sys._MEIPASS, 'example', 'MCOMPO_UOX_TBH')
             else:
-                lastfile = sys.path[0] + '/example/MCOMPO_UOX_TBH'
+                lastfile = os.path.join(sys.path[0], 'example', 'MCOMPO_UOX_TBH')
     # launch main window
     app = MyApp(lastfile)
     app.MainLoop()
