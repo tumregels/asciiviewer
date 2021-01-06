@@ -202,7 +202,7 @@ class MainWindow(wx.Frame):
         configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
         config.read(configFilePath)
         config.set('mainconfig', 'lastfile', filePath)
-        # Writing our configuration file to 'config.cfg'
+        # Writing our configuration file to '.asciiviewer.cfg'
         config.write(open(configFilePath, 'w'))
         self.Update()
         self.tree.bind(self)
@@ -417,7 +417,7 @@ if __name__ == "__main__":
     config = configparser.RawConfigParser()
     configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
     if not (os.path.isfile(configFilePath)):
-        # if config.cfg does not exist, create it
+        # if .asciiviewer.cfg does not exist, create it
         if getattr(sys, 'frozen', False):
             # if the application is run as a bundle
             config.read(os.path.join(sys._MEIPASS, 'default.cfg'))
@@ -426,7 +426,7 @@ if __name__ == "__main__":
         with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
-    # get last opened file from config.cfg, otherwise use example file
+    # get last opened file from .asciiviewer.cfg, otherwise use example file
     lastfile = config.get('mainconfig', 'lastfile')
     try:
         lastfile = sys.argv[1]
