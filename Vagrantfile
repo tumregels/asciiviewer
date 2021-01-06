@@ -10,17 +10,18 @@ Vagrant.configure("2") do |config|
     centos7.ssh.forward_agent = true
     centos7.vm.synced_folder ".", "/vagrant", type: "virtualbox"
     centos7.vm.provision "shell", privileged: false, inline: <<-SHELL
-      sudo yum -y install gtk2
+      sudo yum -y update
+      sudo yum -y install gtk3-devel
       if [ ! -d ~/miniconda3 ]; then
         mkdir -p ~/miniconda3
-        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --output ~/miniconda3/miniconda.sh
+        curl https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o ~/miniconda3/miniconda.sh
         bash ~/miniconda3/miniconda.sh -b -u -f -p ~/miniconda3
         rm -rf ~/miniconda3/miniconda.sh
-        ~/miniconda3/bin/conda env create --file /vagrant/environment.yml
       fi
+      ~/miniconda3/bin/conda env create --file /vagrant/environment.yml
       cd /vagrant && \
       ~/miniconda3/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux/centos7 --workpath /tmp \
-      ./pyi/asciiviewer_linux.spec
+      ./asciiviewer.spec
     SHELL
   end
 
