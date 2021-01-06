@@ -4,6 +4,7 @@ channels:
   - defaults
 dependencies:
   - python=2.7.18
+  - pip
   - wxpython=4.0.4
   - pip:
     - pyinstaller==3.6
