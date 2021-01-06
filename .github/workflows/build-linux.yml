@@ -23,7 +23,7 @@ jobs:
 
     - name: Create environment and install dependencies
       run: |
-        $CONDA/bin/conda env --file environment.yml --name asciiviewer
+        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
         
     - name: Create binary
       run: |
