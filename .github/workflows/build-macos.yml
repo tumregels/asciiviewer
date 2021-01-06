@@ -21,8 +21,8 @@ jobs:
 
     - name: Create environment and install dependencies
       run: |
-        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
-        
+        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+
     - name: Create binary
       run: |
         $CONDA/envs/asciiviewer/bin/pyinstaller --onefile --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
