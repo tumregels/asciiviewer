@@ -43,7 +43,7 @@ conda-requirements: ## export/update conda requirements for mac
 docker-win-py3:
 	docker run -it --rm -v "$$(pwd):/src/" \
 	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt install make && pip install wxpython==4.0.7 && /bin/bash"
+	-c "apt-get install make && pip install -r requirements.txt && /bin/bash"
 
 docker-py2:
 	docker run -it --rm -v "$$(pwd):/src/" \
