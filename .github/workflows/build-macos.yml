@@ -1,0 +1,33 @@
+name: Package app with PyInstaller - Mac OS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+
+    - name: Create environment and install dependencies
+      run: |
+        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+        
+    - name: Create binary
+      run: |
+        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: asciiviewer.app
+        path: ./dist/macos
