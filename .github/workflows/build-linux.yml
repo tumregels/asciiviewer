@@ -1,4 +1,4 @@
-name: Package exe with PyInstaller - Linux
+name: Package exe - Linux
 
 on:
   push:

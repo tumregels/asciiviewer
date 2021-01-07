@@ -1,4 +1,4 @@
-name: Package app with PyInstaller - Mac OS
+name: Package app - Mac OS
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
       run: |
         sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
 
-    - name: Create binary
+    - name: Create macos app
       run: |
         $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -f ./dist/macos/asciiviewer
