@@ -26,7 +26,7 @@ build-windows-spec:
 build-mac:
 	python -m PyInstaller \
 	--onefile --windowed  --clean --noconfirm \
-	./pyi/asciiviewer_mac.spec
+	./asciiviewer.spec
 
 centos7-up:
 	vagrant up centos7

@@ -25,9 +25,10 @@ jobs:
 
     - name: Create binary
       run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --onefile --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
-        
+        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
+        rm -f ./dist/macos/asciiviewer
+
     - uses: actions/upload-artifact@v2
       with:
-        name: asciiviewer.app
+        name: asciiviewer
         path: ./dist/macos
