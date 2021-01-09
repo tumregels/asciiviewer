@@ -10,5 +10,5 @@
 - [ ] restructure asciiviewer package
 - [ ] add setup.py with pbr
 - [ ] add version to About screen
-- [ ] rename or remove requirements.txt
+- [x] rename or remove requirements.txt
 - [ ] fix wine action to use docker image directly
