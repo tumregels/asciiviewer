@@ -8,50 +8,67 @@ on:
 
 jobs:
 
-  linux:
-    runs-on: ubuntu-18.04
-    timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+#  linux:
+#    runs-on: ubuntu-18.04
+#    timeout-minutes: 5
+#    if: "!contains(github.event.head_commit.message, 'skip ci')"
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: Create environment and install dependencies
+#      run: |
+#        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+#
+#    - name: Create binary
+#      run: |
+#        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+#
+#    - uses: actions/upload-artifact@v2
+#      with:
+#        name: asciiviewer-linux
+#        path: ./dist/linux
+#
+#  macos:
+#    runs-on: macos-10.15
+#    timeout-minutes: 5
+#    if: "!contains(github.event.head_commit.message, 'skip ci')"
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: Create environment and install dependencies
+#      run: |
+#        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+#
+#    - name: Create macos app
+#      run: |
+#        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
+#        rm -f ./dist/macos/asciiviewer
+#
+#    - uses: actions/upload-artifact@v2
+#      with:
+#        name: asciiviewer-macos
+#        path: ./dist/macos
+#
+#  windows:
+#    runs-on: ubuntu-18.04
+#    timeout-minutes: 5
+#    if: "!contains(github.event.head_commit.message, 'skip ci')"
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: PyInstaller Windows
+#      uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057 # pin@main
+#      with:
+#        path: .
+#
+#    - uses: actions/upload-artifact@v2
+#      with:
+#        name: asciiviewer-windows
+#        path: ./dist/windows
 
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Create environment and install dependencies
-      run: |
-        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
-
-    - name: Create binary
-      run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: asciiviewer-linux
-        path: ./dist/linux
-
-  macos:
-    runs-on: macos-10.15
-    timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Create environment and install dependencies
-      run: |
-        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
-
-    - name: Create macos app
-      run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
-        rm -f ./dist/macos/asciiviewer
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: asciiviewer-macos
-        path: ./dist/macos
-
-  windows:
+  wine:
     runs-on: ubuntu-18.04
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
@@ -59,11 +76,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: PyInstaller Windows
-      uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057 # pin@main
+      uses: docker://cdrx/pyinstaller-windows:python3-32bit
       with:
-        path: .
+        entrypoint: /bin/sh
+        args: pyinstaller --version
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: asciiviewer-windows
-        path: ./dist/windows
+#    - uses: actions/upload-artifact@v2
+#      with:
+#        name: asciiviewer-windows
+#        path: ./dist/windows
