@@ -8,80 +8,105 @@ on:
 
 jobs:
 
-#  linux:
-#    runs-on: ubuntu-18.04
-#    timeout-minutes: 5
-#    if: "!contains(github.event.head_commit.message, 'skip ci')"
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#
-#    - name: Create environment and install dependencies
-#      run: |
-#        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
-#
-#    - name: Create binary
-#      run: |
-#        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
-#
-#    - uses: actions/upload-artifact@v2
-#      with:
-#        name: asciiviewer-linux
-#        path: ./dist/linux
-#
-#  macos:
-#    runs-on: macos-10.15
-#    timeout-minutes: 5
-#    if: "!contains(github.event.head_commit.message, 'skip ci')"
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#
-#    - name: Create environment and install dependencies
-#      run: |
-#        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
-#
-#    - name: Create macos app
-#      run: |
-#        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
-#        rm -f ./dist/macos/asciiviewer
-#
-#    - uses: actions/upload-artifact@v2
-#      with:
-#        name: asciiviewer-macos
-#        path: ./dist/macos
-#
-#  windows:
-#    runs-on: ubuntu-18.04
-#    timeout-minutes: 5
-#    if: "!contains(github.event.head_commit.message, 'skip ci')"
-#
-#    steps:
-#    - uses: actions/checkout@v2
-#    - name: PyInstaller Windows
-#      uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057 # pin@main
-#      with:
-#        path: .
-#
-#    - uses: actions/upload-artifact@v2
-#      with:
-#        name: asciiviewer-windows
-#        path: ./dist/windows
-
-  wine:
+  linux:
     runs-on: ubuntu-18.04
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
     - uses: actions/checkout@v2
-    - name: PyInstaller Windows
-      uses: docker://cdrx/pyinstaller-windows:python3-32bit
-      with:
-        entrypoint: /bin/sh
-        args: pyinstaller --version
 
-#    - uses: actions/upload-artifact@v2
-#      with:
-#        name: asciiviewer-windows
-#        path: ./dist/windows
+    - name: Create environment and install dependencies
+      run: |
+        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+
+    - name: Create binary
+      run: |
+        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: asciiviewer-linux
+        path: ./dist/linux
+
+  macos:
+    runs-on: macos-10.15
+    timeout-minutes: 5
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create environment and install dependencies
+      run: |
+        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+
+    - name: Create macos app
+      run: |
+        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
+        rm -f ./dist/macos/asciiviewer
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: asciiviewer-macos
+        path: ./dist/macos
+
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create environment and install dependencies
+      run: |
+        %CONDA%\Scripts\conda.exe env create ^
+        --file environment.yml --name asciiviewer
+      shell: cmd
+
+    - name: Create binary
+      run: |
+        %CONDA%\envs\asciiviewer\Scripts\pyinstaller.exe ^
+        --clean -y --dist .\dist\windows64 .\asciiviewer.spec
+      shell: cmd
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: asciiviewer-windows64
+        path: .\dist\windows64
+
+  wine:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
+    container:
+      image: docker://cdrx/pyinstaller-windows:python3-32bit
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install requirements
+      run: pip install        \
+        altgraph==0.16.1      \
+        future==0.18.2        \
+        numpy==1.19.5         \
+        pefile==2019.4.18     \
+        Pillow==8.1.0         \
+        pyinstaller==3.5      \
+        pywin32-ctypes==0.2.0 \
+        six==1.15.0           \
+        wxPython==4.0.7
+
+    - name: Create binary
+      run: |
+        python -m PyInstaller \
+        --dist ./dist/windows32 \
+        --onefile --windowed --noconsole --clean --noconfirm --noupx \
+        ./asciiviewer.spec
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: asciiviewer-windows32
+        path: ./dist/windows32
