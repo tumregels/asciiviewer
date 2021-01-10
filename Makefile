@@ -13,16 +13,16 @@ build-linux: ## build on linux
 	--onefile --windowed  --clean --noconfirm \
 	./asciiviewer.spec
 
-.PHONY: build-wine
-build-wine-raw: # build on wine using multiple commands
-	python -m PyInstaller \
-	--onefile --windowed --clean --noconfirm --noupx \
-	--dist ./dist/windows --name asciiviewer \
+.PHONY: build-spec
+build-spec: ## build spec file for pyinstaller
+	pyi-makespec \
+	--onefile --windowed --noupx \
+	--name asciiviewer-raw \
 	--path ./asciiviewer/source \
-	--add-data="asciiviewer\splash.jpg;." \
-	--add-data="asciiviewer\default.cfg;." \
-	--add-data=".\asciiviewer\example\fmap;example" \
-	--add-data=".\asciiviewer\example\MCOMPO_UOX_TBH;example" \
+	--add-data="./asciiviewer/splash.jpg:." \
+	--add-data="./asciiviewer/default.cfg:." \
+	--add-data="./asciiviewer/example/fmap:example" \
+	--add-data="./asciiviewer/example/MCOMPO_UOX_TBH:example" \
 	--log-level DEBUG \
 	--debug all \
 	./asciiviewer/AsciiViewer.py
@@ -73,8 +73,8 @@ push-git-tag: ## push git tag to origin
 
 .PHONY: delete-git-tag
 delete-git-tag: ## delete local and remove git tags
-	git tag -d v$(VERSION)
-	git push --delete origin v$(VERSION)
+	-git tag -d v$(VERSION)
+	-git push --delete origin v$(VERSION)
 
 .PHONY: tag
 tag: delete-git-tag create-git-tag push-git-tag
