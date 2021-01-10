@@ -11,4 +11,5 @@
 - [ ] add setup.py with pbr
 - [ ] add version to About screen
 - [x] rename or remove requirements.txt
-- [ ] fix wine action to use docker image directly
+- [x] fix wine action to use docker image directly
+- [ ] change dragon output examples
