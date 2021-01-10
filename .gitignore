@@ -13,3 +13,6 @@ dist
 other
 .vagrant
 .DS_Store
+
+# other
+ChangeLog

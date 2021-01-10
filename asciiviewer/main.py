@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # author : Benjamin Toueg
@@ -361,7 +360,7 @@ class MySplashScreen(wx.adv.SplashScreen):
             # If the application is run as a bundle
             splash_path = os.path.join(sys._MEIPASS, 'assets', 'splash.jpg')
         else:
-            splash_path = os.path.join(sys.path[0], 'assets', 'splash.jpg')
+            splash_path = os.path.join(os.path.dirname(__file__), 'assets', 'splash.jpg')
         aBitmap = wx.Image(name=splash_path).ConvertToBitmap()
         splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
         splashDuration = 1000  # milliseconds
@@ -408,9 +407,7 @@ class MyApp(wx.App):
         frame.Show(True)
 
 
-# ----------------------------------------------------------------------#
-
-if __name__ == "__main__":
+def main():
     # read the configuration file
     config = configparser.RawConfigParser()
     configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
@@ -420,7 +417,7 @@ if __name__ == "__main__":
             # if the application is run as a bundle
             config.read(os.path.join(sys._MEIPASS, 'assets', 'default.cfg'))
         else:
-            config.read(os.path.join(sys.path[0], 'assets', 'default.cfg'))
+            config.read(os.path.join(os.path.dirname(__file__), 'assets', 'default.cfg'))
         with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
@@ -433,7 +430,11 @@ if __name__ == "__main__":
             if getattr(sys, 'frozen', False):
                 lastfile = os.path.join(sys._MEIPASS, 'examples', 'MCOMPO_UOX_TBH')
             else:
-                lastfile = os.path.join(sys.path[0], 'examples', 'MCOMPO_UOX_TBH')
+                lastfile = os.path.join(os.path.dirname(__file__), 'examples', 'MCOMPO_UOX_TBH')
     # launch main window
     app = MyApp(lastfile)
     app.MainLoop()
+
+
+if __name__ == "__main__":
+    main()
