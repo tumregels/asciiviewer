@@ -78,3 +78,9 @@ delete-git-tag: ## delete local and remove git tags
 
 .PHONY: tag
 tag: delete-git-tag create-git-tag push-git-tag
+
+.PHONY: dist
+dist: ## create *.whl and *.tar.gz distributions
+	python3 setup.py bdist_wheel sdist
+	-tar xvzf dist/*.tar.gz -C dist
+	-unzip dist/*.whl -d dist/whl
