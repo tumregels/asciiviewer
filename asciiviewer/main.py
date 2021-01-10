@@ -6,6 +6,10 @@
 # FIXME : table view overwrites standard view in edition ref-case
 from __future__ import print_function
 
+import os
+import sys
+import time
+
 from six.moves import configparser
 
 try:
@@ -13,8 +17,6 @@ try:
     import wx.adv
 except ImportError:
     raise ImportError("The wxPython module is required to run this program")
-
-import os, sys, time
 
 from asciiviewer.my_sheet import MySheet
 from asciiviewer.my_tree_ctrl import MyTreeCtrl
@@ -206,9 +208,18 @@ class MainWindow(wx.Frame):
         self.tree.SetFocus()
 
     def OnAbout(self, event):
-        dlg = wx.MessageDialog(self,
-                               "Author : Benjamin Toueg\nDate : 01/12/2009\nSource : http://code.google.com/p/dragon-donjon-ascii-viewer/",
-                               "About Me", wx.OK | wx.ICON_INFORMATION)
+        import pkg_resources
+        dlg = wx.MessageDialog(self, """\
+Authors
+
+Benjamin Toueg (01/12/2009) 
+http://code.google.com/p/dragon-donjon-ascii-viewer/
+    
+tumregels (11/01/2020) 
+https://github.com/tumregels/asciiviewer
+
+Version 0.0.1
+""", "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
 

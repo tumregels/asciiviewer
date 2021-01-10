@@ -78,7 +78,7 @@ elif platform.system() == 'Darwin':
                  pathex=[],
                  binaries=[],
                  datas=datas,
-                 hiddenimports=['wx'],
+                 hiddenimports=[],
                  hookspath=[],
                  runtime_hooks=[],
                  excludes=[],
