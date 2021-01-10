@@ -10,7 +10,7 @@ from __future__ import print_function
 from array import array
 from copy import copy
 
-from MyParserTool import *
+from asciiviewer.my_parser_tool import *
 
 iofmax = 30
 maxit = 100

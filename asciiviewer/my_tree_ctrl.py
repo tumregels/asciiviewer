@@ -7,11 +7,11 @@ import os
 import wx
 from six.moves import configparser
 
-import MyParserTool
-from MyCalculation import MyMicroLib, MyCalculation
-from MyParserTool import LinkedListElement
-from MyRefcase import MyRefcase
-from MyUtils import isSequenceType
+from asciiviewer import my_parser_tool
+from asciiviewer.my_calculation import MyMicroLib, MyCalculation
+from asciiviewer.my_parser_tool import LinkedListElement
+from asciiviewer.my_ref_case import MyRefcase
+from asciiviewer.my_utils import isSequenceType
 
 try:
     import ROOT
@@ -264,7 +264,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         else:
             fExpand = fPass
         root = self.AddRoot(filePath)
-        elementList = MyParserTool.elementListFromFile(filePath)
+        elementList = my_parser_tool.elementListFromFile(filePath)
         self.BuildTree(elementList, fExpand, fSort)
 
     def getSummary(self, eltId):
@@ -302,7 +302,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         for cId in calcIdList:
             c = self.GetItemData(cId)
             ical = int(c.label)
-            muplet = MyParserTool.comupl(nvp, nptot, ical, ncals, debarb, arbval)
+            muplet = my_parser_tool.comupl(nvp, nptot, ical, ncals, debarb, arbval)
             c.contentType = 1
             c.content = muplet
             stateVector = self.getChildData(cId, "STATE-VECTOR")

@@ -3,17 +3,19 @@ import platform
 
 block_cipher = None
 
+datas = [
+    ('asciiviewer/assets/splash.jpg', 'assets'),
+    ('asciiviewer/assets/default.cfg', 'assets'),
+    ('asciiviewer/examples/fmap', 'examples'),
+    ('asciiviewer/examples/MCOMPO_UOX_TBH', 'examples')
+]
+
 if platform.system() == 'Windows':
 
-    a = Analysis(['asciiviewer/AsciiViewer.py'],
-                 pathex=['asciiviewer/source'],
+    a = Analysis(['asciiviewer/main.py'],
+                 pathex=[],
                  binaries=[],
-                 datas=[
-                     ('asciiviewer/splash.jpg', '.'),
-                     ('asciiviewer/default.cfg', '.'),
-                     ('asciiviewer/example/fmap', 'example'),
-                     ('asciiviewer/example/MCOMPO_UOX_TBH', 'example')
-                 ],
+                 datas=datas,
                  hiddenimports=[],
                  hookspath=[],
                  runtime_hooks=[],
@@ -41,15 +43,10 @@ if platform.system() == 'Windows':
 
 elif platform.system() == 'Linux':
 
-    a = Analysis(['asciiviewer/AsciiViewer.py'],
-                 pathex=['asciiviewer/source'],
+    a = Analysis(['asciiviewer/main.py'],
+                 pathex=[],
                  binaries=[],
-                 datas=[
-                     ('asciiviewer/splash.jpg', '.'),
-                     ('asciiviewer/default.cfg', '.'),
-                     ('asciiviewer/example/fmap', 'example'),
-                     ('asciiviewer/example/MCOMPO_UOX_TBH', 'example')
-                 ],
+                 datas=datas,
                  hiddenimports=[],
                  hookspath=[],
                  runtime_hooks=[],
@@ -77,15 +74,10 @@ elif platform.system() == 'Linux':
 
 elif platform.system() == 'Darwin':
 
-    a = Analysis(['asciiviewer/AsciiViewer.py'],
-                 pathex=['asciiviewer/source'],
+    a = Analysis(['asciiviewer/main.py'],
+                 pathex=[],
                  binaries=[],
-                 datas=[
-                     ('asciiviewer/splash.jpg', '.'),
-                     ('asciiviewer/default.cfg', '.'),
-                     ('asciiviewer/example/fmap', 'example'),
-                     ('asciiviewer/example/MCOMPO_UOX_TBH', 'example')
-                 ],
+                 datas=datas,
                  hiddenimports=['wx'],
                  hookspath=[],
                  runtime_hooks=[],

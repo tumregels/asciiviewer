@@ -17,15 +17,13 @@ except ImportError:
 
 import os, sys, time
 
-sys.path.append(os.path.join(sys.path[0], 'source'))
-
-from MySheet import MySheet
-from MyTreeCtrl import MyTreeCtrl
-from MyMenuBar import *
-from MyFilterPanel import MyFilterPanel
-from MyTable import MyTableColumn, MySummaryTable
-from MyFindReplaceDialog import MyFindReplaceDialog
-from MyUtils import isSequenceType
+from asciiviewer.my_sheet import MySheet
+from asciiviewer.my_tree_ctrl import MyTreeCtrl
+from asciiviewer.my_menu_bar import *
+from asciiviewer.my_filter_panel import MyFilterPanel
+from asciiviewer.my_table import MyTableColumn, MySummaryTable
+from asciiviewer.my_find_replace_dialog import MyFindReplaceDialog
+from asciiviewer.my_utils import isSequenceType
 
 ID_BUTTON = 100
 
@@ -361,9 +359,9 @@ class MySplashScreen(wx.adv.SplashScreen):
         self.appLauncher = appLauncher
         if getattr(sys, 'frozen', False):
             # If the application is run as a bundle
-            splash_path = os.path.join(sys._MEIPASS, 'splash.jpg')
+            splash_path = os.path.join(sys._MEIPASS, 'assets', 'splash.jpg')
         else:
-            splash_path = os.path.join(sys.path[0], 'splash.jpg')
+            splash_path = os.path.join(sys.path[0], 'assets', 'splash.jpg')
         aBitmap = wx.Image(name=splash_path).ConvertToBitmap()
         splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
         splashDuration = 1000  # milliseconds
@@ -420,9 +418,9 @@ if __name__ == "__main__":
         # if .asciiviewer.cfg does not exist, create it
         if getattr(sys, 'frozen', False):
             # if the application is run as a bundle
-            config.read(os.path.join(sys._MEIPASS, 'default.cfg'))
+            config.read(os.path.join(sys._MEIPASS, 'assets', 'default.cfg'))
         else:
-            config.read(os.path.join(sys.path[0], 'default.cfg'))
+            config.read(os.path.join(sys.path[0], 'assets', 'default.cfg'))
         with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
@@ -433,9 +431,9 @@ if __name__ == "__main__":
     except IndexError:
         if not (os.path.isfile(lastfile) and os.access(lastfile, os.R_OK)):
             if getattr(sys, 'frozen', False):
-                lastfile = os.path.join(sys._MEIPASS, 'example', 'MCOMPO_UOX_TBH')
+                lastfile = os.path.join(sys._MEIPASS, 'examples', 'MCOMPO_UOX_TBH')
             else:
-                lastfile = os.path.join(sys.path[0], 'example', 'MCOMPO_UOX_TBH')
+                lastfile = os.path.join(sys.path[0], 'examples', 'MCOMPO_UOX_TBH')
     # launch main window
     app = MyApp(lastfile)
     app.MainLoop()

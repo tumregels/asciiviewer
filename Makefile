@@ -28,7 +28,7 @@ build-spec: ## build spec file for pyinstaller
 	./asciiviewer/AsciiViewer.py
 
 .PHONY: build-wine
-build-wine: ## build on wine using spec file
+build-wine: ## build on wine
 	python -m PyInstaller \
 	--dist ./dist/windows \
 	--onefile --windowed --noconsole --clean --noconfirm --noupx \
@@ -60,7 +60,7 @@ conda-requirements: ## export/update conda requirements for mac
 docker-win-py3: ## run docker to build windows binary with wine
 	docker run -it --rm -v "$$(pwd):/src/" \
 	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install make && pip install -r requirements.txt && /bin/bash"
+	-c "apt-get install make && pip install altgraph==0.16.1 future==0.18.2 numpy==1.19.5 pefile==2019.4.18 Pillow==8.1.0 pywin32-ctypes==0.2.0 six==1.15.0 wxPython==4.0.7 && /bin/bash"
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
