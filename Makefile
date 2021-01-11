@@ -21,16 +21,16 @@ build-mac: ## build on macos
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
 	pyi-makespec \
-	--onefile --windowed --noupx \
+	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
-	--path ./asciiviewer/source \
-	--add-data="./asciiviewer/splash.jpg:." \
-	--add-data="./asciiviewer/default.cfg:." \
-	--add-data="./asciiviewer/example/fmap:example" \
-	--add-data="./asciiviewer/example/MCOMPO_UOX_TBH:example" \
+	--path ./ \
+	--add-data="./asciiviewer/assets/splash.jpg:assets" \
+	--add-data="./asciiviewer/assets/default.cfg:assets" \
+	--add-data="./asciiviewer/examples/fmap:examples" \
+	--add-data="./asciiviewer/examples/MCOMPO_UOX_TBH:examples" \
 	--log-level DEBUG \
 	--debug all \
-	./asciiviewer/AsciiViewer.py
+	./asciiviewer/main.py
 
 .PHONY: centos-up
 centos-up: ## start centos7

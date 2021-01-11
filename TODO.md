@@ -14,3 +14,4 @@
 - [ ] change dragon output examples
 - [ ] remove close button from menu bar
 - [ ] fix  Yield() is deprecated warning
+- [ ] compare asciiviewer results with octave parser
