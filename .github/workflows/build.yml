@@ -43,7 +43,7 @@ jobs:
 
     - name: Create macos app
       run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --windowed --clean -y --dist ./dist/macos ./asciiviewer.spec
+        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -f ./dist/macos/asciiviewer
 
     - uses: actions/upload-artifact@v2
