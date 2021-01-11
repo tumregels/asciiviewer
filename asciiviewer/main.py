@@ -11,20 +11,16 @@ import sys
 import time
 from platform import python_version
 
+import wx
+import wx.adv
 from six.moves import configparser
 
-try:
-    import wx
-    import wx.adv
-except ImportError:
-    raise ImportError("The wxPython module is required to run this program")
-
-from asciiviewer.my_sheet import MySheet
-from asciiviewer.my_tree_ctrl import MyTreeCtrl
-from asciiviewer.my_menu_bar import *
 from asciiviewer.my_filter_panel import MyFilterPanel
-from asciiviewer.my_table import MyTableColumn, MySummaryTable
 from asciiviewer.my_find_replace_dialog import MyFindReplaceDialog
+from asciiviewer.my_menu_bar import *
+from asciiviewer.my_sheet import MySheet
+from asciiviewer.my_table import MyTableColumn, MySummaryTable
+from asciiviewer.my_tree_ctrl import MyTreeCtrl
 from asciiviewer.my_utils import isSequenceType
 
 ID_BUTTON = 100
