@@ -10,7 +10,6 @@ jobs:
   linux:
     runs-on: ubuntu-18.04
     timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
     - uses: actions/checkout@v2
@@ -36,7 +35,6 @@ jobs:
   macos:
     runs-on: macos-10.15
     timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
     - uses: actions/checkout@v2
@@ -63,7 +61,6 @@ jobs:
   windows:
     runs-on: windows-latest
     timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
     - uses: actions/checkout@v2
@@ -93,7 +90,6 @@ jobs:
   wine:
     runs-on: ubuntu-18.04
     timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     container:
       image: docker://cdrx/pyinstaller-windows:python3-32bit
@@ -137,7 +133,6 @@ jobs:
     needs: [ linux, macos, windows, wine ]
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
       - name: Create Release
