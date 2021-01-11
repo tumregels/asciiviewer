@@ -9,6 +9,7 @@ from __future__ import print_function
 import os
 import sys
 import time
+from platform import python_version
 
 from six.moves import configparser
 
@@ -208,18 +209,18 @@ class MainWindow(wx.Frame):
         self.tree.SetFocus()
 
     def OnAbout(self, event):
-        import pkg_resources
         dlg = wx.MessageDialog(self, """\
-Authors
+asciiviewer 0.0.1
+
+python {}
+wxpython {}
 
 Benjamin Toueg (01/12/2009) 
 http://code.google.com/p/dragon-donjon-ascii-viewer/
-    
+
 tumregels (11/01/2020) 
 https://github.com/tumregels/asciiviewer
-
-Version 0.0.1
-""", "About", wx.OK | wx.ICON_INFORMATION)
+""".format(python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
 
