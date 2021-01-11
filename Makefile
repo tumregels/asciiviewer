@@ -8,10 +8,15 @@ help: ## this help
 
 .PHONY: build-linux
 build-linux: ## build on linux
-	python -m PyInstaller \
-	--dist ./dist/linux \
-	--onefile --windowed  --clean --noconfirm \
-	./asciiviewer.spec
+	python -m PyInstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
+
+.PHONY: build-wine
+build-wine: ## build on wine
+	python -m PyInstaller --dist ./dist/windows --clean --noconfirm ./asciiviewer.spec
+
+.PHONY: build-mac
+build-mac: ## build on macos
+	python -m PyInstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
@@ -26,19 +31,6 @@ build-spec: ## build spec file for pyinstaller
 	--log-level DEBUG \
 	--debug all \
 	./asciiviewer/AsciiViewer.py
-
-.PHONY: build-wine
-build-wine: ## build on wine
-	python -m PyInstaller \
-	--dist ./dist/windows \
-	--onefile --windowed --noconsole --clean --noconfirm --noupx \
-	./asciiviewer.spec
-
-.PHONY: build-mac
-build-mac: ## build on macos
-	python -m PyInstaller \
-	--onefile --windowed  --clean --noconfirm \
-	./asciiviewer.spec
 
 .PHONY: centos-up
 centos-up: ## start centos7
@@ -84,3 +76,19 @@ dist: ## create *.whl and *.tar.gz distributions
 	python3 setup.py bdist_wheel sdist
 	-tar xvzf dist/*.tar.gz -C dist
 	-unzip dist/*.whl -d dist/whl
+
+clean: ## remove all build and python artifacts
+clean: clean-build clean-pyc
+
+clean-build:
+	rm -fr build/
+	rm -fr dist/
+	rm -fr .eggs/
+	find . -name '*.egg-info' -exec rm -fr {} +
+	find . -name '*.egg' -exec rm -f {} +
+
+clean-pyc:
+	find . -name '*.pyc' -exec rm -f {} +
+	find . -name '*.pyo' -exec rm -f {} +
+	find . -name '*~' -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -fr {} +
