@@ -25,6 +25,14 @@ from asciiviewer.my_utils import isSequenceType
 
 ID_BUTTON = 100
 
+if getattr(sys, 'frozen', False):
+    # If the application is run as a bundle, the PyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app
+    # path into variable _MEIPASS'.
+    application_path = os.path.abspath(sys._MEIPASS)
+else:
+    application_path = os.path.dirname(os.path.abspath(__file__))
+
 
 class MainWindow(wx.Frame):
     def __init__(self, parent, id, title):
@@ -364,11 +372,7 @@ class MySplashScreen(wx.adv.SplashScreen):
 
     def __init__(self, parent, appLauncher):
         self.appLauncher = appLauncher
-        if getattr(sys, 'frozen', False):
-            # If the application is run as a bundle
-            splash_path = os.path.join(sys._MEIPASS, 'assets', 'splash.jpg')
-        else:
-            splash_path = os.path.join(os.path.dirname(__file__), 'assets', 'splash.jpg')
+        splash_path = os.path.join(application_path, 'assets', 'splash.jpg')
         aBitmap = wx.Image(name=splash_path).ConvertToBitmap()
         splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
         splashDuration = 1000  # milliseconds
@@ -421,11 +425,7 @@ def main():
     configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
     if not (os.path.isfile(configFilePath)):
         # if .asciiviewer.cfg does not exist, create it
-        if getattr(sys, 'frozen', False):
-            # if the application is run as a bundle
-            config.read(os.path.join(sys._MEIPASS, 'assets', 'default.cfg'))
-        else:
-            config.read(os.path.join(os.path.dirname(__file__), 'assets', 'default.cfg'))
+        config.read(os.path.join(application_path, 'assets', 'default.cfg'))
         with open(configFilePath, 'w') as configFile:
             config.write(configFile)
     config.read(configFilePath)
@@ -435,10 +435,7 @@ def main():
         lastfile = sys.argv[1]
     except IndexError:
         if not (os.path.isfile(lastfile) and os.access(lastfile, os.R_OK)):
-            if getattr(sys, 'frozen', False):
-                lastfile = os.path.join(sys._MEIPASS, 'examples', 'MCOMPO_UOX_TBH')
-            else:
-                lastfile = os.path.join(os.path.dirname(__file__), 'examples', 'MCOMPO_UOX_TBH')
+            lastfile = os.path.join(application_path, 'examples', 'MCOMPO_UOX_TBH')
     # launch main window
     app = MyApp(lastfile)
     app.MainLoop()
