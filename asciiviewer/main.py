@@ -15,13 +15,13 @@ import wx
 import wx.adv
 from six.moves import configparser
 
-from asciiviewer.my_filter_panel import MyFilterPanel
-from asciiviewer.my_find_replace_dialog import MyFindReplaceDialog
-from asciiviewer.my_menu_bar import *
+from asciiviewer.filter_panel import MyFilterPanel
+from asciiviewer.find_replace_dialog import MyFindReplaceDialog
+from asciiviewer.menu_bar import *
 from asciiviewer.my_sheet import MySheet
-from asciiviewer.my_table import MyTableColumn, MySummaryTable
+from asciiviewer.table import MyTableColumn, MySummaryTable
 from asciiviewer.my_tree_ctrl import MyTreeCtrl
-from asciiviewer.my_utils import isSequenceType
+from asciiviewer.utils import isSequenceType
 
 ID_BUTTON = 100
 

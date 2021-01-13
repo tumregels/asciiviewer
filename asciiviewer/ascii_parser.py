@@ -6,7 +6,7 @@
 
 from __future__ import print_function
 
-from asciiviewer.my_parser_tool import *
+from asciiviewer.parser_tool import *
 
 
 def asciiToElementList(filePath):

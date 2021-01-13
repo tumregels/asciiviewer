@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-from asciiviewer.my_table import MyCalculationTable
+from asciiviewer.table import MyCalculationTable
 
 
 class MyMicroLib:

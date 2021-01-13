@@ -3,8 +3,8 @@
 import wx
 from wx.lib import sheet
 
-from asciiviewer.my_calculation import MyCalculation
-from asciiviewer.my_ref_case import MyRefcase
+from asciiviewer.calculation import MyCalculation
+from asciiviewer.ref_case import MyRefcase
 
 
 # TODO bind mousewheel and scroll bar

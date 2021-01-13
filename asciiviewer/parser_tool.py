@@ -17,7 +17,7 @@ def elementListFromFile(filePath):
         return xsmToElementList(filePath)
     else:
         # we suppose it's an ASCII file
-        from asciiviewer.my_ascii_parser import asciiToElementList
+        from asciiviewer.ascii_parser import asciiToElementList
         return asciiToElementList(filePath)
 
 
