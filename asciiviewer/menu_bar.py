@@ -3,7 +3,6 @@ import wx
 ID_ABOUT = 101
 ID_EXIT = 102
 ID_OPEN = 103
-ID_CLOSE = 104
 ID_EXPAND_ALL = 105
 ID_COLLAPSE_ALL = 106
 ID_COLLAPSE_CHILDREN = 107
@@ -16,7 +15,6 @@ class MyMenuBar(wx.MenuBar):
 
         menuFile = wx.Menu()
         menuFile.Append(ID_OPEN, '&Open')
-        menuFile.Append(ID_CLOSE, '&Close')
         menuFile.Append(ID_EXIT, 'Quit')
         self.Append(menuFile, '&File')
 

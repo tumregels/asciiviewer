@@ -1,10 +1,10 @@
 # Todo
 
-- [ ] fix segfault issue
+- [ ] fix segfault issue when exiting
 - [ ] fix search functionality
 
 - [ ] add icons for macos and windows
-- [ ] add documentation with mkdocs
+- [ ] add documentation ~~with mkdocs~~
 - [ ] add demo gifs
 - [x] restructure asciiviewer package
 - [x] add setup.py with pbr
@@ -12,6 +12,6 @@
 - [x] rename or remove requirements.txt
 - [x] fix wine action to use docker image directly
 - [ ] change dragon output examples
-- [ ] remove close button from menu bar
+- [x] remove close button from menu bar
 - [ ] fix  Yield() is deprecated warning
-- [ ] compare asciiviewer results with octave parser
+- [x] compare asciiviewer results with octave parser

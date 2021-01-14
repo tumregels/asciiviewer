@@ -37,6 +37,7 @@ else:
 class MainWindow(wx.Frame):
     def __init__(self, parent, id, title):
         wx.Frame.__init__(self, parent, id, title, pos=(500, 500))
+        self.Bind(wx.EVT_CLOSE, self.OnQuit)
         self.SetSize((300, 300))  # does not work, why ?
         self.Centre()
         self.initialize()
@@ -106,7 +107,8 @@ class MainWindow(wx.Frame):
         else:
             self.SetSize((w + 1, h))
             self.SetSize((w, h))
-        # following line partly solves the problem of redrawing the tree when window is resized when tree vertical scroll bar is down
+        # following line partly solves the problem of redrawing the tree
+        # when window is resized when tree vertical scroll bar is down
         self.tree.Refresh()
 
     def OnSearch(self, event):
@@ -229,7 +231,8 @@ https://github.com/tumregels/asciiviewer
         dlg.Destroy()
 
     def OnQuit(self, event):
-        self.Close(True)
+        print('exiting...')
+        wx.Exit()
 
     def OnMyCalculation(self, eltData):
         """
