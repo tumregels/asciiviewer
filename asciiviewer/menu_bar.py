@@ -22,7 +22,7 @@ class MyMenuBar(wx.MenuBar):
         menuEdit.Append(ID_EXPAND_ALL, '&Expand all')
         menuEdit.Append(ID_COLLAPSE_ALL, '&Collapse all')
         menuEdit.Append(ID_COLLAPSE_CHILDREN, 'Collapse C&hildren')
-        menuEdit.Append(ID_SEARCH, '&Search')
+        # menuEdit.Append(ID_SEARCH, '&Search')
         self.Append(menuEdit, '&Edit')
 
         menuHelp = wx.Menu()

@@ -42,9 +42,9 @@ class MainWindow(wx.Frame):
         self.Centre()
         self.initialize()
         self.searchedNode = None
-        self.findDlg = MyFindReplaceDialog(self)
-        self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
-        self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
+        # self.findDlg = MyFindReplaceDialog(self)
+        # self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
+        # self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
 
     def initialize(self):
         self.SetMenuBar(MyMenuBar())
@@ -79,7 +79,7 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnExpandAll, id=ID_EXPAND_ALL)
         self.Bind(wx.EVT_MENU, self.OnCollapseAll, id=ID_COLLAPSE_ALL)
         self.Bind(wx.EVT_MENU, self.OnCollapseChildren, id=ID_COLLAPSE_CHILDREN)
-        self.Bind(wx.EVT_MENU, self.OnSearch, id=ID_SEARCH)
+        # self.Bind(wx.EVT_MENU, self.OnSearch, id=ID_SEARCH)
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
     def OnKeyDown(self, evt):
