@@ -221,10 +221,10 @@ asciiviewer 0.0.1
 python {}
 wxpython {}
 
-Benjamin Toueg (01/12/2009) 
+Benjamin Toueg (01/12/2009)
 http://code.google.com/p/dragon-donjon-ascii-viewer/
 
-tumregels (11/01/2020) 
+tumregels (11/01/2020)
 https://github.com/tumregels/asciiviewer
 """.format(python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
@@ -366,8 +366,6 @@ https://github.com/tumregels/asciiviewer
         self.tree.Toggle(evt.GetItem())
 
 
-# ----------------------------------------------------------------------#
-
 class MySplashScreen(wx.adv.SplashScreen):
     """
     Create a splash screen widget.
@@ -392,8 +390,6 @@ class MySplashScreen(wx.adv.SplashScreen):
         evt.Skip()  # Make sure the default handler runs too...
 
 
-# ----------------------------------------------------------------------#
-
 class MyApp(wx.App):
     def __init__(self, file):
         self.file = file
@@ -417,7 +413,6 @@ class MyApp(wx.App):
     def LaunchMainWindow(self):
         # MainWindow is the main frame.
         frame = MainWindow(None, -1, 'The DRAGON multicompo viewer')
-        # app.SetTopWindow(frame)
         frame.OpenFile(self.file)
         frame.Show(True)
 
