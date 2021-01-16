@@ -289,7 +289,7 @@ https://github.com/tumregels/asciiviewer
         eltId = evt.GetItem()
         eltData = self.tree.GetItemData(eltId)
         parentId = self.tree.GetItemParent(eltId)
-        parentData = self.tree.GetItemData(parentId)
+        parentData = self.tree.GetItemData(parentId) if parentId.IsOk() else None
         eltDataLabel = ''
         eltDataContent = None
         if eltId != self.tree.GetRootItem():
@@ -341,8 +341,8 @@ https://github.com/tumregels/asciiviewer
             self.sheet.resetSize()
             if eltData.contentType == 1:
                 self.sheet.SetColFormatNumber(0)
-        elif self.tree.ItemHasChildren(eltId):
-            if eltData.table == None:
+        elif self.tree.ItemHasChildren(eltId) and eltData:
+            if eltData.table is None:
                 eltData.table = MySummaryTable(self.tree.getSummary(eltId))
             self.sheet.SetTable(eltData.table)
             self.sheet.autosizeRowLabel()
