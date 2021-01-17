@@ -15,6 +15,7 @@ import wx
 import wx.adv
 from six.moves import configparser
 
+import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
 from asciiviewer.find_replace_dialog import MyFindReplaceDialog
 from asciiviewer.menu_bar import *
@@ -216,7 +217,7 @@ class MainWindow(wx.Frame):
 
     def OnAbout(self, event):
         dlg = wx.MessageDialog(self, """\
-asciiviewer 0.0.1
+asciiviewer {}
 
 python {}
 wxpython {}
@@ -226,7 +227,7 @@ http://code.google.com/p/dragon-donjon-ascii-viewer/
 
 tumregels (11/01/2020)
 https://github.com/tumregels/asciiviewer
-""".format(python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
+""".format(asciiviewer.__version__, python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
 
