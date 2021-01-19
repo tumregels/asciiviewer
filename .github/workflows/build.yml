@@ -1,4 +1,4 @@
-name: Build Assets
+name: Build
 
 on:
   push:
