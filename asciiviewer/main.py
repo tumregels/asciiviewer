@@ -19,9 +19,9 @@ import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
 from asciiviewer.find_replace_dialog import MyFindReplaceDialog
 from asciiviewer.menu_bar import *
-from asciiviewer.my_sheet import MySheet
+from asciiviewer.sheet import MySheet
 from asciiviewer.table import MyTableColumn, MySummaryTable
-from asciiviewer.my_tree_ctrl import MyTreeCtrl
+from asciiviewer.tree_ctrl import MyTreeCtrl
 from asciiviewer.utils import isSequenceType
 
 ID_BUTTON = 100
