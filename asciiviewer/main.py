@@ -12,7 +12,7 @@ import time
 from platform import python_version
 
 import wx
-import wx.adv
+import wx.lib.agw.advancedsplash as AS
 from six.moves import configparser
 
 import asciiviewer
@@ -367,7 +367,7 @@ https://github.com/tumregels/asciiviewer
         self.tree.Toggle(evt.GetItem())
 
 
-class MySplashScreen(wx.adv.SplashScreen):
+class MySplashScreen(AS.AdvancedSplash):
     """
     Create a splash screen widget.
     """
@@ -375,14 +375,14 @@ class MySplashScreen(wx.adv.SplashScreen):
     def __init__(self, parent, appLauncher):
         self.appLauncher = appLauncher
         splash_path = os.path.join(application_path, 'assets', 'splash.png')
-        aBitmap = wx.Bitmap(splash_path)
-        splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
-        splashDuration = 1000  # milliseconds
-        # Call the constructor with the above arguments in exactly the
-        # following order.
-        wx.adv.SplashScreen.__init__(self, aBitmap, splashStyle, splashDuration, parent)
+        img = wx.Image(splash_path)
+        img.ConvertAlphaToMask()
+        bitmap = wx.Bitmap(img)
+        splash_duration = 1000  # milliseconds
+
+        AS.AdvancedSplash.__init__(self, parent, bitmap=bitmap, timeout=splash_duration)
         self.Bind(wx.EVT_CLOSE, self.OnExit)
-        wx.Yield()
+        wx.GetApp().Yield()
 
     def OnExit(self, evt):
         self.appLauncher()
