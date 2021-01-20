@@ -24,12 +24,13 @@ build-spec: ## build spec file for pyinstaller
 	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
 	--path ./ \
-	--add-data="./asciiviewer/assets/splash.jpg:assets" \
+	--add-data="./asciiviewer/assets/splash.png:assets" \
 	--add-data="./asciiviewer/assets/default.cfg:assets" \
 	--add-data="./asciiviewer/examples/fmap:examples" \
 	--add-data="./asciiviewer/examples/MCOMPO_UOX_TBH:examples" \
 	--log-level DEBUG \
 	--debug all \
+	--icon "./asciiviewer/assets/icon.ico"
 	./asciiviewer/main.py
 
 .PHONY: centos-up

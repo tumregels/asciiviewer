@@ -4,7 +4,7 @@ import platform
 block_cipher = None
 
 datas = [
-    ('asciiviewer/assets/splash.jpg', 'assets'),
+    ('asciiviewer/assets/splash.png', 'assets'),
     ('asciiviewer/assets/default.cfg', 'assets'),
     ('asciiviewer/examples/fmap', 'examples'),
     ('asciiviewer/examples/MCOMPO_UOX_TBH', 'examples')
@@ -39,7 +39,8 @@ if platform.system() == 'Windows':
               upx=False,
               upx_exclude=[],
               runtime_tmpdir=None,
-              console=False)
+              console=False,
+              icon='asciiviewer/assets/icon.ico')
 
 elif platform.system() == 'Linux':
 
@@ -90,19 +91,24 @@ elif platform.system() == 'Darwin':
               cipher=block_cipher)
     exe = EXE(pyz,
               a.scripts,
-              a.binaries,
-              a.zipfiles,
-              a.datas,
               [],
+              exclude_binaries=True,
               name='asciiviewer',
               debug=False,
               bootloader_ignore_signals=False,
               strip=False,
               upx=True,
-              upx_exclude=[],
-              runtime_tmpdir=None,
-              console=False)
-    app = BUNDLE(exe,
+              console=False,
+              icon='asciiviewer/assets/icon.icns')
+    coll = COLLECT(exe,
+                   a.binaries,
+                   a.zipfiles,
+                   a.datas,
+                   strip=False,
+                   upx=True,
+                   upx_exclude=[],
+                   name='asciiviewer')
+    app = BUNDLE(coll,
                  name='asciiviewer.app',
-                 icon=None,
+                 icon='asciiviewer/assets/icon.icns',
                  bundle_identifier=None)
