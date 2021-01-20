@@ -374,8 +374,8 @@ class MySplashScreen(wx.adv.SplashScreen):
 
     def __init__(self, parent, appLauncher):
         self.appLauncher = appLauncher
-        splash_path = os.path.join(application_path, 'assets', 'splash.jpg')
-        aBitmap = wx.Image(name=splash_path).ConvertToBitmap()
+        splash_path = os.path.join(application_path, 'assets', 'splash.png')
+        aBitmap = wx.Bitmap(splash_path)
         splashStyle = wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT
         splashDuration = 1000  # milliseconds
         # Call the constructor with the above arguments in exactly the
