@@ -1,4 +1,5 @@
-# asciiviewer
+<div align="center"><img src="https://raw.github.com/tumregels/asciiviewer/master/asciiviewer/assets/splash.png?raw=true" alt="asciiviewer logo" width="128" /></div>
+<h1 align="center">asciiviewer</h1>
 
 ![Build](https://github.com/tumregels/asciiviewer/workflows/Build/badge.svg?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -13,6 +14,29 @@ The simplest way to do this is to convert your object in `XSM_FILE` or `SEQ_ASCI
 
 Open the resulting file with __asciiviewer__ and you'll be able to
 browse through it thanks to a treeview.
+
+## Demos
+
+<details open>
+<summary>Linux</summary>
+<div align="center">
+<img src="https://raw.github.com/tumregels/asciiviewer/master/images/linux.gif?raw=true" alt="linux demo" width="700" />
+</div>
+</details>
+
+<details>
+<summary>Windows</summary>
+<div align="center">
+<img src="https://raw.github.com/tumregels/asciiviewer/master/images/windows.gif?raw=true" alt="windows demo" width="700" />
+</div>
+</details>
+
+<details>
+<summary>Macos</summary>
+<div align="center">
+<img src="https://raw.github.com/tumregels/asciiviewer/master/images/macos.gif?raw=true" alt="macos demo" width="700" />
+</div>
+</details>
 
 ## Development setup
 
