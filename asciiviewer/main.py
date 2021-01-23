@@ -219,14 +219,14 @@ class MainWindow(wx.Frame):
         dlg = wx.MessageDialog(self, """\
 asciiviewer {}
 
-python {}
-wxpython {}
+    python {}
+    wxpython {}
 
-Benjamin Toueg (01/12/2009)
-http://code.google.com/p/dragon-donjon-ascii-viewer/
-
-tumregels (11/01/2020)
+tumregels (2021)
 https://github.com/tumregels/asciiviewer
+
+Benjamin Toueg (2009)
+http://code.google.com/p/dragon-donjon-ascii-viewer/
 """.format(asciiviewer.__version__, python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
