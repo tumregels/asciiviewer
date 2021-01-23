@@ -61,7 +61,6 @@ create-git-tag: ## create git tag
 
 .PHONY: push-git-tag
 push-git-tag: ## push git tag to origin
-	git push -f origin master
 	git push origin v$(VERSION)
 
 .PHONY: delete-git-tag
