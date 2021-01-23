@@ -4,8 +4,8 @@
 - [ ] fix search functionality (disabled in [b9d36ed])
 
 - [x] add icons for macos and windows
-- [ ] add documentation ~~with mkdocs~~
-- [ ] add demo gifs
+- [x] add documentation ~~with mkdocs~~
+- [x] add demo gifs
 - [x] restructure asciiviewer package
 - [x] add setup.py with pbr
 - [x] add version to About screen
