@@ -46,7 +46,7 @@ conda-env: ## create conda environment
 	conda env create --file environment.yml
 
 .PHONY: conda-requirements
-conda-requirements: ## export/update conda requirements for mac
+conda-requirements: ## export/update conda requirements
 	conda env export > environment.yml
 
 .PHONY: docker-wine
@@ -64,7 +64,7 @@ push-git-tag: ## push git tag to origin
 	git push origin v$(VERSION)
 
 .PHONY: delete-git-tag
-delete-git-tag: ## delete local and remove git tags
+delete-git-tag: ## delete local and remote git tags
 	-git tag -d v$(VERSION)
 	-git push --delete origin v$(VERSION)
 
@@ -77,9 +77,11 @@ dist: ## create *.whl and *.tar.gz distributions
 	-tar xvzf dist/*.tar.gz -C dist
 	-unzip dist/*.whl -d dist/whl
 
+.PHONY: clean
 clean: ## remove all build and python artifacts
 clean: clean-build clean-pyc
 
+.PHONY: clean-build
 clean-build:
 	rm -fr build/
 	rm -fr dist/
@@ -87,6 +89,7 @@ clean-build:
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
 
+.PHONY: clean-pyc
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
