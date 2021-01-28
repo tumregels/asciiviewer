@@ -53,7 +53,7 @@ conda-requirements: ## export/update conda requirements
 docker-wine: ## run docker to build windows binary with wine and python3
 	docker run -it --rm -v "$$(pwd):/src/" \
 	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install -y make && pip install altgraph==0.16.1 future==0.18.2 numpy==1.19.5 pefile==2019.4.18 Pillow==8.1.0 pywin32-ctypes==0.2.0 six==1.15.0 wxPython==4.0.7 && make build-wine && /bin/bash"
+	-c "apt-get install -y make && pip install -r wine-requirements.txt && make build-wine && /bin/bash"
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
