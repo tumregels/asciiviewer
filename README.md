@@ -57,29 +57,32 @@ Otherwise set it up [manually](#manual-setup).
 
 ### Manual setup
 
-First step is to install [miniconda](https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh)
+First step is to install [miniconda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
+which requires no admin priviledges.
 
-    $ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3.sh
-    $ bash ~/miniconda3.sh -bfp ~/miniconda3
-    $ rm -f ~/miniconda3.sh
-    $ echo 'export PATH="$PATH:$HOME/miniconda3/bin"' >> ~/.bashrc
-
-Then git clone the __asciiviewer__ project and create conda environment for the project
+Clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the __asciiviewer__ project
 
     $ git clone https://github.com/tumregels/asciiviewer
+
+Open a new terminal and create conda environment
+
     $ cd asciiviewer
     $ conda env create -f environment.yml
 
-Now activate the conda environment and run `asciiviewer` command
+Activate the conda environment and run `asciiviewer` command
 
     $ source activate asciiviewer
     (asciiviewer) $ asciiviewer
 
-or with python
+or
 
     (asciiviewer) $ python asciiviewer/main.py
 
-To open the DRAGON/DONJON output file from the command line
+on Macos you need to use `pythonw`
+
+    (asciiviewer) $ pythonw asciiviewer/main.py
+
+To open a specific DRAGON/DONJON output file from the command line
 
     (asciiviewer) $ asciiviewer ./path/to/file
 
@@ -87,7 +90,7 @@ To generate the single file executable on your computer
 
     (asciiviewer) $ pyinstaller --clean --noconfirm ./asciiviewer.spec
 
-The executable can be found under `dist` folder.
+The above step will create an executable under the `dist` folder.
 
 __Important__ - single file executables can be called from terminal with or without file path
 
