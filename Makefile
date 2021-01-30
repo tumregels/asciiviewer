@@ -10,13 +10,19 @@ help: ## this help
 build-linux: ## build on linux
 	python -m PyInstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
 
+.PHONY: build-mac
+build-mac: ## build on macos
+	python -m PyInstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
+
 .PHONY: build-wine
 build-wine: ## build on wine
 	python -m PyInstaller --dist ./dist/windows --clean --noconfirm ./asciiviewer.spec
 
-.PHONY: build-mac
-build-mac: ## build on macos
-	python -m PyInstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
+.PHONY: docker-wine
+docker-wine: ## run docker to build windows binary with wine and python3
+	docker run -it --rm -v "$$(pwd):/src/" \
+	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
+	-c "apt-get install -y make && pip install -r wine-requirements.txt && make build-wine && /bin/bash"
 
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
@@ -48,12 +54,6 @@ conda-env: ## create conda environment
 .PHONY: conda-requirements
 conda-requirements: ## export/update conda requirements
 	conda env export > environment.yml
-
-.PHONY: docker-wine
-docker-wine: ## run docker to build windows binary with wine and python3
-	docker run -it --rm -v "$$(pwd):/src/" \
-	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install -y make && pip install -r wine-requirements.txt && make build-wine && /bin/bash"
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
