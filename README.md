@@ -98,13 +98,11 @@ __Important__ - single file executables can be called from terminal with or with
 
 ## Issues
 
-Please report any problems or bugs [here](https://github.com/tumregels/asciiviewer/issues)
+Any problems or bugs should be reported [here](https://github.com/tumregels/asciiviewer/issues)
 
 ### Known issues
 
 * The __asciiviewer__ executables are not signed and you will get warnings on Macos and Windows.
-  Please note that all files under [releases](https://github.com/tumregels/asciiviewer/releases) are
-  generated on github servers via [github actions](https://github.com/tumregels/asciiviewer/actions).
 
 * The program may crash unexpectedly when used with big files.
 
