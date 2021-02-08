@@ -1,2 +1,2 @@
 six==1.15.0
-wxpython==4.0.4
+wxpython>=4.0.4,<4.1.0
