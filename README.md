@@ -96,6 +96,16 @@ __Important__ - single file executables can be called from terminal with or with
 
     $ ./asciiviewer ./path/to/file
 
+### Dev setup
+
+For development setup first implement the [manual setup](#manual-setup) followed by
+
+    (asciiviewer) $ python -m pip install -r requirements-dev.txt
+
+To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On Macos and Linux
+
+    (asciiviewer) $ export PYTHONFAULTHANDLER=1
+
 ## Issues
 
 Any problems or bugs should be reported [here](https://github.com/tumregels/asciiviewer/issues)

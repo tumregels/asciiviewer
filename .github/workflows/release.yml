@@ -101,7 +101,7 @@ jobs:
       run: apt-get install -y zip unzip
 
     - name: Install wine requirements
-      run: pip install -r wine-requirements.txt
+      run: pip install -r requirements-wine.txt
 
     - name: Create binary
       run: |

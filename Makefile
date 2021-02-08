@@ -22,7 +22,7 @@ build-wine: ## build on wine
 docker-wine: ## run docker to build windows binary with wine and python3
 	docker run -it --rm -v "$$(pwd):/src/" \
 	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install -y make && pip install -r wine-requirements.txt && make build-wine && /bin/bash"
+	-c "apt-get install -y make && pip install -r requirements-wine.txt && make build-wine && /bin/bash"
 
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
