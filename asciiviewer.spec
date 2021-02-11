@@ -7,7 +7,8 @@ datas = [
     ('asciiviewer/assets/splash.png', 'assets'),
     ('asciiviewer/assets/default.cfg', 'assets'),
     ('asciiviewer/examples/fmap', 'examples'),
-    ('asciiviewer/examples/MCOMPO_UOX_TBH', 'examples')
+    ('asciiviewer/examples/MCOMPO_UOX_TBH', 'examples'),
+    ('asciiviewer/assets/icon.ico', 'assets'),
 ]
 
 if platform.system() == 'Windows':

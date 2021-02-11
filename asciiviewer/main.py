@@ -43,6 +43,9 @@ class MainWindow(wx.Frame):
         self.Centre()
         self.initialize()
         self.searchedNode = None
+
+        icon_path = os.path.join(application_path, 'assets', 'icon.ico')
+        self.SetIcon(wx.Icon(icon_path))
         # self.findDlg = MyFindReplaceDialog(self)
         # self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
         # self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
