@@ -416,7 +416,7 @@ class MyApp(wx.App):
 
     def LaunchMainWindow(self):
         # MainWindow is the main frame.
-        frame = MainWindow(None, -1, 'The DRAGON multicompo viewer')
+        frame = MainWindow(None, -1, 'asciiviewer')
         frame.OpenFile(self.file)
         frame.Show(True)
 
