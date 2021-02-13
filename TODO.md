@@ -13,8 +13,9 @@
 - [x] fix wine action to use docker image directly
 - [ ] change dragon output examples
 - [x] remove close button from menu bar
-- [ ] fix Yield() is deprecated warning
+- [x] fix Yield() is deprecated warning (fixed in [9a35f76])
 - [x] compare asciiviewer results with octave parser
 - [ ] add description about .asciiviewer.cfg
 
 [b9d36ed]: https://github.com/tumregels/asciiviewer/commit/b9d36ed7320d53c90db3fd9daada683821376a9b
+[9a35f76]: https://github.com/tumregels/asciiviewer/commit/9a35f769ddeb2d1871016ae710dee95112c2eff7
