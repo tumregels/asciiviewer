@@ -29,7 +29,7 @@
 </details>
 
 <details>
-<summary>Macos</summary>
+<summary>MacOS</summary>
 <div align="center">
 <img src="https://raw.github.com/tumregels/asciiviewer/master/images/macos.gif?raw=true" alt="macos demo" width="700" />
 </div>
@@ -82,7 +82,7 @@ or
 
     (asciiviewer) $ python asciiviewer/main.py
 
-on Macos you need to use `pythonw`
+on MacOS you need to use `pythonw`
 
     (asciiviewer) $ pythonw asciiviewer/main.py
 
@@ -106,9 +106,15 @@ For development setup first implement the [manual setup](#manual-setup) followed
 
     (asciiviewer) $ python -m pip install -r requirements-dev.txt
 
-To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On Macos and Linux
+To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On MacOS and Linux
 
     (asciiviewer) $ export PYTHONFAULTHANDLER=1
+
+### Configuration
+
+On the first run __asciiviewer__ will create an `.asciiviewer.cfg` config file at
+`HOME` directory with [this content](./asciiviewer/assets/default.cfg).
+From this file you can disable sort and splash screen.
 
 ## Issues
 
@@ -116,7 +122,7 @@ Any problems or bugs should be reported [here](https://github.com/tumregels/asci
 
 ### Known issues
 
-* The __asciiviewer__ executables are not signed and you will get warnings on Macos and Windows.
+* The __asciiviewer__ executables are not signed and you will get warnings on MacOS and Windows.
 
 * The program may crash unexpectedly when used with big files.
 
