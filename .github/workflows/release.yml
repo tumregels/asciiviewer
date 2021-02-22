@@ -9,7 +9,7 @@ jobs:
 
   linux:
     runs-on: ubuntu-18.04
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
 
   macos:
     runs-on: macos-10.15
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
 
   windows:
     runs-on: windows-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
@@ -74,56 +74,23 @@ jobs:
     - name: Create binary
       run: |
         %CONDA%\envs\asciiviewer\Scripts\pyinstaller.exe ^
-        --clean -y --dist .\dist\windows64 .\asciiviewer.spec
+        --clean -y --dist .\dist\windows .\asciiviewer.spec
       shell: cmd
 
     - name: Zip binary
       run: |
-        cd .\dist\windows64
-        powershell Compress-Archive asciiviewer.exe asciiviewer-windows64.zip
+        cd .\dist\windows
+        powershell Compress-Archive asciiviewer.exe asciiviewer-windows.zip
 
     - uses: actions/upload-artifact@v2
       with:
-        name: asciiviewer-windows64
-        path: .\dist\windows64\asciiviewer-windows64.zip
-
-  wine:
-    runs-on: ubuntu-18.04
-    timeout-minutes: 5
-
-    container:
-      image: docker://cdrx/pyinstaller-windows:python3-32bit
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Install zip
-      run: apt-get install -y zip unzip
-
-    - name: Install wine requirements
-      run: pip install -r requirements-wine.txt
-
-    - name: Create binary
-      run: |
-        python -m PyInstaller \
-        --dist ./dist/windows32 \
-        --onefile --windowed --noconsole --clean --noconfirm --noupx \
-        ./asciiviewer.spec
-
-    - name: Zip binary
-      run: |
-        cd ./dist/windows32
-        zip asciiviewer-windows32.zip asciiviewer.exe
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: asciiviewer-windows32
-        path: ./dist/windows32/asciiviewer-windows32.zip
+        name: asciiviewer-windows
+        path: .\dist\windows\asciiviewer-windows.zip
 
   release:
-    needs: [ linux, macos, windows, wine ]
+    needs: [ linux, macos, windows ]
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Create Release
@@ -175,7 +142,7 @@ jobs:
 
       - uses: actions/download-artifact@v1
         with:
-          name: asciiviewer-windows64
+          name: asciiviewer-windows
         continue-on-error: true
 
       - name: Upload Windows Release Asset
@@ -184,26 +151,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./asciiviewer-windows64/asciiviewer-windows64.zip
-          asset_name: asciiviewer-windows64-${{ steps.get_version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
-        continue-on-error: true
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: asciiviewer-windows32
-        continue-on-error: true
-
-      - name: checkin # DEBUG
-        run: find .
-
-      - name: Upload Wine Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./asciiviewer-windows32/asciiviewer-windows32.zip
-          asset_name: asciiviewer-windows32-${{ steps.get_version.outputs.VERSION }}.zip
+          asset_path: ./asciiviewer-windows/asciiviewer-windows.zip
+          asset_name: asciiviewer-windows-${{ steps.get_version.outputs.VERSION }}.zip
           asset_content_type: application/zip
         continue-on-error: true
