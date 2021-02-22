@@ -110,6 +110,15 @@ To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/d
 
     (asciiviewer) $ export PYTHONFAULTHANDLER=1
 
+To release a new version execute
+
+    (asciiviewer) $ bump2version minor
+
+Above command will update the minor release version, create a git tag and a commit.
+Now push the git tag and the commit with
+
+    (asciiviewer) $ git push --follow-tags
+
 ### Configuration
 
 On the first run __asciiviewer__ will create an `.asciiviewer.cfg` config file at
