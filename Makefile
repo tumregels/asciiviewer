@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-VERSION = 0.2.0-dev0
+VERSION = 0.2.0
 
 .PHONY: help
 help: ## this help
