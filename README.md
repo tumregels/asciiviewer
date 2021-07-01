@@ -64,18 +64,18 @@ Otherwise set it up [manually](#manual-setup).
 First step is to install [miniconda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
 which requires no admin priviledges.
 
-Clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the __asciiviewer__ project
+Open a new terminal and clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the project
 
     $ git clone https://github.com/tumregels/asciiviewer
 
-Open a new terminal and create conda environment
+Now `cd` into the project folder, create a conda environment and activate it
 
     $ cd asciiviewer
     $ conda env create -f environment.yml
-
-Activate the conda environment and run `asciiviewer` command
-
     $ source activate asciiviewer
+
+At this point execute `asciiviewer` command
+
     (asciiviewer) $ asciiviewer
 
 or
@@ -96,9 +96,9 @@ To generate the single file executable on your computer
 
 The above step will create an executable under the `dist` folder.
 
-__Important__ - single file executables can be called from terminal with or without file path
-
-    $ ./asciiviewer ./path/to/file
+    $ ./dist/asciiviewer ./path/to/file
+    
+__Important__: single file executables can be called from terminal with or without file path.
 
 ### Dev setup
 
@@ -121,13 +121,13 @@ Now push the git tag and the commit with
 
 ### Configuration
 
-On the first run __asciiviewer__ will create an `.asciiviewer.cfg` config file at
+On the first run __asciiviewer__ will create an `.asciiviewer.cfg` config file inside
 `HOME` directory with [this content](./asciiviewer/assets/default.cfg).
 From this file you can disable sort and splash screen.
 
 ## Issues
 
-Any problems or bugs should be reported [here](https://github.com/tumregels/asciiviewer/issues)
+Any problems or bugs should be reported [here](https://github.com/tumregels/asciiviewer/issues).
 
 ### Known issues
 
@@ -135,7 +135,7 @@ Any problems or bugs should be reported [here](https://github.com/tumregels/asci
 
 * The program may crash unexpectedly when used with big files.
 
-* On ubuntu, during manual setup you may get `missing libgtk-x11-2.0.so.0` error.
+* On ubuntu, during manual setup, you may get `missing libgtk-x11-2.0.so.0` error.
   One solution is to reinstall `libgtk2.0` library
 
       $ sudo apt-get install --reinstall libgtk2.0-0
