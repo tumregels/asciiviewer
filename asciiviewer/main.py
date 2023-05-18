@@ -10,6 +10,7 @@ import os
 import sys
 import time
 from platform import python_version
+from textwrap import dedent
 
 import wx
 import wx.lib.agw.advancedsplash as AS
@@ -219,18 +220,18 @@ class MainWindow(wx.Frame):
         self.tree.SetFocus()
 
     def OnAbout(self, event):
-        dlg = wx.MessageDialog(self, """\
-asciiviewer {}
+        dlg = wx.MessageDialog(self, dedent("""\
+        asciiviewer {}
 
-    python {}
-    wxpython {}
+            python {}
+            wxpython {}
 
-tumregels (2021)
-https://github.com/tumregels/asciiviewer
+        tumregels (2021)
+        https://github.com/tumregels/asciiviewer
 
-Benjamin Toueg (2009)
-http://code.google.com/p/dragon-donjon-ascii-viewer/
-""".format(asciiviewer.__version__, python_version(), wx.version()), "About", wx.OK | wx.ICON_INFORMATION)
+        Benjamin Toueg (2009)
+        http://code.google.com/p/dragon-donjon-ascii-viewer/
+        """.format(asciiviewer.__version__, python_version(), wx.version())), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
 
