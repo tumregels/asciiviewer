@@ -46,7 +46,7 @@ The simplest way to do this is to convert your object into `XSM_FILE` or `SEQ_AS
 perform calculation and open the resulting output file with __asciiviewer__.
 
 The initial version of __asciiviewer__ was written by Benjamin Toueg in 2009
-and is available [here](http://code.google.com/p/dragon-donjon-ascii-viewer/).
+and is available [here](https://code.google.com/archive/p/dragon-donjon-ascii-viewer/).
 
 Here, the original source code was ported to run on both python 2 and 3 with [wxpython 4](https://www.wxpython.org/).
 Single file executables are generated with [pyinstaller](https://www.pyinstaller.org/) using [these workflows](.github/workflows)
