@@ -47,3 +47,12 @@ asciiviewer = ["assets/*", "examples/*"]
 
 [dependency-groups]
 dev = ["bump2version", "pyinstaller"]
+
+[tool.uv.sources]
+wxpython = { index = "wxpython-linux", marker = "sys_platform == 'linux'" }
+
+[[tool.uv.index]]
+name = "wxpython-linux"
+url = "https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04/"
+format = "flat"
+explicit = true
