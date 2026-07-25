@@ -14,9 +14,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@v9.0.0
 
     - name: Install dependencies
       run: uv sync
@@ -29,7 +29,7 @@ jobs:
         cd ./dist/linux
         zip asciiviewer-linux-${{ github.ref_name }}.zip asciiviewer
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: asciiviewer-linux
         path: ./dist/linux/asciiviewer-linux-${{ github.ref_name }}.zip
@@ -39,9 +39,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@v9.0.0
 
     - name: Install dependencies
       run: uv sync
@@ -56,7 +56,7 @@ jobs:
         cd ./dist/macos
         zip -r asciiviewer-macos-${{ github.ref_name }}.zip .
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: asciiviewer-macos
         path: ./dist/macos/asciiviewer-macos-${{ github.ref_name }}.zip
@@ -66,9 +66,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v5
+    - uses: astral-sh/setup-uv@v9.0.0
 
     - name: Install dependencies
       run: uv sync
@@ -81,7 +81,7 @@ jobs:
         cd .\dist\windows
         powershell Compress-Archive asciiviewer.exe asciiviewer-windows-${{ github.ref_name }}.zip
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: asciiviewer-windows
         path: .\dist\windows\asciiviewer-windows-${{ github.ref_name }}.zip
@@ -93,13 +93,13 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
           merge-multiple: true
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
