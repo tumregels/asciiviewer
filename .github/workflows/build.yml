@@ -9,7 +9,9 @@ on:
 jobs:
 
   linux:
-    runs-on: ubuntu-latest
+    # pinned to match the wxPython wheel published for ubuntu-24.04 at
+    # https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04/
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
