@@ -234,7 +234,7 @@ class MainWindow(wx.Frame):
         https://github.com/tumregels/asciiviewer
 
         Benjamin Toueg (2009)
-        http://code.google.com/p/dragon-donjon-ascii-viewer/
+        https://github.com/btoueg/LCM-object-viewer
         """.format(asciiviewer.__version__, python_version(), wx.version())), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
