@@ -67,12 +67,11 @@ Open a new terminal and clone or [download](https://github.com/tumregels/asciivi
 
     $ git clone https://github.com/tumregels/asciiviewer
 
-Now `cd` into the project folder, create a conda environment and activate it
+Now `cd` into the project folder, create a virtual environment and activate it
 
     $ cd asciiviewer
-    $ uv venv
+    $ uv sync --no-dev
     $ source .venv/bin/activate
-    (asciiviewer) $ uv pip install -e .
 
 At this point execute `asciiviewer` command
 
@@ -86,7 +85,11 @@ To open a specific DRAGON/DONJON output file from the command line
 
     (asciiviewer) $ asciiviewer ./path/to/file
 
-To generate the single file executable on your computer
+To generate the single file executable on your computer, first install the `dev` dependency group
+
+    (asciiviewer) $ uv sync --group dev
+
+then
 
     (asciiviewer) $ pyinstaller --clean --noconfirm ./asciiviewer.spec
 
@@ -100,7 +103,7 @@ __Important__: single file executables can be called from terminal with or witho
 
 For development setup first implement the [manual setup](#manual-setup) followed by
 
-    (asciiviewer) $ python -m pip install -r requirements-dev.txt
+    $ uv sync
 
 To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On MacOS and Linux
 

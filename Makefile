@@ -8,11 +8,11 @@ help: ## this help
 
 .PHONY: build-linux
 build-linux: ## build on linux
-	python -m PyInstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
+	uv run pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-mac
 build-mac: ## build on macos
-	python -m PyInstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
+	uv run pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-wine
 build-wine: ## build on wine
@@ -26,7 +26,7 @@ docker-wine: ## run docker to build windows binary with wine and python3
 
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
-	pyi-makespec \
+	uv run pyi-makespec \
 	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
 	--path ./ \
@@ -38,22 +38,6 @@ build-spec: ## build spec file for pyinstaller
 	--debug all \
 	--icon "./asciiviewer/assets/icon.ico"
 	./asciiviewer/main.py
-
-.PHONY: centos-up
-centos-up: ## start centos7
-	vagrant up centos7
-
-.PHONY: centos-ssh
-centos-ssh: ## ssh into centos7
-	vagrant ssh centos7
-
-.PHONY: conda-env
-conda-env: ## create conda environment
-	conda env create --file environment.yml
-
-.PHONY: conda-requirements
-conda-requirements: ## export/update conda requirements
-	conda env export > environment.yml
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
@@ -73,7 +57,7 @@ tag: delete-git-tag create-git-tag push-git-tag
 
 .PHONY: dist
 dist: ## create *.whl and *.tar.gz distributions
-	python3 setup.py bdist_wheel sdist
+	uv build
 	-tar xvzf dist/*.tar.gz -C dist
 	-unzip dist/*.whl -d dist/whl
 
