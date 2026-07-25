@@ -7,6 +7,9 @@ __pycache__/
 .eggs/
 *.egg-info/
 
+# venv
+venv/
+
 # pyinstaller
 build
 dist

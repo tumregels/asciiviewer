@@ -95,7 +95,7 @@ class MyFilterPanel(wx.Panel):
 
         panel5 = wx.Panel(self, -1)
         sizer5 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer5.Add((191, -1), 1, wx.EXPAND | wx.ALIGN_RIGHT)
+        sizer5.Add((191, -1), 1, wx.EXPAND)
         sizer5.Add(wx.Button(panel5, -1, 'Close', size=(50, -1)))
 
         panel5.SetSizer(sizer5)
@@ -137,7 +137,7 @@ class MyFilterPanel(wx.Panel):
 
         panel5 = wx.Panel(self, -1)
         sizer5 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer5.Add((191, -1), 1, wx.EXPAND | wx.ALIGN_RIGHT)
+        sizer5.Add((191, -1), 1, wx.EXPAND)
         self.buttonApplyFilter = wx.Button(panel5, wx.ID_DELETE, 'Apply filter')
         sizer5.Add(self.buttonApplyFilter)
 
