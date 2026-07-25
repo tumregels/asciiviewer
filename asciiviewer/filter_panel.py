@@ -121,7 +121,7 @@ class MyFilterPanel(wx.Panel):
 
     def create(self):
         panel1 = wx.Panel(self, -1)
-        grid1 = wx.GridSizer(len(self.cbList), 2)
+        grid1 = wx.GridSizer(len(self.cbList), 2, 0, 0)
         while self.cbList != []:
             cb = self.cbList.pop(0)
             comboBox1 = wx.ComboBox(panel1, -1, size=(120, -1), value=cb.defaultValue, choices=cb.choices)
