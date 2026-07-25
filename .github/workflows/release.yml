@@ -8,84 +8,81 @@ on:
 jobs:
 
   linux:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Create environment and install dependencies
-      run: |
-        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+    - uses: astral-sh/setup-uv@v5
+
+    - name: Install dependencies
+      run: uv sync
 
     - name: Create binary
-      run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+      run: uv run pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
 
     - name: Zip binary
       run: |
         cd ./dist/linux
-        zip asciiviewer-linux.zip asciiviewer
+        zip asciiviewer-linux-${{ github.ref_name }}.zip asciiviewer
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: asciiviewer-linux
-        path: ./dist/linux/asciiviewer-linux.zip
+        path: ./dist/linux/asciiviewer-linux-${{ github.ref_name }}.zip
 
   macos:
-    runs-on: macos-10.15
+    runs-on: macos-latest
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Create environment and install dependencies
-      run: |
-        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+    - uses: astral-sh/setup-uv@v5
+
+    - name: Install dependencies
+      run: uv sync
 
     - name: Create macos app
       run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
+        uv run pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -rf ./dist/macos/asciiviewer
 
     - name: Zip binary
       run: |
         cd ./dist/macos
-        zip -r asciiviewer-macos.zip .
+        zip -r asciiviewer-macos-${{ github.ref_name }}.zip .
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: asciiviewer-macos
-        path: ./dist/macos/asciiviewer-macos.zip
+        path: ./dist/macos/asciiviewer-macos-${{ github.ref_name }}.zip
 
   windows:
     runs-on: windows-latest
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Create environment and install dependencies
-      run: |
-        %CONDA%\Scripts\conda.exe env create ^
-        --file environment.yml --name asciiviewer
-      shell: cmd
+    - uses: astral-sh/setup-uv@v5
+
+    - name: Install dependencies
+      run: uv sync
 
     - name: Create binary
-      run: |
-        %CONDA%\envs\asciiviewer\Scripts\pyinstaller.exe ^
-        --clean -y --dist .\dist\windows .\asciiviewer.spec
-      shell: cmd
+      run: uv run pyinstaller --clean -y --dist .\dist\windows .\asciiviewer.spec
 
     - name: Zip binary
       run: |
         cd .\dist\windows
-        powershell Compress-Archive asciiviewer.exe asciiviewer-windows.zip
+        powershell Compress-Archive asciiviewer.exe asciiviewer-windows-${{ github.ref_name }}.zip
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: asciiviewer-windows
-        path: .\dist\windows\asciiviewer-windows.zip
+        path: .\dist\windows\asciiviewer-windows-${{ github.ref_name }}.zip
 
   release:
     needs: [ linux, macos, windows ]
@@ -93,65 +90,18 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          name: Release ${{ github.ref_name }}
           draft: true
           prerelease: true
-
-      - name: Get tag version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: asciiviewer-linux
-        continue-on-error: true
-
-      - name: Upload Linux Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./asciiviewer-linux/asciiviewer-linux.zip
-          asset_name: asciiviewer-linux-${{ steps.get_version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
-        continue-on-error: true
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: asciiviewer-macos
-        continue-on-error: true
-
-      - name: Upload MacOS Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./asciiviewer-macos/asciiviewer-macos.zip
-          asset_name: asciiviewer-macos-${{ steps.get_version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
-        continue-on-error: true
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: asciiviewer-windows
-        continue-on-error: true
-
-      - name: Upload Windows Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./asciiviewer-windows/asciiviewer-windows.zip
-          asset_name: asciiviewer-windows-${{ steps.get_version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
-        continue-on-error: true
+          files: artifacts/*
