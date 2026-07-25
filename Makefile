@@ -14,16 +14,6 @@ build-linux: ## build on linux
 build-mac: ## build on macos
 	uv run pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
-.PHONY: build-wine
-build-wine: ## build on wine
-	python -m PyInstaller --dist ./dist/windows --clean --noconfirm ./asciiviewer.spec
-
-.PHONY: docker-wine
-docker-wine: ## run docker to build windows binary with wine and python3
-	docker run -it --rm -v "$$(pwd):/src/" \
-	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install -y make && pip install -r requirements-wine.txt && make build-wine && /bin/bash"
-
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
 	uv run pyi-makespec \
