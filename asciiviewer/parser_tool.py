@@ -18,8 +18,6 @@ def elementListFromFile(filePath):
         return asciiToElementList(filePath)
 
 
-# ----------------------------------------------------------------------#
-
 class LinkedListElement:
     def __init__(self, id, level, labelType, label, contentType, content):
         self.id = id

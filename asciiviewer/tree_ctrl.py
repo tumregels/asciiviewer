@@ -117,7 +117,6 @@ class MyTreeCtrl(wx.TreeCtrl):
     # break
     # return search
 
-    # ----------------------------------------------------------------------#
 
     def getChildIdAndData(self, parent, childText):
         childId = None
@@ -146,7 +145,6 @@ class MyTreeCtrl(wx.TreeCtrl):
         childId, childData = self.getChildIdAndData(parent, childText)
         return childData
 
-    # ----------------------------------------------------------------------#
 
     def getChildrenIdAndData(self, parent):
         childrenId = []
@@ -173,7 +171,6 @@ class MyTreeCtrl(wx.TreeCtrl):
         childrenId, childrenData = self.getChildrenIdAndData(parent)
         return childrenData
 
-    # ----------------------------------------------------------------------#
 
     def expandAllChildren(self, parent):
         nc = self.GetChildrenCount(parent, False)

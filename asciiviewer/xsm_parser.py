@@ -56,7 +56,6 @@ class xsm:  # active directory resident-memory xsm structure
         self.ibloc = Block2(nbits)  # address of block 2 in memory
         self.xsmop(myFile, 2)
 
-    # ----------------------------------------------------------------------#
 
     def __str__(self):
         s = "== xsm obj ==\n"
@@ -67,7 +66,6 @@ class xsm:  # active directory resident-memory xsm structure
         s += "============"
         return s
 
-    # ----------------------------------------------------------------------#
 
     def xsmop(self, myFile, imp):
         """
@@ -104,7 +102,6 @@ class xsm:  # active directory resident-memory xsm structure
         else:
             raise AssertionError("NEW FILE MODE not implemented")
 
-    # ----------------------------------------------------------------------#
 
     def xsminf(self):
         """
@@ -133,7 +130,6 @@ class xsm:  # active directory resident-memory xsm structure
         access = self.impf
         return namxsm, nammy, empty, access
 
-    # ----------------------------------------------------------------------#
 
     def xsmlen(self, namp):
         """
@@ -158,7 +154,6 @@ class xsm:  # active directory resident-memory xsm structure
             itype = 99
         return ilong, itype
 
-    # ----------------------------------------------------------------------#
 
     def xsmnxt(self, namp=" "):
         """
@@ -207,7 +202,6 @@ class xsm:  # active directory resident-memory xsm structure
             namp = " "
         return namp
 
-    # ----------------------------------------------------------------------#
 
     def xsmget(self, namp, itylcm=1):
         """
@@ -234,7 +228,6 @@ class xsm:  # active directory resident-memory xsm structure
             namp, my_block2.mynam, self.hname))
         return data2
 
-    # ----------------------------------------------------------------------#
 
     def xsmdid(self, namp):
         """
@@ -264,7 +257,6 @@ class xsm:  # active directory resident-memory xsm structure
         jplist.idir = idir
         return jplist
 
-    # ----------------------------------------------------------------------#
 
     def xsmlid(self, namp, ilong):
         """
@@ -304,8 +296,6 @@ class xsm:  # active directory resident-memory xsm structure
         return jplist
 
 
-# ----------------------------------------------------------------------#
-
 class Block2:  # active directory resident-memory xsm structure
     def __init__(self, nbits):
         # file
@@ -341,7 +331,6 @@ class Block2:  # active directory resident-memory xsm structure
         # string list (iofmax long)
         self.cmt = []  # list of character*12 names of each block (record or directory) that belong to the active directory extent
 
-    # ----------------------------------------------------------------------#
 
     def __str__(self):
         s = "== Block2 obj ==\n"
@@ -360,7 +349,6 @@ class Block2:  # active directory resident-memory xsm structure
         s += "================"
         return s
 
-    # ----------------------------------------------------------------------#
 
     def kdiget_s(self, iofset, length=1):
         data = []
@@ -377,7 +365,6 @@ class Block2:  # active directory resident-memory xsm structure
         data.fromfile(self.ifile, length)
         return data.tolist()
 
-    # ----------------------------------------------------------------------#
 
     def xsmdir(self, ind):
         """
@@ -418,7 +405,6 @@ class Block2:  # active directory resident-memory xsm structure
         elif ind == 2:
             raise AssertionError("EXPORT not implemented")
 
-    # ----------------------------------------------------------------------#
 
     def xsmrep(self, namt, ind, idir):
         """
@@ -477,9 +463,6 @@ class Block2:  # active directory resident-memory xsm structure
                 self.idir = self.link
         return -1
 
-
-# ----------------------------------------------------------------------#
-# ----------------------------------------------------------------------#
 
 def browseXsm(xsm_list, elementList, ilev=1):
     """
