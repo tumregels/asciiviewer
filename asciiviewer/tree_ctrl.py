@@ -9,12 +9,6 @@ from asciiviewer.calculation import MyMicroLib, MyCalculation
 from asciiviewer.parser_tool import LinkedListElement
 from asciiviewer.ref_case import MyRefcase
 
-try:
-    import ROOT
-    from ROOT import gROOT, TCanvas, TH2F
-except ImportError:
-    print("ROOT couldn't be imported, continuing anyway...")
-
 
 class MyTreeCtrl(wx.TreeCtrl):
     def __init__(self, parent):
@@ -411,53 +405,6 @@ class MyTreeCtrl(wx.TreeCtrl):
         # myCalculation.initializeOnceFilled()
         ##myCalculation.computeDiffFromSTRD()
         # eltData.content = myCalculation
-
-    def computeFluxMap(self, eltId, eltData, parentId, parentData):
-        groupList = self.getChildrenId(eltId)
-        self.c = []
-        fluxMapList = []
-        for gElt in groupList:
-            groupNumber = self.GetItemText(gElt)
-            gData = self.getChildData(gElt, 'FLUX-INTG')
-            fluxMapList.append(gData.content)
-        gNb = 0
-        nx = 60
-        ny = 60
-        nz = 29
-        # for each energy group
-        for fluxMap in fluxMapList:
-            gNb += 1
-            groupNumber = '%d' % gNb
-            gROOT.Reset()
-            c = TCanvas(groupNumber, '2D Histograms of group ' + groupNumber + ' (FLUX-INTG)', 0, 0, 700, 600)
-            histFlux = TH2F(groupNumber, 'Flux of group ' + groupNumber, nx, -nx / 2, nx / 2, ny, -ny / 2, ny / 2)
-            histFlux.GetXaxis().SetTitle("X axis title")
-            histFlux.GetXaxis().SetDecimals(ROOT.kTRUE)
-            histFlux.GetYaxis().SetTitle("Y axis title")
-            for n in range(nx * ny):
-                x = n / nx - (nx + 1) / 2
-                y = n % ny - (ny + 1) / 2
-                z = float(fluxMap[(nz - 1) * nx * ny + n])
-                histFlux.Fill(int(x), int(y), z)
-            histFlux.DrawCopy('LEGO2')
-            ROOT.gStyle.SetPalette(1)
-            c.Update()
-            self.c.append(c)
-        # for group 1 over group 2
-        gROOT.Reset()
-        c = TCanvas('ratio', '2D Histograms of group 1 over group 2 ratio (FLUX-INTG)', 0, 0, 700, 600)
-        histFlux = TH2F('ratio', 'Flux ratio', nx, -nx / 2, nx / 2, ny, -ny / 2, ny / 2)
-        histFlux.GetXaxis().SetTitle("X axis title")
-        histFlux.GetYaxis().SetTitle("Y axis title")
-        for n in range(nx * ny):
-            x = n / nx - (nx + 1) / 2
-            y = n % ny - (ny + 1) / 2
-            z = float(fluxMapList[0][(nz - 1) * nx * ny + n]) / float(fluxMapList[1][(nz - 1) * nx * ny + n])
-            histFlux.Fill(x, y, z)
-        histFlux.DrawCopy('LEGO2')
-        ROOT.gStyle.SetPalette(1)
-        c.Update()
-        self.c.append(c)
 
     def BuildTree(self, elementList, fExpand, fSort):
         root = self.GetRootItem()

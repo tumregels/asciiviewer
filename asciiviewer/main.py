@@ -338,7 +338,6 @@ class MainWindow(wx.Frame):
             reactionRate = (self.tree.find(eltId, 'FLUX-INTG'.lower(), searchAll=False) != [])
             if reactionRate:
                 self.tree.computeReactionRate(eltId, eltData, parentId, parentData)
-            # self.tree.computeFluxMap(eltId,eltData,parentId,parentData)
         elif eltDataContent is not None and len(eltDataContent) > 0:
             self.rightPanel.Show()
             self.filterPanel.Hide()
