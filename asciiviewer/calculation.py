@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
 from asciiviewer.table import MyCalculationTable
 
 
@@ -235,7 +231,7 @@ class MyCalculation:
 
     def addCalc(self, muplet, microLib):
         muplet = tuple(muplet)
-        if self.mupletMicroLib.has_key(muplet):
+        if muplet in self.mupletMicroLib:
             raise AssertionError('mupletMicroLib should not have any microLib for this muplet yet')
         self.mupletMicroLib[muplet] = microLib
         self.maxAnisoOrder = max(self.maxAnisoOrder, microLib.nAnisoOrder)

@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
-
 class MyRefcase:
     def __init__(self):
         self.dicoIsotope = {}
@@ -55,9 +50,9 @@ class MyRefcase:
     def addXS(self, isotope, eltData):
         nameXS = eltData.label
         dicoXS = {}
-        if self.dicoIsotope.has_key(isotope):
+        if isotope in self.dicoIsotope:
             dicoXS = self.dicoIsotope[isotope]
-        if dicoXS.has_key(nameXS):
+        if nameXS in dicoXS:
             print("XS ", nameXS, " already defined for this isotope ", isotope)
         dicoXS[nameXS] = eltData.content
         self.dicoIsotope[isotope] = dicoXS
@@ -70,7 +65,7 @@ class MyRefcase:
         for nameIso, dicoXS in self.dicoIsotope.items():
             for nameXS, valueList in dicoXS.items():
                 nValue = len(valueList)
-                if not (dicoMacro.has_key(nameXS)):
+                if nameXS not in dicoMacro:
                     dicoMacro[nameXS] = [0.] * nValue
                 elif nValue > len(dicoMacro[nameXS]):
                     dicoMacro[nameXS] = [0.] * nValue

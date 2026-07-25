@@ -23,7 +23,6 @@ wheels = [
 name = "asciiviewer"
 source = { editable = "." }
 dependencies = [
-    { name = "six" },
     { name = "wxpython", version = "4.2.5", source = { registry = "https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04/" }, marker = "sys_platform == 'linux'" },
     { name = "wxpython", version = "4.2.5", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux'" },
 ]
@@ -36,7 +35,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "six", specifier = "==1.17.0" },
     { name = "wxpython", marker = "sys_platform != 'linux'", specifier = ">=4.2.5" },
     { name = "wxpython", marker = "sys_platform == 'linux'", specifier = ">=4.2.5", index = "https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04/" },
 ]
@@ -291,15 +289,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/34/26/f5d29e25ffdb535afef2d35cdb55b325298f96debd670da4c325e08d70f4/setuptools-83.0.0.tar.gz", hash = "sha256:025bccbbf0fa05b6192bc64ae1e7b16e001fd6d6d4d5de03c97b1c1ade523bef", size = 1154254, upload-time = "2026-07-04T15:31:22.699Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5d/40/e1e72872c6354b306daef1703549e8e83b4d43cfea356311bf722a043752/setuptools-83.0.0-py3-none-any.whl", hash = "sha256:29b23c360f22f414dc7336bb39178cc7bcbf6021ed2733cde173f09dba19abb3", size = 1008090, upload-time = "2026-07-04T15:31:20.885Z" },
-]
-
-[[package]]
-name = "six"
-version = "1.17.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
 ]
 
 [[package]]

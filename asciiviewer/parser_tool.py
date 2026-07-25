@@ -1,10 +1,7 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # author : Benjamin Toueg
 # date : 30/10/10
-
-from __future__ import print_function
 
 
 def elementListFromFile(filePath):

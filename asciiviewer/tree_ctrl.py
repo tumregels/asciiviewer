@@ -1,17 +1,13 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
+import configparser
+import collections.abc
 import os
 
 import wx
-from six.moves import configparser
 
 from asciiviewer import parser_tool
 from asciiviewer.calculation import MyMicroLib, MyCalculation
 from asciiviewer.parser_tool import LinkedListElement
 from asciiviewer.ref_case import MyRefcase
-from asciiviewer.utils import isSequenceType
 
 try:
     import ROOT
@@ -274,7 +270,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         childrenId, childrenData = self.getChildrenIdAndData(eltId)
         for i, nodeId in enumerate(childrenId):
             content = childrenData[i].content.getContent()
-            if isSequenceType(content) and content != []:
+            if isinstance(content, collections.abc.Sequence) and content != []:
                 summary.append((self.GetItemText(nodeId), childrenData[i].contentType, content))
             else:
                 summary.append((self.GetItemText(nodeId), 3, ["Directory"]))
