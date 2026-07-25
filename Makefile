@@ -24,6 +24,10 @@ build-spec: ## build spec file for pyinstaller
 	--add-data="./asciiviewer/assets/default.cfg:assets" \
 	--add-data="./asciiviewer/examples/fmap:examples" \
 	--add-data="./asciiviewer/examples/MCOMPO_UOX_TBH:examples" \
+	--add-data="./asciiviewer/examples/BurnupV3:examples" \
+	--add-data="./asciiviewer/examples/MultiCompoV4:examples" \
+	--add-data="./asciiviewer/examples/XsmFuelMapV4:examples" \
+	--add-data="./asciiviewer/examples/XsmMultiCompoV4:examples" \
 	--log-level DEBUG \
 	--debug all \
 	--icon "./asciiviewer/assets/icon.ico"

@@ -8,6 +8,10 @@ datas = [
     ('asciiviewer/assets/default.cfg', 'assets'),
     ('asciiviewer/examples/fmap', 'examples'),
     ('asciiviewer/examples/MCOMPO_UOX_TBH', 'examples'),
+    ('asciiviewer/examples/BurnupV3', 'examples'),
+    ('asciiviewer/examples/MultiCompoV4', 'examples'),
+    ('asciiviewer/examples/XsmFuelMapV4', 'examples'),
+    ('asciiviewer/examples/XsmMultiCompoV4', 'examples'),
     ('asciiviewer/assets/icon.ico', 'assets'),
 ]
 
