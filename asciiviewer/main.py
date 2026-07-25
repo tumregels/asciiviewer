@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
 # author : Benjamin Toueg
 # date : 25/11/09
 
 # FIXME : table view overwrites standard view in edition ref-case
-from __future__ import print_function
-
+import configparser
+import collections.abc
 import os
 import sys
 import time
@@ -14,16 +12,22 @@ from textwrap import dedent
 
 import wx
 import wx.lib.agw.advancedsplash as AS
-from six.moves import configparser
 
 import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
 from asciiviewer.find_replace_dialog import MyFindReplaceDialog
-from asciiviewer.menu_bar import *
+from asciiviewer.menu_bar import (
+    MyMenuBar,
+    ID_OPEN,
+    ID_ABOUT,
+    ID_EXIT,
+    ID_EXPAND_ALL,
+    ID_COLLAPSE_ALL,
+    ID_COLLAPSE_CHILDREN,
+)
 from asciiviewer.sheet import MySheet
 from asciiviewer.table import MyTableColumn, MySummaryTable
 from asciiviewer.tree_ctrl import MyTreeCtrl
-from asciiviewer.utils import isSequenceType
 
 ID_BUTTON = 100
 
@@ -89,7 +93,7 @@ class MainWindow(wx.Frame):
 
     def OnKeyDown(self, evt):
         keyCode = evt.GetKeyCode()
-        if keyCode == wx.WXK_F3 and self.searchedNode == None:
+        if keyCode == wx.WXK_F3 and self.searchedNode is None:
             # key 'F3'
             findEvt = wx.FindDialogEvent()
             if evt.ShiftDown():
@@ -139,7 +143,7 @@ class MainWindow(wx.Frame):
         self.showItem(item)
 
     def showItem(self, item):
-        if item != None:
+        if item is not None:
             nodeId, idx = item
             self.tree.SelectItem(nodeId)
             self.sheet.ClearSelection()
@@ -300,7 +304,7 @@ class MainWindow(wx.Frame):
         if eltId != self.tree.GetRootItem():
             eltDataLabel = eltData.label
             eltDataContentObject = eltData.content
-            if isSequenceType(eltDataContentObject):
+            if isinstance(eltDataContentObject, collections.abc.Sequence):
                 eltDataContent = eltDataContentObject
             else:
                 eltDataContent = eltDataContentObject.getContent()
@@ -313,7 +317,7 @@ class MainWindow(wx.Frame):
             # first time a calculation node is selected
             self.tree.computeMulticompoCalculation(eltId, eltData, parentId, parentData)
             self.OnSelChanged(evt, False)
-        elif eltDataLabel == 'REF-CASE   1' and eltData.content != None:
+        elif eltDataLabel == 'REF-CASE   1' and eltData.content is not None:
             self.rightPanel.Show()
             self.filterPanel.Show()
             self.filterPanel.clear()
@@ -324,7 +328,7 @@ class MainWindow(wx.Frame):
             self.Bind(wx.EVT_BUTTON, self.OnClickedRefcase)
             myRefcase.setFilterPanel(self.filterPanel)
             self.sheet.displayRefcase(myRefcase, myRefcase.filteredXS, [1, 2])
-        elif eltDataLabel == 'REF-CASE   1' and eltData.content == None:
+        elif eltDataLabel == 'REF-CASE   1' and eltData.content is None:
             self.tree.computeEditionRefcase(eltId, eltData, parentId, parentData)
             self.OnSelChanged(evt, False)
         elif eltDataLabel == 'GROUP' and eltData.content != []:
@@ -335,11 +339,11 @@ class MainWindow(wx.Frame):
             if reactionRate:
                 self.tree.computeReactionRate(eltId, eltData, parentId, parentData)
             # self.tree.computeFluxMap(eltId,eltData,parentId,parentData)
-        elif eltDataContent != None and len(eltDataContent) > 0:
+        elif eltDataContent is not None and len(eltDataContent) > 0:
             self.rightPanel.Show()
             self.filterPanel.Hide()
             # with table controler
-            if eltData.table == None:
+            if eltData.table is None:
                 eltData.table = MyTableColumn(eltData.label, eltDataContent)
             self.sheet.SetTable(eltData.table)
             self.sheet.autosizeRowLabel()

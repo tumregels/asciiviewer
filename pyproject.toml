@@ -26,7 +26,6 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-    "six==1.17.0",
     "wxPython>=4.2.5",
 ]
 

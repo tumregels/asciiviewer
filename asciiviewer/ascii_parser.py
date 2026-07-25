@@ -1,12 +1,9 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # author : Benjamin Toueg
 # date : 24/11/09
 
-from __future__ import print_function
-
-from asciiviewer.parser_tool import *
+from asciiviewer.parser_tool import Content, LinkedListElement, fancyStep
 
 
 def asciiToElementList(filePath):
