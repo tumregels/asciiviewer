@@ -61,8 +61,7 @@ Otherwise set it up [manually](#manual-setup).
 
 ### Manual setup
 
-First step is to install [miniconda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
-which requires no admin priviledges.
+First step is to install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
 Open a new terminal and clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the project
 
@@ -71,8 +70,9 @@ Open a new terminal and clone or [download](https://github.com/tumregels/asciivi
 Now `cd` into the project folder, create a conda environment and activate it
 
     $ cd asciiviewer
-    $ conda env create -f environment.yml
-    $ source activate asciiviewer
+    $ uv venv
+    $ source .venv/bin/activate
+    (asciiviewer) $ uv pip install -e .
 
 At this point execute `asciiviewer` command
 
@@ -81,10 +81,6 @@ At this point execute `asciiviewer` command
 or
 
     (asciiviewer) $ python asciiviewer/main.py
-
-on MacOS you need to use `pythonw`
-
-    (asciiviewer) $ pythonw asciiviewer/main.py
 
 To open a specific DRAGON/DONJON output file from the command line
 
