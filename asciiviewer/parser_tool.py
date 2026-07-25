@@ -5,10 +5,10 @@
 
 
 def elementListFromFile(filePath):
-    with open(filePath) as inputfile:
-        # read the 4 first character
+    with open(filePath, 'rb') as inputfile:
+        # read the 4 first bytes
         head = inputfile.read(4)
-    if '$XSM' in head:
+    if head == b'$XSM':
         # if the first four characters are "$XSM" it's most certainly a XSM file
         from asciiviewer.xsm_parser import xsmToElementList
         return xsmToElementList(filePath)
