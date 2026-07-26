@@ -1,0 +1,11 @@
+name: asciiviewer
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - wxpython=4.2.5
+  - pip:
+    - pyinstaller
+    - --editable .
