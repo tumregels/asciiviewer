@@ -8,15 +8,15 @@ help: ## this help
 
 .PHONY: build-linux
 build-linux: ## build on linux
-	uv run pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
+	pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-mac
 build-mac: ## build on macos
-	uv run pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
+	pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-spec
 build-spec: ## build spec file for pyinstaller
-	uv run pyi-makespec \
+	pyi-makespec \
 	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
 	--path ./ \
@@ -51,7 +51,7 @@ tag: delete-git-tag create-git-tag push-git-tag
 
 .PHONY: dist
 dist: ## create *.whl and *.tar.gz distributions
-	uv build
+	python -m build
 	-tar xvzf dist/*.tar.gz -C dist
 	-unzip dist/*.whl -d dist/whl
 
