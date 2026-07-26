@@ -64,7 +64,7 @@ Otherwise set it up [manually](#manual-setup).
 First step is to install [miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 which requires no admin priviledges.
 
-Open a new terminal and clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the project
+Open a new terminal and clone the project
 
     $ git clone https://github.com/tumregels/asciiviewer
 
@@ -128,8 +128,6 @@ Any problems or bugs should be reported [here](https://github.com/tumregels/asci
 ### Known issues
 
 * The __asciiviewer__ executables are not signed and you will get warnings on MacOS and Windows.
-
-* The program may crash unexpectedly when used with big files.
 
 * On ubuntu, during manual setup, you may get `missing libgtk-x11-2.0.so.0` error.
   One solution is to reinstall `libgtk2.0` library
