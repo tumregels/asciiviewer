@@ -73,6 +73,12 @@ Now `cd` into the project folder, create a virtual environment and activate it
     $ uv sync --no-dev
     $ source .venv/bin/activate
 
+__Linux__: wxPython has no PyPI wheel for Linux, so `uv sync` only works out of the
+box on Ubuntu 24.04 (what CI builds on; see the pinned index in `pyproject.toml`).
+On any other distro, run `python scripts/uv_sync_linux.py` instead of `uv sync`
+above — it detects your distro and installs wxPython from the matching prebuilt
+wheel directory at [extras.wxpython.org](https://extras.wxpython.org/wxPython4/extras/linux/gtk3/).
+
 At this point execute `asciiviewer` command
 
     (asciiviewer) $ asciiviewer
