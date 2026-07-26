@@ -61,7 +61,8 @@ Otherwise set it up [manually](#manual-setup).
 
 ### Manual setup
 
-First step is to install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+First step is to install [miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+which requires no admin priviledges.
 
 Open a new terminal and clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the project
 
@@ -70,14 +71,8 @@ Open a new terminal and clone or [download](https://github.com/tumregels/asciivi
 Now `cd` into the project folder, create a virtual environment and activate it
 
     $ cd asciiviewer
-    $ uv sync --no-dev
-    $ source .venv/bin/activate
-
-__Linux__: wxPython has no PyPI wheel for Linux, so `uv sync` only works out of the
-box on Ubuntu 24.04 (what CI builds on; see the pinned index in `pyproject.toml`).
-On any other distro, run `python scripts/uv_sync_linux.py` instead of `uv sync`
-above — it detects your distro and installs wxPython from the matching prebuilt
-wheel directory at [extras.wxpython.org](https://extras.wxpython.org/wxPython4/extras/linux/gtk3/).
+    $ conda env create -f environment.yml
+    $ source activate asciiviewer
 
 At this point execute `asciiviewer` command
 
@@ -91,11 +86,7 @@ To open a specific DRAGON/DONJON output file from the command line
 
     (asciiviewer) $ asciiviewer ./path/to/file
 
-To generate the single file executable on your computer, first install the `dev` dependency group
-
-    (asciiviewer) $ uv sync --group dev
-
-then
+To generate the single file executable on your computer
 
     (asciiviewer) $ pyinstaller --clean --noconfirm ./asciiviewer.spec
 
@@ -109,7 +100,7 @@ __Important__: single file executables can be called from terminal with or witho
 
 For development setup first implement the [manual setup](#manual-setup) followed by
 
-    $ uv sync
+    (asciiviewer) $ pip install -e ".[dev]"
 
 To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On MacOS and Linux
 
