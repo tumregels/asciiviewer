@@ -5,24 +5,26 @@ on:
     tags:
     - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
+defaults:
+  run:
+    shell: bash -el {0}
+
 jobs:
 
   linux:
-    # pinned to match the wxPython wheel published for ubuntu-24.04 at
-    # https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-24.04/
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v9.0.0
-
-    - name: Install dependencies
-      run: uv sync
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
 
     - name: Create binary
-      run: uv run pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+      run: pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
 
     - name: Zip binary
       run: |
@@ -41,14 +43,14 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v9.0.0
-
-    - name: Install dependencies
-      run: uv sync
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
 
     - name: Create macos app
       run: |
-        uv run pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
+        pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -rf ./dist/macos/asciiviewer
 
     - name: Zip binary
@@ -68,15 +70,16 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
-    - uses: astral-sh/setup-uv@v9.0.0
-
-    - name: Install dependencies
-      run: uv sync
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
 
     - name: Create binary
-      run: uv run pyinstaller --clean -y --dist .\dist\windows .\asciiviewer.spec
+      run: pyinstaller --clean -y --dist ./dist/windows ./asciiviewer.spec
 
     - name: Zip binary
+      shell: pwsh
       run: |
         cd .\dist\windows
         powershell Compress-Archive asciiviewer.exe asciiviewer-windows-${{ github.ref_name }}.zip
