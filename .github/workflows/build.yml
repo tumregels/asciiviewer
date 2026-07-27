@@ -25,12 +25,17 @@ jobs:
         environment-file: environment.yml
         activate-environment: asciiviewer
 
+    - name: Detect OS label
+      run: |
+        . /etc/os-release
+        echo "OS_LABEL=${ID}-${VERSION_ID}" >> "$GITHUB_ENV"
+
     - name: Create binary
       run: pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
 
     - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-linux
+        name: asciiviewer-${{ env.OS_LABEL }}
         path: ./dist/linux
 
   macos:
@@ -46,6 +51,9 @@ jobs:
         environment-file: environment.yml
         activate-environment: asciiviewer
 
+    - name: Detect OS label
+      run: echo "OS_LABEL=macos-$(sw_vers -productVersion | cut -d. -f1)" >> "$GITHUB_ENV"
+
     - name: Create macos app
       run: |
         pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
@@ -53,7 +61,7 @@ jobs:
 
     - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-macos
+        name: asciiviewer-${{ env.OS_LABEL }}
         path: ./dist/macos
 
   windows:
@@ -69,10 +77,17 @@ jobs:
         environment-file: environment.yml
         activate-environment: asciiviewer
 
+    - name: Detect OS label
+      shell: pwsh
+      run: |
+        $caption = (Get-CimInstance Win32_OperatingSystem).Caption
+        $year = [regex]::Match($caption, '\d{4}').Value
+        echo "OS_LABEL=windows-$year" >> $env:GITHUB_ENV
+
     - name: Create binary
       run: pyinstaller --clean -y --dist ./dist/windows64 ./asciiviewer.spec
 
     - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-windows64
+        name: asciiviewer-${{ env.OS_LABEL }}
         path: ./dist/windows64
