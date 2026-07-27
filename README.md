@@ -61,14 +61,14 @@ Otherwise set it up [manually](#manual-setup).
 
 ### Manual setup
 
-First step is to install [miniconda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
+First step is to install [miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 which requires no admin priviledges.
 
-Open a new terminal and clone or [download](https://github.com/tumregels/asciiviewer/archive/master.zip) the project
+Open a new terminal and clone the project
 
     $ git clone https://github.com/tumregels/asciiviewer
 
-Now `cd` into the project folder, create a conda environment and activate it
+Now `cd` into the project folder, create a virtual environment and activate it
 
     $ cd asciiviewer
     $ conda env create -f environment.yml
@@ -81,10 +81,6 @@ At this point execute `asciiviewer` command
 or
 
     (asciiviewer) $ python asciiviewer/main.py
-
-on MacOS you need to use `pythonw`
-
-    (asciiviewer) $ pythonw asciiviewer/main.py
 
 To open a specific DRAGON/DONJON output file from the command line
 
@@ -104,7 +100,7 @@ __Important__: single file executables can be called from terminal with or witho
 
 For development setup first implement the [manual setup](#manual-setup) followed by
 
-    (asciiviewer) $ python -m pip install -r requirements-dev.txt
+    (asciiviewer) $ pip install -e ".[dev]"
 
 To get a detailed traceback set [`PYTHONFAULTHANDLER`](https://docs.python.org/dev/using/cmdline.html#envvar-PYTHONFAULTHANDLER). On MacOS and Linux
 
@@ -132,8 +128,6 @@ Any problems or bugs should be reported [here](https://github.com/tumregels/asci
 ### Known issues
 
 * The __asciiviewer__ executables are not signed and you will get warnings on MacOS and Windows.
-
-* The program may crash unexpectedly when used with big files.
 
 * On ubuntu, during manual setup, you may get `missing libgtk-x11-2.0.so.0` error.
   One solution is to reinstall `libgtk2.0` library

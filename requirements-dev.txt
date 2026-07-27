@@ -1,2 +1,0 @@
-bump2version
-faulthandler ; python_version < '3'

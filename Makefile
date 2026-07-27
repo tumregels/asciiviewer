@@ -1,32 +1,27 @@
 .DEFAULT_GOAL := help
 
-VERSION = 0.2.0
+VERSION = 0.3.0
+ENV_NAME = asciiviewer
 
 .PHONY: help
 help: ## this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_0-9-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
+.PHONY: conda-env
+conda-env: ## create the conda environment if it doesn't already exist
+	@conda env list | grep -qE "^$(ENV_NAME)[[:space:]]" || conda env create -f environment.yml
+
 .PHONY: build-linux
-build-linux: ## build on linux
-	python -m PyInstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
+build-linux: conda-env ## build on linux
+	conda run --no-capture-output -n $(ENV_NAME) pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-mac
-build-mac: ## build on macos
-	python -m PyInstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
-
-.PHONY: build-wine
-build-wine: ## build on wine
-	python -m PyInstaller --dist ./dist/windows --clean --noconfirm ./asciiviewer.spec
-
-.PHONY: docker-wine
-docker-wine: ## run docker to build windows binary with wine and python3
-	docker run -it --rm -v "$$(pwd):/src/" \
-	--entrypoint /bin/sh cdrx/pyinstaller-windows:python3-32bit \
-	-c "apt-get install -y make && pip install -r requirements-wine.txt && make build-wine && /bin/bash"
+build-mac: conda-env ## build on macos
+	conda run --no-capture-output -n $(ENV_NAME) pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-spec
-build-spec: ## build spec file for pyinstaller
-	pyi-makespec \
+build-spec: conda-env ## build spec file for pyinstaller
+	conda run --no-capture-output -n $(ENV_NAME) pyi-makespec \
 	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
 	--path ./ \
@@ -34,26 +29,14 @@ build-spec: ## build spec file for pyinstaller
 	--add-data="./asciiviewer/assets/default.cfg:assets" \
 	--add-data="./asciiviewer/examples/fmap:examples" \
 	--add-data="./asciiviewer/examples/MCOMPO_UOX_TBH:examples" \
+	--add-data="./asciiviewer/examples/BurnupV3:examples" \
+	--add-data="./asciiviewer/examples/MultiCompoV4:examples" \
+	--add-data="./asciiviewer/examples/XsmFuelMapV4:examples" \
+	--add-data="./asciiviewer/examples/XsmMultiCompoV4:examples" \
 	--log-level DEBUG \
 	--debug all \
-	--icon "./asciiviewer/assets/icon.ico"
+	--icon "./asciiviewer/assets/icon.ico" \
 	./asciiviewer/main.py
-
-.PHONY: centos-up
-centos-up: ## start centos7
-	vagrant up centos7
-
-.PHONY: centos-ssh
-centos-ssh: ## ssh into centos7
-	vagrant ssh centos7
-
-.PHONY: conda-env
-conda-env: ## create conda environment
-	conda env create --file environment.yml
-
-.PHONY: conda-requirements
-conda-requirements: ## export/update conda requirements
-	conda env export > environment.yml
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
@@ -73,7 +56,7 @@ tag: delete-git-tag create-git-tag push-git-tag
 
 .PHONY: dist
 dist: ## create *.whl and *.tar.gz distributions
-	python3 setup.py bdist_wheel sdist
+	python -m build
 	-tar xvzf dist/*.tar.gz -C dist
 	-unzip dist/*.whl -d dist/whl
 

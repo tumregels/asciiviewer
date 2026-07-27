@@ -23,6 +23,19 @@ class MySheet(sheet.CSheet):
             wx.Font(self.pointSize, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
         self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 
+    def SetTable(self, table, *args, **kwargs):
+        # wx.grid.Grid.SetTable() defaults to takeOwnership=False, so the C++ grid
+        # keeps only a raw pointer to the table and calls back into its Python
+        # GridTableBase methods during the swap. The table objects here (eltData.table)
+        # are otherwise only kept alive by the tree item's data, which gets freed
+        # when the tree is rebuilt for a new file (see MainWindow.OnOpenFile). If that
+        # drops the outgoing table's last reference, CPython deallocates it immediately -
+        # while the C++ side is still using it to detach - and segfaults. Keep it alive
+        # (via self._currentTable) until after SetTable() has finished the swap.
+        result = super(MySheet, self).SetTable(table, *args, **kwargs)
+        self._currentTable = table
+        return result
+
     def autosizeRowLabel(self):
         nDigits = len(str(self.GetNumberRows()))
         self.SetRowLabelSize((nDigits + 1) * self.pointSize)

@@ -1,12 +1,11 @@
 name: asciiviewer
 channels:
-  - anaconda
+  - conda-forge
   - defaults
 dependencies:
-  - python=3.7.9
+  - python=3.12
   - pip
-  - wxpython=4.0.4
-  - six=1.15.0
+  - wxpython=4.2.5
   - pip:
-    - pyinstaller==3.6
+    - pyinstaller
     - --editable .

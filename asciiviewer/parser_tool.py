@@ -1,17 +1,14 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # author : Benjamin Toueg
 # date : 30/10/10
 
-from __future__ import print_function
-
 
 def elementListFromFile(filePath):
-    with open(filePath) as inputfile:
-        # read the 4 first character
+    with open(filePath, 'rb') as inputfile:
+        # read the 4 first bytes
         head = inputfile.read(4)
-    if '$XSM' in head:
+    if head == b'$XSM':
         # if the first four characters are "$XSM" it's most certainly a XSM file
         from asciiviewer.xsm_parser import xsmToElementList
         return xsmToElementList(filePath)
@@ -20,8 +17,6 @@ def elementListFromFile(filePath):
         from asciiviewer.ascii_parser import asciiToElementList
         return asciiToElementList(filePath)
 
-
-# ----------------------------------------------------------------------#
 
 class LinkedListElement:
     def __init__(self, id, level, labelType, label, contentType, content):

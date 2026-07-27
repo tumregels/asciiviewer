@@ -1,16 +1,13 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 # author : Benjamin Toueg
 # date : 10/10/10
 
 # original source code from Ganlib Version5 in C and FORTRAN77
-from __future__ import print_function
-
 from array import array
 from copy import copy
 
-from asciiviewer.parser_tool import *
+from asciiviewer.parser_tool import Content, LinkedListElement
 
 iofmax = 30
 maxit = 100
@@ -22,7 +19,7 @@ klong = 5 + iwrd + (3 + iwrd) * iofmax
 def xsmToElementList(filePath):
     with open(filePath, 'rb') as inputfile:
         head = inputfile.read(8)
-        if head == '$XSM    ':
+        if head == b'$XSM    ':
             nbits = '64bits'
         else:
             nbits = '32bits'
@@ -59,7 +56,6 @@ class xsm:  # active directory resident-memory xsm structure
         self.ibloc = Block2(nbits)  # address of block 2 in memory
         self.xsmop(myFile, 2)
 
-    # ----------------------------------------------------------------------#
 
     def __str__(self):
         s = "== xsm obj ==\n"
@@ -70,7 +66,6 @@ class xsm:  # active directory resident-memory xsm structure
         s += "============"
         return s
 
-    # ----------------------------------------------------------------------#
 
     def xsmop(self, myFile, imp):
         """
@@ -107,7 +102,6 @@ class xsm:  # active directory resident-memory xsm structure
         else:
             raise AssertionError("NEW FILE MODE not implemented")
 
-    # ----------------------------------------------------------------------#
 
     def xsminf(self):
         """
@@ -136,7 +130,6 @@ class xsm:  # active directory resident-memory xsm structure
         access = self.impf
         return namxsm, nammy, empty, access
 
-    # ----------------------------------------------------------------------#
 
     def xsmlen(self, namp):
         """
@@ -161,7 +154,6 @@ class xsm:  # active directory resident-memory xsm structure
             itype = 99
         return ilong, itype
 
-    # ----------------------------------------------------------------------#
 
     def xsmnxt(self, namp=" "):
         """
@@ -210,7 +202,6 @@ class xsm:  # active directory resident-memory xsm structure
             namp = " "
         return namp
 
-    # ----------------------------------------------------------------------#
 
     def xsmget(self, namp, itylcm=1):
         """
@@ -237,7 +228,6 @@ class xsm:  # active directory resident-memory xsm structure
             namp, my_block2.mynam, self.hname))
         return data2
 
-    # ----------------------------------------------------------------------#
 
     def xsmdid(self, namp):
         """
@@ -267,7 +257,6 @@ class xsm:  # active directory resident-memory xsm structure
         jplist.idir = idir
         return jplist
 
-    # ----------------------------------------------------------------------#
 
     def xsmlid(self, namp, ilong):
         """
@@ -282,7 +271,7 @@ class xsm:  # active directory resident-memory xsm structure
         JPLIST : ADDRESS OF THE DAUGHTER LIST.
         """
         if ilong <= 0:
-            raise AssertionError("INVALID LENGTH (%d) FOR NODE '%s' IN THE XSM FILE '%s'." % (ilong, self.hname))
+            raise AssertionError("INVALID LENGTH (%d) FOR NODE '%s' IN THE XSM FILE '%s'." % (ilong, namp, self.hname))
         my_block2 = self.ibloc
         iii = my_block2.xsmrep(namp, 2, self.idir)
         lenold = my_block2.jlon[iii]
@@ -306,8 +295,6 @@ class xsm:  # active directory resident-memory xsm structure
             jplist.append(iofset)
         return jplist
 
-
-# ----------------------------------------------------------------------#
 
 class Block2:  # active directory resident-memory xsm structure
     def __init__(self, nbits):
@@ -344,7 +331,6 @@ class Block2:  # active directory resident-memory xsm structure
         # string list (iofmax long)
         self.cmt = []  # list of character*12 names of each block (record or directory) that belong to the active directory extent
 
-    # ----------------------------------------------------------------------#
 
     def __str__(self):
         s = "== Block2 obj ==\n"
@@ -363,15 +349,14 @@ class Block2:  # active directory resident-memory xsm structure
         s += "================"
         return s
 
-    # ----------------------------------------------------------------------#
 
     def kdiget_s(self, iofset, length=1):
         data = []
         offset = iofset * self.lnword
         self.ifile.seek(offset)
-        for i in xrange(length):
+        for i in range(length):
             data.append(self.ifile.read(self.lnword)[:4])
-        return "".join(data)
+        return b"".join(data).decode("latin-1")
 
     def kdiget(self, iofset, length=1, datatype='integer'):
         data = array(self.typedico[datatype])
@@ -380,7 +365,6 @@ class Block2:  # active directory resident-memory xsm structure
         data.fromfile(self.ifile, length)
         return data.tolist()
 
-    # ----------------------------------------------------------------------#
 
     def xsmdir(self, ind):
         """
@@ -415,13 +399,12 @@ class Block2:  # active directory resident-memory xsm structure
                 self.jtyp = self.kdiget(ipos, self.nmt)
                 ipos += iofma2
                 self.cmt = []
-                for i in xrange(self.nmt):
+                for i in range(self.nmt):
                     self.cmt.append(self.kdiget_s(ipos, 3))
                     ipos += iwrd
         elif ind == 2:
             raise AssertionError("EXPORT not implemented")
 
-    # ----------------------------------------------------------------------#
 
     def xsmrep(self, namt, ind, idir):
         """
@@ -480,9 +463,6 @@ class Block2:  # active directory resident-memory xsm structure
                 self.idir = self.link
         return -1
 
-
-# ----------------------------------------------------------------------#
-# ----------------------------------------------------------------------#
 
 def browseXsm(xsm_list, elementList, ilev=1):
     """

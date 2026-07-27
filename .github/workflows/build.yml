@@ -6,49 +6,62 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    shell: bash -el {0}
+
 jobs:
 
   linux:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
 
-    - name: Create environment and install dependencies
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
+
+    - name: Detect OS label
       run: |
-        $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+        . /etc/os-release
+        echo "OS_LABEL=${ID}-${VERSION_ID}" >> "$GITHUB_ENV"
 
     - name: Create binary
-      run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+      run: pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-linux
+        name: asciiviewer-${{ env.OS_LABEL }}
         path: ./dist/linux
 
   macos:
-    runs-on: macos-10.15
+    runs-on: macos-latest
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
 
-    - name: Create environment and install dependencies
-      run: |
-        sudo $CONDA/bin/conda env create --file environment.yml --name asciiviewer
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
+
+    - name: Detect OS label
+      run: echo "OS_LABEL=macos-$(sw_vers -productVersion | cut -d. -f1)" >> "$GITHUB_ENV"
 
     - name: Create macos app
       run: |
-        $CONDA/envs/asciiviewer/bin/pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
+        pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -rf ./dist/macos/asciiviewer
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-macos
+        name: asciiviewer-${{ env.OS_LABEL }}
         path: ./dist/macos
 
   windows:
@@ -57,47 +70,24 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
 
-    - name: Create environment and install dependencies
+    - uses: conda-incubator/setup-miniconda@v4
+      with:
+        environment-file: environment.yml
+        activate-environment: asciiviewer
+
+    - name: Detect OS label
+      shell: pwsh
       run: |
-        %CONDA%\Scripts\conda.exe env create ^
-        --file environment.yml --name asciiviewer
-      shell: cmd
+        $caption = (Get-CimInstance Win32_OperatingSystem).Caption
+        $year = [regex]::Match($caption, '\d{4}').Value
+        echo "OS_LABEL=windows-$year" >> $env:GITHUB_ENV
 
     - name: Create binary
-      run: |
-        %CONDA%\envs\asciiviewer\Scripts\pyinstaller.exe ^
-        --clean -y --dist .\dist\windows64 .\asciiviewer.spec
-      shell: cmd
+      run: pyinstaller --clean -y --dist ./dist/windows64 ./asciiviewer.spec
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
-        name: asciiviewer-windows64
-        path: .\dist\windows64
-
-  wine:
-    runs-on: ubuntu-18.04
-    timeout-minutes: 5
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-
-    container:
-      image: docker://cdrx/pyinstaller-windows:python3-32bit
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Install wine requirements
-      run: pip install -r requirements-wine.txt
-
-    - name: Create binary
-      run: |
-        python -m PyInstaller \
-        --dist ./dist/windows32 \
-        --onefile --windowed --noconsole --clean --noconfirm --noupx \
-        ./asciiviewer.spec
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: asciiviewer-windows32
-        path: ./dist/windows32
+        name: asciiviewer-${{ env.OS_LABEL }}
+        path: ./dist/windows64
