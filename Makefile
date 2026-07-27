@@ -1,22 +1,27 @@
 .DEFAULT_GOAL := help
 
 VERSION = 0.2.0
+ENV_NAME = asciiviewer
 
 .PHONY: help
 help: ## this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_0-9-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
+.PHONY: conda-env
+conda-env: ## create the conda environment if it doesn't already exist
+	@conda env list | grep -qE "^$(ENV_NAME)[[:space:]]" || conda env create -f environment.yml
+
 .PHONY: build-linux
-build-linux: ## build on linux
-	pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
+build-linux: conda-env ## build on linux
+	conda run --no-capture-output -n $(ENV_NAME) pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-mac
-build-mac: ## build on macos
-	pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
+build-mac: conda-env ## build on macos
+	conda run --no-capture-output -n $(ENV_NAME) pyinstaller --dist ./dist/macos --clean --noconfirm ./asciiviewer.spec
 
 .PHONY: build-spec
-build-spec: ## build spec file for pyinstaller
-	pyi-makespec \
+build-spec: conda-env ## build spec file for pyinstaller
+	conda run --no-capture-output -n $(ENV_NAME) pyi-makespec \
 	--onedir --windowed --noupx \
 	--name asciiviewer-raw \
 	--path ./ \
@@ -30,7 +35,7 @@ build-spec: ## build spec file for pyinstaller
 	--add-data="./asciiviewer/examples/XsmMultiCompoV4:examples" \
 	--log-level DEBUG \
 	--debug all \
-	--icon "./asciiviewer/assets/icon.ico"
+	--icon "./asciiviewer/assets/icon.ico" \
 	./asciiviewer/main.py
 
 .PHONY: create-git-tag
