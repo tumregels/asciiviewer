@@ -28,10 +28,37 @@ jobs:
     - name: Detect OS label
       run: |
         . /etc/os-release
-        echo "OS_LABEL=${ID}-${VERSION_ID}" >> "$GITHUB_ENV"
+        echo "OS_LABEL=${ID}-${VERSION_ID}-$(uname -m)" >> "$GITHUB_ENV"
 
     - name: Create binary
       run: pyinstaller --clean -y --dist ./dist/linux ./asciiviewer.spec
+
+    - uses: actions/upload-artifact@v7
+      with:
+        name: asciiviewer-${{ env.OS_LABEL }}
+        path: ./dist/linux
+
+  linux-legacy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [ centos:7, ubuntu:20.04 ]
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Detect OS label
+      run: |
+        OS_LABEL=$(docker run --rm ${{ matrix.image }} sh -c '. /etc/os-release; echo ${ID}-${VERSION_ID}-$(uname -m)')
+        echo "OS_LABEL=$OS_LABEL" >> "$GITHUB_ENV"
+
+    - name: Create binary
+      run: |
+        docker run --rm -v "${{ github.workspace }}:/workspace" -w /workspace ${{ matrix.image }} \
+          bash .github/scripts/build-legacy-linux.sh
 
     - uses: actions/upload-artifact@v7
       with:
@@ -42,6 +69,12 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 5
     if: "!contains(github.event.head_commit.message, 'skip ci')"
+    env:
+      # macos-latest runners are Apple Silicon (arm64), so macOS 11 (Big Sur) is the actual
+      # floor regardless - it's the first macOS release with arm64 support at all, and it
+      # matches conda-forge's own osx-arm64 build target. Without this, clang defaults the
+      # declared minimum to the runner's own (much newer) macOS version.
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
 
     steps:
     - uses: actions/checkout@v7
@@ -52,7 +85,7 @@ jobs:
         activate-environment: asciiviewer
 
     - name: Detect OS label
-      run: echo "OS_LABEL=macos-$(sw_vers -productVersion | cut -d. -f1)" >> "$GITHUB_ENV"
+      run: echo "OS_LABEL=macos-$(sw_vers -productVersion | cut -d. -f1)-$(uname -m)" >> "$GITHUB_ENV"
 
     - name: Create macos app
       run: |
@@ -82,7 +115,8 @@ jobs:
       run: |
         $caption = (Get-CimInstance Win32_OperatingSystem).Caption
         $year = [regex]::Match($caption, '\d{4}').Value
-        echo "OS_LABEL=windows-$year" >> $env:GITHUB_ENV
+        $arch = $env:PROCESSOR_ARCHITECTURE.ToLower()
+        echo "OS_LABEL=windows-$year-$arch" >> $env:GITHUB_ENV
 
     - name: Create binary
       run: pyinstaller --clean -y --dist ./dist/windows64 ./asciiviewer.spec
