@@ -1,7 +1,7 @@
 <h1 align="center">
 <img src="images/logo.png" alt="asciiviewer logo" width="400px" />
 
-![Build](https://github.com/tumregels/asciiviewer/workflows/Build/badge.svg?branch=master)
+![Build](https://github.com/tumregels/asciiviewer/actions/workflows/build.yml/badge.svg?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 </h1>
