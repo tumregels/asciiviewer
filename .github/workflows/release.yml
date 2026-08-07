@@ -100,8 +100,13 @@ jobs:
 
     - name: Zip binary
       run: |
+        # plain `zip` dereferences symlinks and breaks the app bundle's code signature (the
+        # onedir build's Contents/Resources -> Contents/Frameworks symlinks get turned into
+        # duplicate real files, invalidating the signature seal and producing "app is damaged"
+        # on download). ditto preserves symlinks and keeps resource-fork metadata out of the
+        # bundle tree (--sequesterRsrc).
         cd ./dist/macos
-        zip -r "asciiviewer-${OS_LABEL}-${{ github.ref_name }}.zip" .
+        ditto -c -k --keepParent --sequesterRsrc asciiviewer.app "asciiviewer-${OS_LABEL}-${{ github.ref_name }}.zip"
 
     - uses: actions/upload-artifact@v7
       with:

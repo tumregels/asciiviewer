@@ -92,10 +92,21 @@ jobs:
         pyinstaller --clean -y --dist ./dist/macos ./asciiviewer.spec
         rm -rf ./dist/macos/asciiviewer
 
+    - name: Zip binary
+      run: |
+        # actions/upload-artifact zips directories itself, but it dereferences symlinks and
+        # breaks the app bundle's code signature (the onedir build's Contents/Resources ->
+        # Contents/Frameworks symlinks get turned into duplicate real files, invalidating the
+        # signature seal and producing "app is damaged" on download). Zip it ourselves with
+        # ditto, which preserves symlinks and keeps resource-fork metadata out of the bundle
+        # tree (--sequesterRsrc), and upload that instead.
+        cd ./dist/macos
+        ditto -c -k --keepParent --sequesterRsrc asciiviewer.app "asciiviewer-${OS_LABEL}.zip"
+
     - uses: actions/upload-artifact@v7
       with:
         name: asciiviewer-${{ env.OS_LABEL }}
-        path: ./dist/macos
+        path: ./dist/macos/asciiviewer-${{ env.OS_LABEL }}.zip
 
   windows:
     runs-on: windows-latest
