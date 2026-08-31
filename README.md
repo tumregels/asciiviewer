@@ -21,7 +21,7 @@
 </div>
 </details>
 
-<details open>
+<details>
 <summary>Windows</summary>
 <div align="center">
 <img src="https://raw.github.com/tumregels/asciiviewer/master/images/windows.gif?raw=true" alt="windows demo" width="700" />
@@ -72,7 +72,7 @@ Now `cd` into the project folder, create a virtual environment and activate it
 
     $ cd asciiviewer
     $ conda env create -f environment.yml
-    $ source activate asciiviewer
+    $ conda activate asciiviewer
 
 At this point execute `asciiviewer` command
 
