@@ -1,11 +1,11 @@
-import configparser
 import collections.abc
+import configparser
 import os
 
 import wx
 
 from asciiviewer import parser_tool
-from asciiviewer.calculation import MyMicroLib, MyCalculation
+from asciiviewer.calculation import MyCalculation, MyMicroLib
 from asciiviewer.parser_tool import LinkedListElement
 from asciiviewer.ref_case import MyRefcase
 
@@ -131,11 +131,11 @@ class MyTreeCtrl(wx.TreeCtrl):
         return childId, childData
 
     def getChildId(self, parent, childText):
-        childId, childData = self.getChildIdAndData(parent, childText)
+        childId, _childData = self.getChildIdAndData(parent, childText)
         return childId
 
     def getChildData(self, parent, childText):
-        childId, childData = self.getChildIdAndData(parent, childText)
+        _childId, childData = self.getChildIdAndData(parent, childText)
         return childData
 
 
@@ -157,11 +157,11 @@ class MyTreeCtrl(wx.TreeCtrl):
         return childrenId, childrenData
 
     def getChildrenId(self, parent):
-        childrenId, childrenData = self.getChildrenIdAndData(parent)
+        childrenId, _childrenData = self.getChildrenIdAndData(parent)
         return childrenId
 
     def getChildrenData(self, parent):
-        childrenId, childrenData = self.getChildrenIdAndData(parent)
+        _childrenId, childrenData = self.getChildrenIdAndData(parent)
         return childrenData
 
 
@@ -249,7 +249,7 @@ class MyTreeCtrl(wx.TreeCtrl):
             fExpand = self.Expand
         else:
             fExpand = fPass
-        root = self.AddRoot(filePath)
+        _root = self.AddRoot(filePath)
         elementList = parser_tool.elementListFromFile(filePath)
         self.BuildTree(elementList, fExpand, fSort)
 
@@ -268,7 +268,7 @@ class MyTreeCtrl(wx.TreeCtrl):
 
     def computeMulticompoCalculation(self, eltId, eltData, parentId, parentData):
         nameDirId = self.GetItemParent(self.GetItemParent(self.GetItemParent(eltId)))
-        nameDirData = self.GetItemData(nameDirId)
+        _nameDirData = self.GetItemData(nameDirId)
         eltDataStateVector = self.getChildData(nameDirId, "STATE-VECTOR")
         eltGlobalId = self.getChildId(nameDirId, "GLOBAL")
         eltParkey = self.getChildData(eltGlobalId, "PARKEY")

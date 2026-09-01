@@ -2,8 +2,8 @@
 # date : 25/11/09
 
 # FIXME : table view overwrites standard view in edition ref-case
-import configparser
 import collections.abc
+import configparser
 import os
 import sys
 import time
@@ -17,17 +17,17 @@ import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
 from asciiviewer.find_replace_dialog import MyFindReplaceDialog
 from asciiviewer.menu_bar import (
-    MyMenuBar,
-    ID_OPEN,
     ID_ABOUT,
-    ID_EXIT,
-    ID_EXPAND_ALL,
     ID_COLLAPSE_ALL,
     ID_COLLAPSE_CHILDREN,
+    ID_EXIT,
+    ID_EXPAND_ALL,
+    ID_OPEN,
     ID_SEARCH,
+    MyMenuBar,
 )
 from asciiviewer.sheet import MySheet
-from asciiviewer.table import MyTableColumn, MySummaryTable
+from asciiviewer.table import MySummaryTable, MyTableColumn
 from asciiviewer.tree_ctrl import MyTreeCtrl
 
 ID_BUTTON = 100
@@ -102,10 +102,8 @@ class MainWindow(wx.Frame):
                 self.OnFindPrev(findEvt)
             else:
                 self.OnFindNext(findEvt)
-        if evt.ControlDown():
-            if keyCode == 70:
-                # key 'f'
-                self.OnSearch(evt)
+        if evt.ControlDown() and keyCode == 70:  # key 'f'
+            self.OnSearch(evt)
         evt.Skip()
 
     def refresh(self):
@@ -128,7 +126,6 @@ class MainWindow(wx.Frame):
         self.findDlg.Show()
 
     def OnFind(self, event):
-        findData = self.findDlg.GetData()
         searchString = event.GetFindString()
         root = self.tree.GetRootItem()
         result = self.tree.find(root, searchString)
@@ -223,24 +220,25 @@ class MainWindow(wx.Frame):
         config.read(configFilePath)
         config.set('mainconfig', 'lastfile', filePath)
         # Writing our configuration file to '.asciiviewer.cfg'
-        config.write(open(configFilePath, 'w'))
+        with open(configFilePath, 'w') as f:
+            config.write(f)
         self.Update()
         self.tree.bind(self)
         self.tree.SetFocus()
 
     def OnAbout(self, event):
-        dlg = wx.MessageDialog(self, dedent("""\
-        asciiviewer {}
+        dlg = wx.MessageDialog(self, dedent(f"""\
+        asciiviewer {asciiviewer.__version__}
 
-            python {}
-            wxpython {}
+            python {python_version()}
+            wxpython {wx.version()}
 
         tumregels (2021)
         https://github.com/tumregels/asciiviewer
 
         Benjamin Toueg (2009)
         https://github.com/btoueg/LCM-object-viewer
-        """.format(asciiviewer.__version__, python_version(), wx.version())), "About", wx.OK | wx.ICON_INFORMATION)
+        """), "About", wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
 

@@ -1,7 +1,7 @@
 import sys
 import warnings
 
-from ._version import __version__
+from ._version import __version__ as __version__
 
 if getattr(sys, 'frozen', False):
     # If the application is run as a bundle, the PyInstaller bootloader

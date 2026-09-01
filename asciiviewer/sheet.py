@@ -3,10 +3,6 @@
 import wx
 from wx.lib import sheet
 
-from asciiviewer.calculation import MyCalculation
-from asciiviewer.ref_case import MyRefcase
-
-
 # TODO bind mousewheel and scroll bar
 # TODO cell selection with shift+page up/down
 

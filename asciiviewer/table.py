@@ -1,6 +1,4 @@
-# -*- Coding : UTF-8 -*-
 import wx
-from wx.grid import GridTableBase
 
 
 class MyTableColumn(wx.grid.GridTableBase):
