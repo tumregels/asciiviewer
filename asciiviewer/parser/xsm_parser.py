@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # author : Benjamin Toueg
 # date : 10/10/10
 
@@ -7,7 +5,7 @@
 from array import array
 from copy import copy
 
-from asciiviewer.parser_tool import Content, LinkedListElement
+from asciiviewer.parser.parser_tool import Content, LinkedListElement
 
 iofmax = 30
 maxit = 100
@@ -521,12 +519,15 @@ def browseXsm(xsm_list, elementList, ilev=1):
 
 
 if __name__ == "__main__":
+    import os
     import sys
 
     try:
         filePath = sys.argv[1]
-    except:
-        filePath = "/home/melodie/Bureau/xsm_open/XSMCPO_0004"
+    except IndexError:
+        filePath = os.path.join(
+            os.path.dirname(__file__), "..", "examples", "XsmMultiCompoV4"
+        )
     elementList = []
     with open(filePath, 'rb') as myFile:
         iplist = xsm(myFile)

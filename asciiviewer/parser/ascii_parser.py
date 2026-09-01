@@ -1,9 +1,7 @@
-#!/usr/bin/python
-
 # author : Benjamin Toueg
 # date : 24/11/09
 
-from asciiviewer.parser_tool import Content, LinkedListElement, fancyStep
+from asciiviewer.parser.parser_tool import Content, LinkedListElement, fancyStep
 
 
 def asciiToElementList(filePath):
@@ -182,12 +180,15 @@ def asciiToTree(filePath, tree):
 
 
 if __name__ == "__main__":
+    import os
     import sys
 
     try:
         myFilePath = sys.argv[1]
-    except:
-        myFilePath = "../example/MultiCompoV4"
+    except IndexError:
+        myFilePath = os.path.join(
+            os.path.dirname(__file__), "..", "examples", "MultiCompoV4"
+        )
     elementList = asciiToElementList(myFilePath)
     for e in elementList:
         if True:  # e.level < 2:

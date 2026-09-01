@@ -4,9 +4,9 @@ import os
 
 import wx
 
-from asciiviewer import parser_tool
 from asciiviewer.calculation import MyCalculation, MyMicroLib
-from asciiviewer.parser_tool import LinkedListElement
+from asciiviewer.parser import parser_tool
+from asciiviewer.parser.parser_tool import LinkedListElement
 from asciiviewer.ref_case import MyRefcase
 
 

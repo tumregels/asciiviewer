@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # author : Benjamin Toueg
 # date : 30/10/10
 
@@ -10,11 +8,11 @@ def elementListFromFile(filePath):
         head = inputfile.read(4)
     if head == b'$XSM':
         # if the first four characters are "$XSM" it's most certainly a XSM file
-        from asciiviewer.xsm_parser import xsmToElementList
+        from asciiviewer.parser.xsm_parser import xsmToElementList
         return xsmToElementList(filePath)
     else:
         # we suppose it's an ASCII file
-        from asciiviewer.ascii_parser import asciiToElementList
+        from asciiviewer.parser.ascii_parser import asciiToElementList
         return asciiToElementList(filePath)
 
 

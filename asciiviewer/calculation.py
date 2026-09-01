@@ -2,17 +2,17 @@ from asciiviewer.table import MyCalculationTable
 
 
 class MyMicroLib:
-    def __init__(self, stateVector, name=[], dens=[], temp=[], todo=[], Stype=[], used=[], vol=[]):
+    def __init__(self, stateVector, name=None, dens=None, temp=None, todo=None, Stype=None, used=None, vol=None):
         self.nIsotope = int(stateVector[1])
         self.nGroup = int(stateVector[2])
         self.nAnisoOrder = int(stateVector[3])
-        self.isotopeRname = name
-        self.isotopeSdens = dens
-        self.isotopeStemp = temp
-        self.isotopeStodo = todo
-        self.isotopeStype = Stype
-        self.isotopeSused = used
-        self.isotopeSvol = vol
+        self.isotopeRname = name if name is not None else []
+        self.isotopeSdens = dens if dens is not None else []
+        self.isotopeStemp = temp if temp is not None else []
+        self.isotopeStodo = todo if todo is not None else []
+        self.isotopeStype = Stype if Stype is not None else []
+        self.isotopeSused = used if used is not None else []
+        self.isotopeSvol = vol if vol is not None else []
         self.isotopeXs = {}
         self.setXS = set()
         for isotope in self.isotopeRname:
@@ -27,7 +27,7 @@ class MyMicroLib:
                     xsg = xsAllGroup[g * self.nGroup:(g + 1) * self.nGroup]
                 else:
                     xsg = [xsAllGroup[g]]
-        except IndexError as e:
+        except IndexError:
             xsg = ['Error']
         return xsg
 

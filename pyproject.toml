@@ -39,7 +39,7 @@ asciiviewer = "asciiviewer.main:main"
 dev = ["bump2version", "build", "pyinstaller"]
 
 [tool.setuptools]
-packages = ["asciiviewer"]
+packages = ["asciiviewer", "asciiviewer.parser"]
 
 [tool.setuptools.dynamic]
 version = { attr = "asciiviewer._version.__version__" }
