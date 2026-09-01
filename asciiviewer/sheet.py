@@ -78,9 +78,28 @@ class MySheet(sheet.CSheet):
     def resetSize(self):
         resizeExistingCols = True
         self.SetDefaultColSize(130, resizeExistingCols)
+        table = self.GetTable()
         for i in range(self.GetNumberCols()):
-            self.SetColFormatFloat(i)
+            if table is not None and self.isColNumeric(table, i):
+                self.SetColFormatFloat(i)
         self.ForceRefresh()
+
+    def isColNumeric(self, table, col):
+        """
+        The float column editor asserts if the underlying value can't be
+        parsed as a float, so only format a column as float when every cell
+        actually is one (leaf columns can just as well hold plain text, e.g.
+        node labels).
+        """
+        for row in range(table.GetNumberRows()):
+            value = table.GetValue(row, col)
+            if value in (None, ''):
+                continue
+            try:
+                float(value)
+            except (TypeError, ValueError):
+                return False
+        return True
 
     def addColLabel(self, colIndex, stringList):
         """Add all the string in stringList as column label after the last column (colIndex = -1)"""
