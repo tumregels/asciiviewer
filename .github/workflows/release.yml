@@ -62,6 +62,12 @@ jobs:
         docker run --rm -v "${{ github.workspace }}:/workspace" -w /workspace ${{ matrix.image }} \
           bash .github/scripts/build-legacy-linux.sh
 
+    - name: Fix output ownership
+      # The container runs as root, so pyinstaller's output in the bind-mounted workspace
+      # is root-owned on the host. Reclaim it for the runner user before zipping, otherwise
+      # zip fails with "Permission denied".
+      run: sudo chown -R "$(id -u):$(id -g)" ./dist/linux
+
     - name: Zip binary
       run: |
         cd ./dist/linux
