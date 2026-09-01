@@ -24,6 +24,7 @@ from asciiviewer.menu_bar import (
     ID_EXPAND_ALL,
     ID_COLLAPSE_ALL,
     ID_COLLAPSE_CHILDREN,
+    ID_SEARCH,
 )
 from asciiviewer.sheet import MySheet
 from asciiviewer.table import MyTableColumn, MySummaryTable
@@ -51,9 +52,10 @@ class MainWindow(wx.Frame):
 
         icon_path = os.path.join(application_path, 'assets', 'icon.ico')
         self.SetIcon(wx.Icon(icon_path))
-        # self.findDlg = MyFindReplaceDialog(self)
-        # self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
-        # self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
+        self.findDlg = MyFindReplaceDialog(self)
+        self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
+        self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
+        self.findDlg.Bind(wx.EVT_FIND_CLOSE, self.OnFindClose)
 
     def initialize(self):
         self.SetMenuBar(MyMenuBar())
@@ -88,7 +90,7 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnExpandAll, id=ID_EXPAND_ALL)
         self.Bind(wx.EVT_MENU, self.OnCollapseAll, id=ID_COLLAPSE_ALL)
         self.Bind(wx.EVT_MENU, self.OnCollapseChildren, id=ID_COLLAPSE_CHILDREN)
-        # self.Bind(wx.EVT_MENU, self.OnSearch, id=ID_SEARCH)
+        self.Bind(wx.EVT_MENU, self.OnSearch, id=ID_SEARCH)
         self.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
 
     def OnKeyDown(self, evt):
@@ -121,16 +123,16 @@ class MainWindow(wx.Frame):
         self.tree.Refresh()
 
     def OnSearch(self, event):
-        # FIXME always works with ShowModal() and crashes often wih Show()
-        self.findDlg.ShowModal()
+        # wx.FindReplaceDialog is a modeless dialog; ShowModal() desyncs the
+        # modal loop on close and leaves the app unresponsive.
+        self.findDlg.Show()
 
     def OnFind(self, event):
         findData = self.findDlg.GetData()
-        down, wholeWord, matchCase = self.findDlg.getFlag()
         searchString = event.GetFindString()
-        # if not matchCase: searchString.lower()
         root = self.tree.GetRootItem()
-        self.findDlg.setResult(self.tree.find(root, searchString))
+        result = self.tree.find(root, searchString)
+        self.findDlg.setResult(result)
         item = self.findDlg.getCurrentFind()
         self.showItem(item)
 
@@ -141,6 +143,9 @@ class MainWindow(wx.Frame):
     def OnFindPrev(self, event):
         item = self.findDlg.getPrevFind()
         self.showItem(item)
+
+    def OnFindClose(self, event):
+        self.findDlg.Hide()
 
     def showItem(self, item):
         if item is not None:
@@ -335,7 +340,7 @@ class MainWindow(wx.Frame):
             print('coucou_not_none')
         elif eltDataLabel == 'GROUP' and eltData.content == []:
             # try to compute reaction rate
-            reactionRate = (self.tree.find(eltId, 'FLUX-INTG'.lower(), searchAll=False) != [])
+            reactionRate = (self.tree.find(eltId, 'FLUX-INTG', searchAll=False) != [])
             if reactionRate:
                 self.tree.computeReactionRate(eltId, eltData, parentId, parentData)
         elif eltDataContent is not None and len(eltDataContent) > 0:

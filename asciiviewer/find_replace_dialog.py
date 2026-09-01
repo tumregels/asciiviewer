@@ -4,7 +4,7 @@ import wx
 class MyFindReplaceDialog(wx.FindReplaceDialog):
     def __init__(self, parent):
         wx.FindReplaceDialog.__init__(self, parent, wx.FindReplaceData(1), "Search within nodes and cells",
-                                      wx.FR_NOWHOLEWORD)
+                                      wx.FR_NOWHOLEWORD | wx.FR_NOMATCHCASE)
         self.resultList = []  # triple list (node,idx in sheet = -1 if node is the interest)
         self.idx = -1
 
@@ -20,7 +20,7 @@ class MyFindReplaceDialog(wx.FindReplaceDialog):
         return item
 
     def getNextFind(self):
-        down, wholeWord, matchCase = self.getFlag()
+        down = self.getFlag()
         if down:
             i = 1
         else:
@@ -33,8 +33,7 @@ class MyFindReplaceDialog(wx.FindReplaceDialog):
         return item
 
     def getPrevFind(self):
-        down, wholeWord, matchCase = self.getFlag()
-        down = not down
+        down = not self.getFlag()
         if down:
             i = 1
         else:
@@ -48,15 +47,10 @@ class MyFindReplaceDialog(wx.FindReplaceDialog):
 
     def getFlag(self):
         flags = self.GetData().GetFlags()
-        # uncompress flags
-        matchCase = (flags & wx.FR_MATCHCASE) > 0
-        wholeWord = (flags & wx.FR_WHOLEWORD) > 0
         down = (flags & wx.FR_DOWN) > 0
-        return down, wholeWord, matchCase
+        return down
 
-    def setFlag(self, down, wholeWord, matchCase):
+    def setFlag(self, down):
         flags = 0
         if down: flags += wx.FR_DOWN
-        if wholeWord: flags += wx.FR_WHOLEWORD
-        if matchCase: flags += wx.FR_MATCHCASE
         self.GetData().SetFlags(flags)

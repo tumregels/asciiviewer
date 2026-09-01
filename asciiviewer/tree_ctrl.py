@@ -20,6 +20,32 @@ class MyTreeCtrl(wx.TreeCtrl):
         self.Bind(wx.EVT_TREE_SEL_CHANGED, mainWindow.OnSelChanged, self)
         self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, mainWindow.OnActivated, self)
 
+    def getResolvedContent(self, node):
+        """
+        node's data.content is either a raw Sequence or a lazy Content
+        object (needs .getContent()); resolve it to a Sequence in both cases.
+        """
+        content = self.GetItemData(node).content
+        if content is None:
+            return []
+        if isinstance(content, collections.abc.Sequence):
+            return content
+        return content.getContent()
+
+    def cellTexts(self, c):
+        """
+        Numeric cells are stored raw (often scientific notation, e.g.
+        '2.90595646E+01') but the sheet displays them formatted as a fixed-point
+        float (SetColFormatFloat, e.g. '29.059565'). Search both representations
+        so a user can find a cell by what they actually see on screen.
+        """
+        texts = [str(c)]
+        try:
+            texts.append(f'{float(c):f}')
+        except (TypeError, ValueError):
+            pass
+        return texts
+
     def find(self, root, searchString, searchAll=True):
         """
         Return node,-1 for if node's label if ok
@@ -37,41 +63,14 @@ class MyTreeCtrl(wx.TreeCtrl):
         for i in range(nc):
             child, cookie = GetChild(root, cookie)
             GetChild = self.GetNextChild
-            if searchString in self.GetItemText(child).lower():
-                nodeList.append((child, -1))
-            if (self.ItemHasChildren(child)):
-                nodeList += self.find(child, searchString)
-            else:
-                content = self.GetItemData(child).content
-                for i, c in enumerate(content):
-                    if searchString in c.lower():
-                        nodeList.append((child, i))
-        return nodeList
-
-    def findMatchCase(self, root, searchString):
-        """
-        Return node,-1 for if node's label if ok
-        Return node,idx for if sheet's idxth cell if ok
-        """
-        nodeList = []
-        nc = self.GetChildrenCount(root, False)
-
-        def GetFirstChild(parent, cookie):
-            return self.GetFirstChild(parent)
-
-        GetChild = GetFirstChild
-        cookie = 1
-        for i in range(nc):
-            child, cookie = GetChild(root, cookie)
-            GetChild = self.GetNextChild
             if searchString in self.GetItemText(child):
                 nodeList.append((child, -1))
             if (self.ItemHasChildren(child)):
                 nodeList += self.find(child, searchString)
             else:
-                content = self.GetItemData(child).content
+                content = self.getResolvedContent(child)
                 for i, c in enumerate(content):
-                    if searchString in c:
+                    if any(searchString in text for text in self.cellTexts(c)):
                         nodeList.append((child, i))
         return nodeList
 

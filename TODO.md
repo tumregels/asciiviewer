@@ -1,7 +1,7 @@
 # Todo
 
 - [ ] fix segfault issue when exiting
-- [ ] fix search functionality (disabled in [b9d36ed])
+- [x] fix search functionality (disabled in [b9d36ed])
 
 - [x] add icons for macos and windows
 - [x] add documentation ~~with mkdocs~~
