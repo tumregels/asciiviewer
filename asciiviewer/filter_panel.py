@@ -44,15 +44,17 @@ class MyFilterPanel(wx.Panel):
         panel2 = wx.Panel(self, -1)
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        sizer21 = wx.StaticBoxSizer(wx.StaticBox(panel2, -1, 'Direction'), orient=wx.VERTICAL)
-        sizer21.Add(wx.RadioButton(panel2, -1, 'Forward', style=wx.RB_GROUP))
-        sizer21.Add(wx.RadioButton(panel2, -1, 'Backward'))
+        box21 = wx.StaticBox(panel2, -1, 'Direction')
+        sizer21 = wx.StaticBoxSizer(box21, orient=wx.VERTICAL)
+        sizer21.Add(wx.RadioButton(box21, -1, 'Forward', style=wx.RB_GROUP))
+        sizer21.Add(wx.RadioButton(box21, -1, 'Backward'))
         hbox2.Add(sizer21, 1, wx.RIGHT, 5)
 
-        sizer22 = wx.StaticBoxSizer(wx.StaticBox(panel2, -1, 'Scope'), orient=wx.VERTICAL)
+        box22 = wx.StaticBox(panel2, -1, 'Scope')
+        sizer22 = wx.StaticBoxSizer(box22, orient=wx.VERTICAL)
         # we must define wx.RB_GROUP style, otherwise all 4 RadioButtons would be mutually exclusive
-        sizer22.Add(wx.RadioButton(panel2, -1, 'All', style=wx.RB_GROUP))
-        sizer22.Add(wx.RadioButton(panel2, -1, 'Selected Lines'))
+        sizer22.Add(wx.RadioButton(box22, -1, 'All', style=wx.RB_GROUP))
+        sizer22.Add(wx.RadioButton(box22, -1, 'Selected Lines'))
         hbox2.Add(sizer22, 1)
 
         panel2.SetSizer(hbox2)
@@ -62,15 +64,16 @@ class MyFilterPanel(wx.Panel):
         # panel3
 
         panel3 = wx.Panel(self, -1)
-        sizer3 = wx.StaticBoxSizer(wx.StaticBox(panel3, -1, 'Options'), orient=wx.VERTICAL)
+        box3 = wx.StaticBox(panel3, -1, 'Options')
+        sizer3 = wx.StaticBoxSizer(box3, orient=wx.VERTICAL)
         vbox3 = wx.BoxSizer(wx.VERTICAL)
         grid = wx.GridSizer(3, 2, 0, 5)
-        grid.Add(wx.CheckBox(panel3, -1, 'Case Sensitive'))
-        grid.Add(wx.CheckBox(panel3, -1, 'Wrap Search'))
-        grid.Add(wx.CheckBox(panel3, -1, 'Whole Word'))
-        grid.Add(wx.CheckBox(panel3, -1, 'Incremental'))
+        grid.Add(wx.CheckBox(box3, -1, 'Case Sensitive'))
+        grid.Add(wx.CheckBox(box3, -1, 'Wrap Search'))
+        grid.Add(wx.CheckBox(box3, -1, 'Whole Word'))
+        grid.Add(wx.CheckBox(box3, -1, 'Incremental'))
         vbox3.Add(grid)
-        vbox3.Add(wx.CheckBox(panel3, -1, 'Regular expressions'))
+        vbox3.Add(wx.CheckBox(box3, -1, 'Regular expressions'))
         sizer3.Add(vbox3, 0, wx.TOP, 4)
 
         panel3.SetSizer(sizer3)
