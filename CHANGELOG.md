@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.0] - 2026-09-01
+
+### Added
+- Whole-word search option in the find dialog
+
+### Fixed
+- Search functionality: modal `FindReplaceDialog` desync that made the app unresponsive on close, and a case-sensitivity bug that silently dropped matches; search now also matches the sheet's displayed (float-formatted) values
+- Stale search results when the query or whole-word flag changed without a new "Find"
+- `wxAssertionError` when editing non-numeric cells (columns are now only treated as float if every cell parses as one)
+- `PyGridCellEditor` deprecation warning
+- `wxStaticBoxSizer` parent warning in the filter panel
+- macOS app showing two Dock icons (onefile bundle spawned a second process; switched to onedir)
+- Build status badge in the README
+
+### Changed
+- Upgraded wxPython
+- Minor cleanup across `main.py`, `sheet.py`, `table.py`, and `tree_ctrl.py`
+
+### Packaging & CI
+- Added legacy Linux builds (CentOS 7 / Ubuntu 20.04 via Docker) for older glibc systems
+- Added VS Code debugger settings
+
 ## [0.3.0] - 2026-07-27
 
 ### Fixed
