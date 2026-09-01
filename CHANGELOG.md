@@ -20,6 +20,7 @@
 
 ### Packaging & CI
 - Added legacy Linux builds (CentOS 7 / Ubuntu 20.04 via Docker) for older glibc systems
+- Fixed zip permission denied error in legacy Linux release builds (root-owned Docker output wasn't reclaimed before zipping)
 - Added VS Code debugger settings
 
 ## [0.3.0] - 2026-07-27
