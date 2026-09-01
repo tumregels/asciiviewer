@@ -46,12 +46,17 @@ class MyTreeCtrl(wx.TreeCtrl):
             pass
         return texts
 
-    def find(self, root, searchString, searchAll=True):
+    def find(self, root, searchString, searchAll=True, wholeWord=False):
         """
         Return node,-1 for if node's label if ok
         Return node,idx for if sheet's idxth cell if ok
+        If wholeWord is True, a node's label or a cell's value must match
+        searchString exactly rather than merely contain it.
         FIXME : searchAll=False should break when the first item is found
         """
+        def matches(text):
+            return text == searchString if wholeWord else searchString in text
+
         nodeList = []
         nc = self.GetChildrenCount(root, False)
 
@@ -63,14 +68,14 @@ class MyTreeCtrl(wx.TreeCtrl):
         for i in range(nc):
             child, cookie = GetChild(root, cookie)
             GetChild = self.GetNextChild
-            if searchString in self.GetItemText(child):
+            if matches(self.GetItemText(child)):
                 nodeList.append((child, -1))
             if (self.ItemHasChildren(child)):
-                nodeList += self.find(child, searchString)
+                nodeList += self.find(child, searchString, searchAll, wholeWord)
             else:
                 content = self.getResolvedContent(child)
                 for i, c in enumerate(content):
-                    if any(searchString in text for text in self.cellTexts(c)):
+                    if any(matches(text) for text in self.cellTexts(c)):
                         nodeList.append((child, i))
         return nodeList
 

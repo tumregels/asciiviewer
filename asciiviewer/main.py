@@ -127,18 +127,30 @@ class MainWindow(wx.Frame):
 
     def OnFind(self, event):
         searchString = event.GetFindString()
-        root = self.tree.GetRootItem()
-        result = self.tree.find(root, searchString)
-        self.findDlg.setResult(result)
+        self.runSearch(searchString, self.findDlg.getWholeWord())
         item = self.findDlg.getCurrentFind()
         self.showItem(item)
 
+    def runSearch(self, searchString, wholeWord):
+        """(Re)compute the result list if the search string or the whole-word
+        flag changed since the last search, so toggling "whole word" and
+        pressing Find Next/Previous is aware of the new setting.
+        Returns True if a fresh search was run (result list starts at idx 0)."""
+        changed = self.findDlg.hasQueryChanged(searchString, wholeWord)
+        if changed:
+            root = self.tree.GetRootItem()
+            result = self.tree.find(root, searchString, wholeWord=wholeWord)
+            self.findDlg.setResult(result, searchString, wholeWord)
+        return changed
+
     def OnFindNext(self, event):
-        item = self.findDlg.getNextFind()
+        changed = self.runSearch(self.findDlg.GetData().GetFindString(), self.findDlg.getWholeWord())
+        item = self.findDlg.getCurrentFind() if changed else self.findDlg.getNextFind()
         self.showItem(item)
 
     def OnFindPrev(self, event):
-        item = self.findDlg.getPrevFind()
+        changed = self.runSearch(self.findDlg.GetData().GetFindString(), self.findDlg.getWholeWord())
+        item = self.findDlg.getCurrentFind() if changed else self.findDlg.getPrevFind()
         self.showItem(item)
 
     def OnFindClose(self, event):
@@ -154,7 +166,7 @@ class MainWindow(wx.Frame):
                 self.sheet.MakeCellVisible(idx, 0)
         else:
             dlg = wx.MessageDialog(self,
-                                   'The string "' + self.findDlg.GetData().GetFindString() + '" has not been found !',
+                                   'The string "' + self.findDlg.GetData().GetFindString() + '" not found !',
                                    "Find", wx.OK | wx.ICON_EXCLAMATION)
             dlg.ShowModal()
             dlg.Destroy()
