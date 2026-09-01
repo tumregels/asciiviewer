@@ -10,6 +10,26 @@ from asciiviewer.ref_case import MyRefcase
 # TODO bind mousewheel and scroll bar
 # TODO cell selection with shift+page up/down
 
+class _DiscardedCellEditor(wx.grid.GridCellTextEditor):
+    # wx.lib.sheet.CSheet's real CCellEditor is broken (raises TypeErrors on
+    # edit) and deprecated (subclasses wx.grid.PyGridCellEditor), so we
+    # replace GRID_VALUE_STRING's editor with the stock GridCellTextEditor
+    # right after CSheet.__init__ runs - see MySheet.__init__ below.
+    #
+    # But CSheet.__init__ itself still constructs one CCellEditor(self) just
+    # to register it, and that lone construction is enough to trigger the
+    # deprecation warning even though we throw the result away a moment
+    # later. This class is a drop-in swap for CCellEditor (same (self, grid)
+    # constructor signature) that CSheet can build without ever touching the
+    # deprecated base class. It's a real GridCellEditor so wx's C++ side
+    # still accepts it - it just does nothing beyond that.
+    def __init__(self, grid):
+        super().__init__()
+
+
+sheet.CCellEditor = _DiscardedCellEditor
+
+
 class MySheet(sheet.CSheet):
     def __init__(self, parent):
         sheet.CSheet.__init__(self, parent)
@@ -32,7 +52,7 @@ class MySheet(sheet.CSheet):
         # drops the outgoing table's last reference, CPython deallocates it immediately -
         # while the C++ side is still using it to detach - and segfaults. Keep it alive
         # (via self._currentTable) until after SetTable() has finished the swap.
-        result = super(MySheet, self).SetTable(table, *args, **kwargs)
+        result = super().SetTable(table, *args, **kwargs)
         self._currentTable = table
         return result
 
@@ -46,15 +66,13 @@ class MySheet(sheet.CSheet):
                 self.SetColFormatNumber(i)
 
     def SetNumberRows(self, nrow):
-        super(MySheet, self).SetNumberRows(nrow)
+        super().SetNumberRows(nrow)
         self.autosizeRowLabel()
 
     def onKeyDown(self, evt):
         keyCode = evt.GetKeyCode()
-        if evt.ControlDown():
-            if keyCode == 67:
-                # key 'c'
-                self.Copy()  # should be overloaded to take advantage of wx.GridTableBase
+        if evt.ControlDown() and keyCode == 67:  # key 'c'
+            self.Copy()  # should be overloaded to take advantage of wx.GridTableBase
         evt.Skip()
 
     def resetSize(self):
