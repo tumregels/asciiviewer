@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.1] - 2026-09-02
+
+### Fixed
+- Segfault when typing in the search dialog on Linux binaries run outside the conda build environment (bundled `libxkbcommon` looked for keyboard layout data at a baked-in conda path that doesn't exist on the target machine)
+
+### Changed
+- Moved parser modules (`ascii_parser.py`, `parser_tool.py`, `xsm_parser.py`) into an `asciiviewer.parser` subpackage
+
+### Packaging & CI
+- Configured `ruff format` (120-column line length, preserved quote style) and applied it across the codebase
+- Enabled ruff's import-sorting lint rules, with `make lint` and `make lint-imports` targets
+- Fixed ruff lint findings across the codebase; ignored `UP031` (percent-formatting) and `BLE001` (deliberate blind `except Exception`) as intentional exceptions
+
 ## [0.4.0] - 2026-09-01
 
 ### Added
