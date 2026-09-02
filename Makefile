@@ -42,6 +42,14 @@ build-spec: conda-env ## build spec file for pyinstaller
 format: conda-env ## format the codebase with ruff
 	conda run --no-capture-output -n $(ENV_NAME) ruff format .
 
+.PHONY: lint
+lint: conda-env ## lint the codebase with ruff
+	conda run --no-capture-output -n $(ENV_NAME) ruff check .
+
+.PHONY: lint-imports
+lint-imports: conda-env ## check import sorting with ruff
+	conda run --no-capture-output -n $(ENV_NAME) ruff check --select I .
+
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
 	git tag -a v$(VERSION) -m "v$(VERSION)"

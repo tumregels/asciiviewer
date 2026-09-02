@@ -44,6 +44,9 @@ line-length = 120
 [tool.ruff.format]
 quote-style = "preserve"
 
+[tool.ruff.lint]
+extend-select = ["I"]
+
 [tool.setuptools]
 packages = ["asciiviewer", "asciiviewer.parser"]
 
