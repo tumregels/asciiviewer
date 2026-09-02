@@ -36,7 +36,13 @@ Homepage = "https://github.com/tumregels/asciiviewer"
 asciiviewer = "asciiviewer.main:main"
 
 [project.optional-dependencies]
-dev = ["bump2version", "build", "pyinstaller"]
+dev = ["bump2version", "build", "pyinstaller", "ruff"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "preserve"
 
 [tool.setuptools]
 packages = ["asciiviewer", "asciiviewer.parser"]

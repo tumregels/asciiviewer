@@ -54,7 +54,6 @@ class xsm:  # active directory resident-memory xsm structure
         self.ibloc = Block2(nbits)  # address of block 2 in memory
         self.xsmop(myFile, 2)
 
-
     def __str__(self):
         s = "== xsm obj ==\n"
         s += "hname " + str(self.hname) + "\n"
@@ -63,7 +62,6 @@ class xsm:  # active directory resident-memory xsm structure
         s += "ibloc\n" + str(self.ibloc) + "\n"
         s += "============"
         return s
-
 
     def xsmop(self, myFile, imp):
         """
@@ -91,7 +89,7 @@ class xsm:  # active directory resident-memory xsm structure
             # RECOVER THE ROOT DIRECTORY IF THE XSM FILE ALREADY EXISTS
             hbuf = my_block2.kdiget_s(0)
             if hbuf[:4] != "$XSM":
-                raise AssertionError("WRONG HEADER ON XSM FILE '%s'." % self.hname)
+                raise AssertionError(f"WRONG HEADER ON XSM FILE '{self.hname}'.")
             my_block2.ioft = my_block2.kdiget(1).pop()
             my_block2.idir = my_block2.kdiget(2).pop()
             self.idir = my_block2.idir
@@ -99,7 +97,6 @@ class xsm:  # active directory resident-memory xsm structure
             my_block2.modif = 0
         else:
             raise AssertionError("NEW FILE MODE not implemented")
-
 
     def xsminf(self):
         """
@@ -116,18 +113,17 @@ class xsm:  # active directory resident-memory xsm structure
                   =2: OBJECT IN READ-ONLY MODE.
         """
         my_block2 = self.ibloc
-        if (my_block2.idir != self.idir):
+        if my_block2.idir != self.idir:
             # SWITCH TO THE CORRECT ACTIVE DIRECTORY (BLOCK 2)
-            if (my_block2.modif == 1):
+            if my_block2.modif == 1:
                 my_block2.xsmdir(2)
             my_block2.idir = self.idir
             my_block2.xsmdir(1)
         namxsm = self.hname
         nammy = my_block2.mynam
-        empty = (my_block2.nmt == 0)
+        empty = my_block2.nmt == 0
         access = self.impf
         return namxsm, nammy, empty, access
-
 
     def xsmlen(self, namp):
         """
@@ -144,14 +140,13 @@ class xsm:  # active directory resident-memory xsm structure
                   6: COMPLEX                 99: UNDEFINED
         """
         iii = self.ibloc.xsmrep(namp, 1, self.idir)
-        if (iii >= 0):
+        if iii >= 0:
             ilong = self.ibloc.jlon[iii]
             itype = self.ibloc.jtyp[iii]
         else:
             ilong = 0
             itype = 99
         return ilong, itype
-
 
     def xsmnxt(self, namp=" "):
         """
@@ -171,7 +166,7 @@ class xsm:  # active directory resident-memory xsm structure
         if namp == " ":
             if my_block2.idir != self.idir:
                 # SWITCH TO THE CORRECT ACTIVE DIRECTORY (BLOCK 2)
-                if (my_block2.modif == 1):
+                if my_block2.modif == 1:
                     my_block2.xsmdir(2)
                 my_block2.idir = self.idir
                 my_block2.xsmdir(1)
@@ -180,11 +175,11 @@ class xsm:  # active directory resident-memory xsm structure
             iii = my_block2.xsmrep(namp, 1, self.idir) + 1
         if iii == -1 and namp == " ":
             # EMPTY DIRECTORY
-            raise AssertionError(
-                "THE ACTIVE DIRECTORY '%s' OF THE XSM FILE '%s' IS EMPTY." % (my_block2.mynam, self.hname))
+            raise AssertionError(f"THE ACTIVE DIRECTORY '{my_block2.mynam}' OF THE XSM FILE '{self.hname}' IS EMPTY.")
         elif iii == -1:
-            raise AssertionError("UNABLE TO FIND BLOCK '%s' INTO DIRECTORY '%s' IN THE XSM FILE '%s'." % (
-            namp, my_block2.mynam, self.hname))
+            raise AssertionError(
+                f"UNABLE TO FIND BLOCK '{namp}' INTO DIRECTORY '{my_block2.mynam}' IN THE XSM FILE '{self.hname}'."
+            )
         elif iii < my_block2.nmt:
             namp = my_block2.cmt[iii]
             return namp
@@ -196,10 +191,9 @@ class xsm:  # active directory resident-memory xsm structure
             # RECOVER THE NEXT DIRECTORY.
             my_block2.xsmdir(1)
         namp = my_block2.cmt[0]
-        if (namp == "***HANDLE***"):
+        if namp == "***HANDLE***":
             namp = " "
         return namp
-
 
     def xsmget(self, namp, itylcm=1):
         """
@@ -222,10 +216,10 @@ class xsm:  # active directory resident-memory xsm structure
             else:
                 data2 = my_block2.kdiget(my_block2.iofs[iii], my_block2.jlon[iii], 'real')
         else:
-            raise AssertionError("UNABLE TO FIND BLOCK '%s' INTO DIRECTORY '%s' IN THE XSM FILE '%s'." % (
-            namp, my_block2.mynam, self.hname))
+            raise AssertionError(
+                f"UNABLE TO FIND BLOCK '{namp}' INTO DIRECTORY '{my_block2.mynam}' IN THE XSM FILE '{self.hname}'."
+            )
         return data2
-
 
     def xsmdid(self, namp):
         """
@@ -242,19 +236,18 @@ class xsm:  # active directory resident-memory xsm structure
         iii = my_block2.xsmrep(namp, 2, self.idir)
         lenold = my_block2.jlon[iii]
         ityold = my_block2.jtyp[iii]
-        if (lenold == 0):
+        if lenold == 0:
             # CREATE A NEW SCALAR DIRECTORY EXTENT ON THE XSM FILE.
             raise AssertionError()
-        elif (lenold == -1 and ityold == 0):
+        elif lenold == -1 and ityold == 0:
             idir = my_block2.iofs[iii]
         else:
-            raise AssertionError("BLOCK '%s' IS NOT AN ASSOCIATIVE TABLE OF THE XSM FILE '%s'." % (namp, self.hname))
+            raise AssertionError(f"BLOCK '{namp}' IS NOT AN ASSOCIATIVE TABLE OF THE XSM FILE '{self.hname}'.")
 
         # COPY BLOCK1
         jplist = copy(self)
         jplist.idir = idir
         return jplist
-
 
     def xsmlid(self, namp, ilong):
         """
@@ -269,21 +262,20 @@ class xsm:  # active directory resident-memory xsm structure
         JPLIST : ADDRESS OF THE DAUGHTER LIST.
         """
         if ilong <= 0:
-            raise AssertionError("INVALID LENGTH (%d) FOR NODE '%s' IN THE XSM FILE '%s'." % (ilong, namp, self.hname))
+            raise AssertionError(f"INVALID LENGTH ({ilong}) FOR NODE '{namp}' IN THE XSM FILE '{self.hname}'.")
         my_block2 = self.ibloc
         iii = my_block2.xsmrep(namp, 2, self.idir)
         lenold = my_block2.jlon[iii]
         ityold = my_block2.jtyp[iii]
-        if (ilong > lenold and ityold == 10 or lenold == 0):
+        if ilong > lenold and ityold == 10 or lenold == 0:
             # CREATE ILONG-LENOLD NEW LIST EXTENTS ON THE XSM FILE.
             raise AssertionError()
-        elif (lenold == ilong and ityold == 10):
+        elif lenold == ilong and ityold == 10:
             idir = my_block2.iofs[iii]
-        elif (ityold != 10):
-            raise AssertionError("BLOCK '%s' IS NOT A LIST OF THE XSM FILE '%s'." % (namp, self.hname))
+        elif ityold != 10:
+            raise AssertionError(f"BLOCK '{namp}' IS NOT A LIST OF THE XSM FILE '{self.hname}'.")
         else:
-            raise AssertionError(
-                "THE LIST '%s' OF THE XSM FILE '%s' HAVE AN INVALID LENGTH (%d)." % (namp, self.hname, ilong))
+            raise AssertionError(f"THE LIST '{namp}' OF THE XSM FILE '{self.hname}' HAVE AN INVALID LENGTH ({ilong}).")
         iivec = my_block2.kdiget(idir, ilong)
         jplist = []
         for ivec in iivec:
@@ -300,16 +292,10 @@ class Block2:  # active directory resident-memory xsm structure
         self.ifile = None  # xsm (kdi) file handle
         if nbits == '32bits':
             self.lnword = 4
-            self.typedico = {'integer': 'i',
-                             'real': 'f',
-                             'double': 'd'
-                             }
+            self.typedico = {'integer': 'i', 'real': 'f', 'double': 'd'}
         elif nbits == '64bits':
             self.lnword = 8
-            self.typedico = {'integer': 'l',
-                             'real': 'd',
-                             'double': 'd'
-                             }
+            self.typedico = {'integer': 'l', 'real': 'd', 'double': 'd'}
         else:
             raise AssertionError('32 or 64 bits ?')
         # int32
@@ -323,12 +309,11 @@ class Block2:  # active directory resident-memory xsm structure
         self.mynam = ""  # character*12 name of the active directory. ='/' for the root level
         # int_32 list (iofmax long)
         self.iofs = [0] * iofmax  # offset list (position of the first element of each block)
-        self.jlon = [
-                        0] * iofmax  # length of each record (jlong=0 for a directory) that belong to the active directory extent
+        # length of each record (jlong=0 for a directory) that belong to the active directory extent
+        self.jlon = [0] * iofmax
         self.jtyp = [0] * iofmax  # type of each block that belong to the active directory extent
         # string list (iofmax long)
         self.cmt = []  # list of character*12 names of each block (record or directory) that belong to the active directory extent
-
 
     def __str__(self):
         s = "== Block2 obj ==\n"
@@ -347,7 +332,6 @@ class Block2:  # active directory resident-memory xsm structure
         s += "================"
         return s
 
-
     def kdiget_s(self, iofset, length=1):
         data = []
         offset = iofset * self.lnword
@@ -362,7 +346,6 @@ class Block2:  # active directory resident-memory xsm structure
         self.ifile.seek(offset)
         data.fromfile(self.ifile, length)
         return data.tolist()
-
 
     def xsmdir(self, ind):
         """
@@ -403,7 +386,6 @@ class Block2:  # active directory resident-memory xsm structure
         elif ind == 2:
             raise AssertionError("EXPORT not implemented")
 
-
     def xsmrep(self, namt, ind, idir):
         """
         FIND A BLOCK (RECORD OR DIRECTORY) POSITION IN THE ACTIVE DIRECTORY
@@ -424,7 +406,7 @@ class Block2:  # active directory resident-memory xsm structure
         i = ipos = ipos2 = irc = irc2 = 0
         if self.idir != idir:
             # SWITCH TO THE CORRECT ACTIVE DIRECTORY (BLOCK 2)
-            if (self.modif == 1):
+            if self.modif == 1:
                 self.xsmdir(2)
             self.idir = idir
             self.xsmdir(1)
@@ -434,29 +416,29 @@ class Block2:  # active directory resident-memory xsm structure
         if namp == " ":
             namp = "***HANDLE***"
         ipos = -1
-        if (self.nmt < iofmax):
+        if self.nmt < iofmax:
             ipos = self.idir
-        if (self.nmt == 0):
+        if self.nmt == 0:
             raise AssertionError()
         if namp in self.cmt:
             # THE BLOCK ALREADY EXISTS
             return self.cmt.index(namp)
         # THE BLOCK NAMP DOES NOT EXISTS IN THE ACTIVE DIRECTORY EXTENT. WE
         # SEARCH IN OTHER EXTENTS THAT BELONG TO THE ACTIVE DIRECTORY.
-        if (self.idir != self.link):
+        if self.idir != self.link:
             # RECOVER A NEW DIRECTORY EXTENT. */
             istart = self.link
-            if (self.modif == 1):
+            if self.modif == 1:
                 self.xsmdir(2)
             self.idir = istart
             while True:
                 self.xsmdir(1)
-                if (self.nmt < iofmax):
+                if self.nmt < iofmax:
                     ipos = self.idir
                 if namp in self.cmt:
                     # THE BLOCK NAMP WAS FOUND IN THE ACTIVE DIRECTORY EXTENT
                     return self.cmt.index(namp)
-                if (self.link == istart):
+                if self.link == istart:
                     break
                 self.idir = self.link
         return -1
@@ -483,8 +465,15 @@ def browseXsm(xsm_list, elementList, ilev=1):
             # keyword indicating a list item
             ilong, itylcm = iplist.xsmlen(" ")
             elementList.append(
-                LinkedListElement(id=len(elementList), level=ilev, labelType=12, label="%08d" % (i + 1), contentType=0,
-                                  content=Content(itylcm, -1, None, False, rawFormat="XSM")))
+                LinkedListElement(
+                    id=len(elementList),
+                    level=ilev,
+                    labelType=12,
+                    label="%08d" % (i + 1),
+                    contentType=0,
+                    content=Content(itylcm, -1, None, False, rawFormat="XSM"),
+                )
+            )
             if ilong == -1:
                 # up directory
                 browseXsm([iplist.xsmdid(" ")], elementList, ilev=ilev + 1)
@@ -498,8 +487,15 @@ def browseXsm(xsm_list, elementList, ilev=1):
                 ilong, itylcm = iplist.xsmlen(namt)
                 if ilong != 0 and (itylcm == 0 or itylcm == 10):
                     elementList.append(
-                        LinkedListElement(id=len(elementList), level=ilev, labelType=12, label=namt.strip(),
-                                          contentType=0, content=Content(itylcm, -1, None, False, rawFormat="XSM")))
+                        LinkedListElement(
+                            id=len(elementList),
+                            level=ilev,
+                            labelType=12,
+                            label=namt.strip(),
+                            contentType=0,
+                            content=Content(itylcm, -1, None, False, rawFormat="XSM"),
+                        )
+                    )
                     if ilong == -1:
                         # up directory
                         browseXsm([iplist.xsmdid(namt)], elementList, ilev=ilev + 1)
@@ -510,10 +506,17 @@ def browseXsm(xsm_list, elementList, ilev=1):
                     # get data
                     content = Content(itylcm, ilong, iplist.xsmget(namt, itylcm), False, rawFormat="XSM")
                     elementList.append(
-                        LinkedListElement(id=len(elementList), level=ilev, labelType=12, label=namt.strip(),
-                                          contentType=itylcm, content=content))
+                        LinkedListElement(
+                            id=len(elementList),
+                            level=ilev,
+                            labelType=12,
+                            label=namt.strip(),
+                            contentType=itylcm,
+                            content=content,
+                        )
+                    )
                 namt = iplist.xsmnxt(namt)
-                if (namt == first):
+                if namt == first:
                     # cycle ended
                     break
 
@@ -525,9 +528,7 @@ if __name__ == "__main__":
     try:
         filePath = sys.argv[1]
     except IndexError:
-        filePath = os.path.join(
-            os.path.dirname(__file__), "..", "examples", "XsmMultiCompoV4"
-        )
+        filePath = os.path.join(os.path.dirname(__file__), "..", "examples", "XsmMultiCompoV4")
     elementList = []
     with open(filePath, 'rb') as myFile:
         iplist = xsm(myFile)

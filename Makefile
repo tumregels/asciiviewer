@@ -38,6 +38,10 @@ build-spec: conda-env ## build spec file for pyinstaller
 	--icon "./asciiviewer/assets/icon.ico" \
 	./asciiviewer/main.py
 
+.PHONY: format
+format: conda-env ## format the codebase with ruff
+	conda run --no-capture-output -n $(ENV_NAME) ruff format .
+
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
 	git tag -a v$(VERSION) -m "v$(VERSION)"

@@ -3,8 +3,9 @@ import wx
 
 class MyFindReplaceDialog(wx.FindReplaceDialog):
     def __init__(self, parent):
-        wx.FindReplaceDialog.__init__(self, parent, wx.FindReplaceData(1), "Search within nodes and cells",
-                                      wx.FR_NOMATCHCASE)
+        wx.FindReplaceDialog.__init__(
+            self, parent, wx.FindReplaceData(1), "Search within nodes and cells", wx.FR_NOMATCHCASE
+        )
         self.resultList = []  # triple list (node,idx in sheet = -1 if node is the interest)
         self.idx = -1
         self.lastSearchString = None
@@ -63,5 +64,6 @@ class MyFindReplaceDialog(wx.FindReplaceDialog):
 
     def setFlag(self, down):
         flags = 0
-        if down: flags += wx.FR_DOWN
+        if down:
+            flags += wx.FR_DOWN
         self.GetData().SetFlags(flags)

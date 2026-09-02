@@ -65,10 +65,10 @@ class MyRefcase:
         for nameIso, dicoXS in self.dicoIsotope.items():
             for nameXS, valueList in dicoXS.items():
                 nValue = len(valueList)
-                if nameXS not in dicoMacro:
-                    dicoMacro[nameXS] = [0.] * nValue
+                if nameXS not in dicoMacro:  # noqa: SIM114
+                    dicoMacro[nameXS] = [0.0] * nValue
                 elif nValue > len(dicoMacro[nameXS]):
-                    dicoMacro[nameXS] = [0.] * nValue
+                    dicoMacro[nameXS] = [0.0] * nValue
         self.dicoIsotope['USER-MACRO'] = dicoMacro
 
     def computeMacro(self):

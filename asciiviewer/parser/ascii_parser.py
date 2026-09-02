@@ -143,7 +143,7 @@ def asciiToTree(filePath, tree):
                 pos_key[1] = pos_key[1].replace('\n', '')
                 if contentSize != 0:
                     if contentType == 3:
-                        pos_key[1] = pos_key[1][10 * contentSize:]
+                        pos_key[1] = pos_key[1][10 * contentSize :]
                         pos_key[1] = pos_key[1].replace('\n', '')
                         step = fancyStep(pos_key[1])
                         content = []
@@ -186,9 +186,7 @@ if __name__ == "__main__":
     try:
         myFilePath = sys.argv[1]
     except IndexError:
-        myFilePath = os.path.join(
-            os.path.dirname(__file__), "..", "examples", "MultiCompoV4"
-        )
+        myFilePath = os.path.join(os.path.dirname(__file__), "..", "examples", "MultiCompoV4")
     elementList = asciiToElementList(myFilePath)
     for e in elementList:
         if True:  # e.level < 2:

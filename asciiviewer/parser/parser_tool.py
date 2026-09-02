@@ -9,10 +9,12 @@ def elementListFromFile(filePath):
     if head == b'$XSM':
         # if the first four characters are "$XSM" it's most certainly a XSM file
         from asciiviewer.parser.xsm_parser import xsmToElementList
+
         return xsmToElementList(filePath)
     else:
         # we suppose it's an ASCII file
         from asciiviewer.parser.ascii_parser import asciiToElementList
+
         return asciiToElementList(filePath)
 
 
@@ -28,8 +30,7 @@ class LinkedListElement:
 
     def __str__(self):
         s = "==LinkedListElement=="
-        s += str(self.id) + " " + str(self.level) + " " + str(self.labelType) + " " + str(self.label) + " " + str(
-            self.contentType)
+        s += f"{self.id} {self.level} {self.labelType} {self.label} {self.contentType}"
         if self.content != None:
             s += " " + str(self.content.content)
         return s
@@ -70,7 +71,7 @@ def getContent(contentType, contentSize, rhs):
     rhs = rhs.lstrip(' ')
     rhs = rhs.replace('\n', '')
     if contentType == 3:
-        rhs = rhs[10 * contentSize:]
+        rhs = rhs[10 * contentSize :]
         rhs = rhs.replace('\n', '')
         step = fancyStep(rhs)
         content = []
@@ -116,7 +117,7 @@ def fancyStep(string):
     myStep = 0
     for s in stepList:
         # try cutting 's' chars by 's' chars
-        properStep = (n % s == 0)
+        properStep = n % s == 0
         if properStep:
             startingCharList = string[0::s]
             for car in startingCharList:
@@ -142,14 +143,14 @@ def comupl(nvp, nptot, ical, ncals, debarb, arbval):
     muplet = []
     i = nvp - (ncals - 1)
     io = -1
-    while (i < nvp + 1):
-        if (int(debarb[i]) == int(ical)):
+    while i < nvp + 1:
+        if int(debarb[i]) == int(ical):
             io = i
             break
         i = i + 1
     muplet.insert(0, int(arbval[io - 1]))
     ipar = nptot - 1
-    while (ipar > 0):
+    while ipar > 0:
         for i in range(nvp):
             if int(debarb[i]) == 0:
                 print("problem", i)

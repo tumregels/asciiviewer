@@ -54,6 +54,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         searchString exactly rather than merely contain it.
         FIXME : searchAll=False should break when the first item is found
         """
+
         def matches(text):
             return text == searchString if wholeWord else searchString in text
 
@@ -70,7 +71,7 @@ class MyTreeCtrl(wx.TreeCtrl):
             GetChild = self.GetNextChild
             if matches(self.GetItemText(child)):
                 nodeList.append((child, -1))
-            if (self.ItemHasChildren(child)):
+            if self.ItemHasChildren(child):
                 nodeList += self.find(child, searchString, searchAll, wholeWord)
             else:
                 content = self.getResolvedContent(child)
@@ -115,7 +116,6 @@ class MyTreeCtrl(wx.TreeCtrl):
     # break
     # return search
 
-
     def getChildIdAndData(self, parent, childText):
         childId = None
         childData = None
@@ -143,7 +143,6 @@ class MyTreeCtrl(wx.TreeCtrl):
         _childId, childData = self.getChildIdAndData(parent, childText)
         return childData
 
-
     def getChildrenIdAndData(self, parent):
         childrenId = []
         childrenData = []
@@ -168,7 +167,6 @@ class MyTreeCtrl(wx.TreeCtrl):
     def getChildrenData(self, parent):
         _childrenId, childrenData = self.getChildrenIdAndData(parent)
         return childrenData
-
 
     def expandAllChildren(self, parent):
         nc = self.GetChildrenCount(parent, False)
@@ -304,10 +302,16 @@ class MyTreeCtrl(wx.TreeCtrl):
             typeData = self.getChildData(cId, "ISOTOPESTYPE")
             usedData = self.getChildData(cId, "ISOTOPESUSED")
             volData = self.getChildData(cId, "ISOTOPESVOL")
-            microLib = MyMicroLib(stateVector.content.getContent(), nameData.content.getContent(),
-                                  densData.content.getContent(), tempData.content.getContent(),
-                                  todoData.content.getContent(), typeData.content.getContent(),
-                                  usedData.content.getContent(), volData.content.getContent())
+            microLib = MyMicroLib(
+                stateVector.content.getContent(),
+                nameData.content.getContent(),
+                densData.content.getContent(),
+                tempData.content.getContent(),
+                todoData.content.getContent(),
+                typeData.content.getContent(),
+                usedData.content.getContent(),
+                volData.content.getContent(),
+            )
             for isotope in microLib.isotopeRname:
                 eltIsoId = self.getChildId(cId, isotope)
                 eltXSList = self.getChildrenData(eltIsoId)
@@ -341,8 +345,14 @@ class MyTreeCtrl(wx.TreeCtrl):
                 eltXSList = self.getChildrenData(cId)
                 for eltXS in eltXSList:
                     dicoRefcase.addXS(c.label, eltXS)
-                eltDens = LinkedListElement(id=-1, level=-1, labelType=-1, label='DENSITY', contentType=2,
-                                            content=[isotopeDensList[isotopeNameList.index(c.label)]])
+                eltDens = LinkedListElement(
+                    id=-1,
+                    level=-1,
+                    labelType=-1,
+                    label='DENSITY',
+                    contentType=2,
+                    content=[isotopeDensList[isotopeNameList.index(c.label)]],
+                )
                 dicoRefcase.addXS(c.label, eltDens)
         dicoRefcase.createUserComputedMacroIsotope()
         dicoRefcase.computeMacro()

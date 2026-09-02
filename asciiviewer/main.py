@@ -165,9 +165,12 @@ class MainWindow(wx.Frame):
                 self.sheet.SelectBlock(idx, 0, idx, 0, True)
                 self.sheet.MakeCellVisible(idx, 0)
         else:
-            dlg = wx.MessageDialog(self,
-                                   'The string "' + self.findDlg.GetData().GetFindString() + '" not found !',
-                                   "Find", wx.OK | wx.ICON_EXCLAMATION)
+            dlg = wx.MessageDialog(
+                self,
+                'The string "' + self.findDlg.GetData().GetFindString() + '" not found !',
+                "Find",
+                wx.OK | wx.ICON_EXCLAMATION,
+            )
             dlg.ShowModal()
             dlg.Destroy()
 
@@ -239,7 +242,9 @@ class MainWindow(wx.Frame):
         self.tree.SetFocus()
 
     def OnAbout(self, event):
-        dlg = wx.MessageDialog(self, dedent(f"""\
+        dlg = wx.MessageDialog(
+            self,
+            dedent(f"""\
         asciiviewer {asciiviewer.__version__}
 
             python {python_version()}
@@ -250,7 +255,10 @@ class MainWindow(wx.Frame):
 
         Benjamin Toueg (2009)
         https://github.com/btoueg/LCM-object-viewer
-        """), "About", wx.OK | wx.ICON_INFORMATION)
+        """),
+            "About",
+            wx.OK | wx.ICON_INFORMATION,
+        )
         dlg.ShowModal()
         dlg.Destroy()
 
@@ -350,7 +358,7 @@ class MainWindow(wx.Frame):
             print('coucou_not_none')
         elif eltDataLabel == 'GROUP' and eltData.content == []:
             # try to compute reaction rate
-            reactionRate = (self.tree.find(eltId, 'FLUX-INTG', searchAll=False) != [])
+            reactionRate = self.tree.find(eltId, 'FLUX-INTG', searchAll=False) != []
             if reactionRate:
                 self.tree.computeReactionRate(eltId, eltData, parentId, parentData)
         elif eltDataContent is not None and len(eltDataContent) > 0:

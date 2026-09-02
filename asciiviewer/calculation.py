@@ -24,7 +24,7 @@ class MyMicroLib:
             if xs in self.isotopeXs[isotope]:
                 xsAllGroup = self.isotopeXs[isotope][xs]
                 if xs[:4] in ['SCAT']:
-                    xsg = xsAllGroup[g * self.nGroup:(g + 1) * self.nGroup]
+                    xsg = xsAllGroup[g * self.nGroup : (g + 1) * self.nGroup]
                 else:
                     xsg = [xsAllGroup[g]]
         except IndexError:
@@ -59,7 +59,7 @@ class MyMicroLib:
         # reconstruct scattering matrix from compressed scattering matrix
         for l in range(self.nAnisoOrder):
             scatLabel = 'SCAT%02d' % l
-            scatUnzipped = [str(0.)] * (self.nGroup * self.nGroup)
+            scatUnzipped = [str(0.0)] * (self.nGroup * self.nGroup)
             departureGroup = range(self.nGroup)
             idx = 0
             for gd in departureGroup:
@@ -129,25 +129,26 @@ class MyCalculation:
         self.filteredMuplet = None
         self.filteredXS = ['All']
         self.filteredGroup = range(1, self.ngroup + 1)
-        self.xsToDisplayNormal = ['CHI',
-                                  'H-FACTOR',
-                                  'N2N',
-                                  'N3N',
-                                  'N4N',
-                                  'NA',
-                                  'NFTOT',
-                                  'NG',
-                                  'NTOT0',
-                                  'NUSIGF',
-                                  'NWT0',
-                                  'OVERV',
-                                  'STRD',
-                                  'TRANC',
-                                  'USER-DIFF',
-                                  'USER-DIFF-TRANC',
-                                  'Flux1/Flux2',
-                                  'USER-KINF',
-                                  ]
+        self.xsToDisplayNormal = [
+            'CHI',
+            'H-FACTOR',
+            'N2N',
+            'N3N',
+            'N4N',
+            'NA',
+            'NFTOT',
+            'NG',
+            'NTOT0',
+            'NUSIGF',
+            'NWT0',
+            'OVERV',
+            'STRD',
+            'TRANC',
+            'USER-DIFF',
+            'USER-DIFF-TRANC',
+            'Flux1/Flux2',
+            'USER-KINF',
+        ]
         self.xsToDisplayAniso = ['SCAT', 'SIGS']
 
     def setFilterPanel(self, filterPanel):

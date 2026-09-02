@@ -6,6 +6,7 @@ from wx.lib import sheet
 # TODO bind mousewheel and scroll bar
 # TODO cell selection with shift+page up/down
 
+
 class _DiscardedCellEditor(wx.grid.GridCellTextEditor):
     # wx.lib.sheet.CSheet's real CCellEditor is broken (raises TypeErrors on
     # edit) and deprecated (subclasses wx.grid.PyGridCellEditor), so we
@@ -36,7 +37,8 @@ class MySheet(sheet.CSheet):
         self.SetNumberRows(5)
         self.SetNumberCols(5)
         self.SetDefaultCellFont(
-            wx.Font(self.pointSize, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL))
+            wx.Font(self.pointSize, wx.FONTFAMILY_MODERN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        )
         self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 
     def SetTable(self, table, *args, **kwargs):
