@@ -403,7 +403,7 @@ class Block2:  # active directory resident-memory xsm structure
                   =POSITION IN THE ACTIVE DIRECTORY EXTENT IF NAMT EXTSTS.
                   =0 OR 1 IF NAMT=' '.
         """
-        i = ipos = ipos2 = irc = irc2 = 0
+        i = ipos = ipos2 = irc = irc2 = 0  # noqa: F841
         if self.idir != idir:
             # SWITCH TO THE CORRECT ACTIVE DIRECTORY (BLOCK 2)
             if self.modif == 1:
@@ -434,7 +434,7 @@ class Block2:  # active directory resident-memory xsm structure
             while True:
                 self.xsmdir(1)
                 if self.nmt < iofmax:
-                    ipos = self.idir
+                    ipos = self.idir  # noqa: F841
                 if namp in self.cmt:
                     # THE BLOCK NAMP WAS FOUND IN THE ACTIVE DIRECTORY EXTENT
                     return self.cmt.index(namp)
@@ -455,7 +455,7 @@ def browseXsm(xsm_list, elementList, ilev=1):
         if ilev >= 50:
             raise AssertionError("TOO MANY DIRECTORY LEVELS IN " + iplist.hname)
         # retrieve info about current block
-        namxsm, myname, empty, lcm = iplist.xsminf()
+        _namxsm, _myname, empty, _lcm = iplist.xsminf()
         if empty:
             # switch to the next xsm object in xsm_list
             break

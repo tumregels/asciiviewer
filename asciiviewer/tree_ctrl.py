@@ -360,13 +360,13 @@ class MyTreeCtrl(wx.TreeCtrl):
 
     def computeReactionRate(self, eltId, eltData, parentId, parentData):
         groupIdList = self.getChildrenId(eltId)
-        ngroup = len(groupIdList)
+        # ngroup = len(groupIdList)
         meshXData = self.getChildData(parentId, "MESHX")
         meshYData = self.getChildData(parentId, "MESHY")
         meshZData = self.getChildData(parentId, "MESHZ")
         nx = len(meshXData.content)
         ny = len(meshYData.content)
-        nz = len(meshZData.content)
+        # nz = len(meshZData.content)
         # nameDirId = self.GetItemParent(self.GetItemParent(self.GetItemParent(eltId)))
         # nameDirData = self.GetItemData(nameDirId)
         # eltDataStateVector = self.getChildData(nameDirId, "STATE-VECTOR")
@@ -384,7 +384,7 @@ class MyTreeCtrl(wx.TreeCtrl):
         # ncals = int(eltDataNcals.content[0])
         # debarb = eltDataDebarb.content
         # arbval = eltDataArbval.content
-        myCalculation = MyCalculation(ngroup)
+        # myCalculation = MyCalculation(ngroup)
         for gId in groupIdList:
             g = self.GetItemData(gId)
             igr = int(g.label)

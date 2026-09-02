@@ -115,7 +115,9 @@ class MyFilterPanel(wx.Panel):
         while self.panelList != []:
             self.panelList.pop(0).Destroy()
 
-    def appendComboBox(self, name="Default ComboBox", defaultValue='Default Value', choices=[]):
+    def appendComboBox(self, name="Default ComboBox", defaultValue='Default Value', choices=None):
+        if choices is None:
+            choices = []
         self.cbList.append(MyComboBoxContent(name, defaultValue, choices))
 
     def setComboBoxes(self, tripletList):
@@ -163,7 +165,9 @@ class MyFilterPanel(wx.Panel):
 
 
 class MyComboBoxContent:
-    def __init__(self, name="Default ComboBox", defaultValue='Default Value', choices=[]):
+    def __init__(self, name="Default ComboBox", defaultValue='Default Value', choices=None):
+        if choices is None:
+            choices = []
         self.name = name
         self.defaultValue = defaultValue
         self.choices = choices

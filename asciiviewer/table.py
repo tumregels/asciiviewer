@@ -52,17 +52,16 @@ class MySummaryTable(wx.grid.GridTableBase):
         return self.nCol
 
     def IsEmptyCell(self, row, col):
-        label, contentType, content = self.summary[col]
+        _label, _contentType, content = self.summary[col]
         empty = False
         try:
-            value = content[row]
+            content[row]
         except IndexError:
-            value = ''
             empty = True
         return empty
 
     def GetValue(self, row, col):
-        label, contentType, content = self.summary[col]
+        _label, _contentType, content = self.summary[col]
         try:
             value = content[row]
         except IndexError:

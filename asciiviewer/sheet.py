@@ -143,15 +143,19 @@ class MySheet(sheet.CSheet):
     # i+=1
     # self.resetSize()
 
-    def displayRefcase(self, refcase, XSList=[], GrList=[]):
+    def displayRefcase(self, refcase, XSList=None, GrList=None):
         """Display the content of MyRefCase object in the sheet"""
         # pvalList = calculation.pvalList
+        if GrList is None:
+            GrList = []
+        if XSList is None:
+            XSList = []
         dicoIsotope = refcase.dicoIsotope
         # set the column labels
         if XSList[0] == 'All':
             XSList = list(refcase.setXS)
             XSList.sort()
-        ncol = 1 + len(XSList)
+        _ncol = 1 + len(XSList)
         colLabelList = ['isotope']
         for xs in XSList:
             for g in GrList:
@@ -164,7 +168,7 @@ class MySheet(sheet.CSheet):
         # mupletList = calculation.getFilteredMupletList()
         isotopeList.sort()
         self.SetNumberRows(len(isotopeList))
-        #
+
         for isotope in isotopeList:
             # convert int muplet into value muplet
             self.pasteRow(i, 0, [isotope])
@@ -175,7 +179,7 @@ class MySheet(sheet.CSheet):
                 for g in GrList:
                     try:
                         xsvalue = [dicoXS[xs][g - 1]]
-                    except:
+                    except Exception:
                         xsvalue = ["None"]
                     self.pasteRow(i, 1 + j, xsvalue)
                     j = j + 1

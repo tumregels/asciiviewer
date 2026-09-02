@@ -62,7 +62,7 @@ class MyRefcase:
 
     def createUserComputedMacroIsotope(self):
         dicoMacro = {}
-        for nameIso, dicoXS in self.dicoIsotope.items():
+        for dicoXS in self.dicoIsotope.values():
             for nameXS, valueList in dicoXS.items():
                 nValue = len(valueList)
                 if nameXS not in dicoMacro:  # noqa: SIM114
