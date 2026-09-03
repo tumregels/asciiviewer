@@ -15,7 +15,7 @@ import wx.lib.agw.advancedsplash as AS
 
 import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
-from asciiviewer.find_replace_dialog import MyFindReplaceDialog
+from asciiviewer.find_dialog import MyFindReplaceDialog
 from asciiviewer.menu_bar import (
     ID_ABOUT,
     ID_COLLAPSE_ALL,
