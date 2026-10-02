@@ -50,6 +50,14 @@ lint: conda-env ## lint the codebase with ruff
 lint-imports: conda-env ## check import sorting with ruff
 	conda run --no-capture-output -n $(ENV_NAME) ruff check --select I .
 
+.PHONY: pre-commit-install
+pre-commit-install: conda-env ## install the git pre-commit hooks
+	conda run --no-capture-output -n $(ENV_NAME) pre-commit install
+
+.PHONY: pre-commit-update
+pre-commit-update: conda-env ## update pre-commit hooks
+	conda run --no-capture-output -n $(ENV_NAME) pre-commit autoupdate
+
 .PHONY: create-git-tag
 create-git-tag: ## create git tag
 	git tag -a v$(VERSION) -m "v$(VERSION)"

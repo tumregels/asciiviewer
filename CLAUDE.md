@@ -32,6 +32,8 @@ conda run -n asciiviewer asciiviewer ./path/to/file             # open a specifi
 make lint                                                       # ruff check .
 make lint-imports                                               # ruff check --select I .  (import sort only)
 make format                                                     # ruff format .
+make pre-commit-install                                         # one-time, enables the git pre-commit hooks (whitespace, ruff check, ruff format)
+make pre-commit-update                                          # bump remote hook versions (ruff hooks use the env's ruff, run with the env active)
 
 conda run -n asciiviewer pyinstaller --clean --noconfirm ./asciiviewer.spec   # build a single-file executable into ./dist
 make build-mac / make build-linux                                             # same, via conda run, output to ./dist/<platform>

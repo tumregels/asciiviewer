@@ -1,0 +1,24 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        # example DRAGON/DONJON files are fixed-format data, leave them untouched
+        exclude: ^asciiviewer/examples/
+      - id: check-toml
+  # use the ruff installed in the `asciiviewer` conda env, so hooks and `make lint`/`make format` always agree
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check --force-exclude --fix
+        language: unsupported
+        types_or: [python, pyi]
+        require_serial: true
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format --force-exclude
+        language: unsupported
+        types_or: [python, pyi, markdown]
+        require_serial: true

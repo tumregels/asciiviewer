@@ -93,7 +93,7 @@ To generate the single file executable on your computer
 The above step will create an executable under the `dist` folder.
 
     $ ./dist/asciiviewer ./path/to/file
-    
+
 __Important__: single file executables can be called from terminal with or without file path.
 
 ### Releasing
