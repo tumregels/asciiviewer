@@ -41,6 +41,23 @@ else:
     application_path = os.path.dirname(os.path.abspath(__file__))
 
 
+def short_path(path: str, depth: int = 2) -> str:
+    # keep only the file name and its `depth` parent folders, so long paths fit in the status bar
+    parts = [part for part in os.path.normpath(path).split(os.sep) if part]
+    if len(parts) <= depth + 1:
+        return path
+    return os.path.join("...", *parts[-(depth + 1) :])
+
+
+def format_duration(seconds: float) -> str:
+    if round(seconds * 1000, 2) < 1000:
+        return "%.2f ms" % (seconds * 1000)
+    if round(seconds, 2) < 60:
+        return "%.2f s" % seconds
+    minutes, seconds = divmod(round(seconds, 1), 60)
+    return "%d min %.1f s" % (minutes, seconds)
+
+
 class MainWindow(wx.Frame):
     def __init__(self, parent, id, title):
         wx.Frame.__init__(self, parent, id, title, pos=(500, 500))
@@ -211,24 +228,24 @@ class MainWindow(wx.Frame):
             filePath = os.path.join(filedlg.GetDirectory(), filedlg.GetFilename())
             if self.tree.GetRootItem():
                 self.tree.Delete(self.tree.GetRootItem())
-            self.SetStatusText("Opening file " + filePath + " ...")
+            self.SetStatusText("Opening file " + short_path(filePath) + " ...")
             self.Update()
             self.OpenFile(filePath)
-            self.SetStatusText(filePath + " opened")
+            self.SetStatusText(short_path(filePath) + " opened")
         filedlg.Destroy()
 
     def OpenFile(self, file):
         filePath = os.path.abspath(file)
         if not (os.path.isfile(filePath)):
-            self.SetStatusText("Warning : " + filePath + " does not exist or is not a file")
+            self.SetStatusText("Warning : " + short_path(filePath) + " does not exist or is not a file")
             return
-        self.SetStatusText("Loading " + filePath + " ...")
+        self.SetStatusText("Loading " + short_path(filePath) + " ...")
         self.Update()
-        start = time.time()
-        self.tree.recoverAsciiFile(filePath)
-        end = time.time()
-        elapsed = end - start
-        self.SetStatusText(filePath + " loaded in " + str(elapsed) + "s")
+        start = time.perf_counter()
+        with wx.BusyCursor():
+            self.tree.recoverAsciiFile(filePath)
+        elapsed = time.perf_counter() - start
+        self.SetStatusText("%s loaded in %s" % (short_path(filePath), format_duration(elapsed)))
         # save last opened file in configuration file
         config = configparser.RawConfigParser()
         configFilePath = os.path.join(os.path.expanduser('~'), '.asciiviewer.cfg')
@@ -312,11 +329,17 @@ class MainWindow(wx.Frame):
     def OnItemCollapsed(self, evt):
         self.SetStatusText("OnItemCollapsed:" + self.tree.GetItemText(evt.GetItem()))
 
-    def OnSelChanged(self, evt, computationTime=True):
-        if computationTime:
-            self.SetStatusText("Computing... Please wait")
-            self.Update()
-            start = time.time()
+    def OnSelChanged(self, evt):
+        self.SetStatusText("Computing... Please wait")
+        self.Update()
+        start = time.perf_counter()
+        with wx.BusyCursor():
+            self.displaySelection(evt)
+        elapsed = time.perf_counter() - start
+        self.SetStatusText("Ready in %s" % format_duration(elapsed))
+        self.Update()
+
+    def displaySelection(self, evt):
         self.refresh()
         eltId = evt.GetItem()
         eltData = self.tree.GetItemData(eltId)
@@ -339,7 +362,7 @@ class MainWindow(wx.Frame):
         elif eltDataLabel == 'CALCULATIONS' and eltDataContent == []:
             # first time a calculation node is selected
             self.tree.computeMulticompoCalculation(eltId, eltData, parentId, parentData)
-            self.OnSelChanged(evt, False)
+            self.displaySelection(evt)
         elif eltDataLabel == 'REF-CASE   1' and eltData.content is not None:
             self.rightPanel.Show()
             self.filterPanel.Show()
@@ -353,7 +376,7 @@ class MainWindow(wx.Frame):
             self.sheet.displayRefcase(myRefcase, myRefcase.filteredXS, [1, 2])
         elif eltDataLabel == 'REF-CASE   1' and eltData.content is None:
             self.tree.computeEditionRefcase(eltId, eltData, parentId, parentData)
-            self.OnSelChanged(evt, False)
+            self.displaySelection(evt)
         elif eltDataLabel == 'GROUP' and eltData.content != []:
             print('coucou_not_none')
         elif eltDataLabel == 'GROUP' and eltData.content == []:
@@ -386,11 +409,6 @@ class MainWindow(wx.Frame):
             self.filterPanel.Hide()
 
         self.refresh()
-        if computationTime:
-            end = time.time()
-            elapsed = end - start
-            self.SetStatusText("Computation finished in " + str(elapsed) + " s")
-            self.Update()
 
     def OnActivated(self, evt):
         self.SetStatusText("OnActivated:    " + self.tree.GetItemText(evt.GetItem()))
