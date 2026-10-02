@@ -7,5 +7,4 @@ dependencies:
   - pip
   - wxpython=4.3.1
   - pip:
-    - pyinstaller
     - --editable ".[dev]"
