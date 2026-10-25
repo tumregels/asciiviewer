@@ -164,9 +164,8 @@ class MySheet(sheet.CSheet):
         self.addColLabel(0, colLabelList)
         # recover all calculations and sort them
         i = 0
-        isotopeList = dicoIsotope.keys()
         # mupletList = calculation.getFilteredMupletList()
-        isotopeList.sort()
+        isotopeList = sorted(dicoIsotope.keys())
         self.SetNumberRows(len(isotopeList))
 
         for isotope in isotopeList:
