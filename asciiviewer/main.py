@@ -123,6 +123,14 @@ class MainWindow(wx.Frame):
             self.OnSearch(evt)
         evt.Skip()
 
+    def relayoutRightPanel(self):
+        """Recompute and repaint the right panel after the filter panel was shown, hidden or rebuilt"""
+        # sizers are only recomputed on resize, and on macOS the area left by a hidden filter panel is not
+        # repainted, so without this the stale combo boxes stay visible
+        self.filterPanel.Layout()
+        self.rightPanel.Layout()
+        self.rightPanel.Refresh()
+
     def refresh(self):
         """Tip to refresh the window"""
         # following code resolves the problem of the sheet scroll bars when the window is not maximized
@@ -312,6 +320,7 @@ class MainWindow(wx.Frame):
         eltId = self.tree.GetSelection()
         eltData = self.tree.GetItemData(eltId)
         self.OnMyCalculation(eltData)
+        self.relayoutRightPanel()
 
     def OnClickedRefcase(self, evt):
         self.refresh()
@@ -326,6 +335,7 @@ class MainWindow(wx.Frame):
         self.filterPanel.bind(myCalculation.OnApplyFilter)
         myCalculation.setFilterPanel(self.filterPanel)
         self.sheet.displayRefcase(myCalculation, myCalculation.filteredXS, [1, 2])
+        self.relayoutRightPanel()
 
     def OnItemExpanded(self, evt):
         self.SetStatusText("OnItemExpanded: " + self.tree.GetItemText(evt.GetItem()))
@@ -412,6 +422,7 @@ class MainWindow(wx.Frame):
             self.rightPanel.Hide()
             self.filterPanel.Hide()
 
+        self.relayoutRightPanel()
         self.refresh()
 
     def OnActivated(self, evt):
