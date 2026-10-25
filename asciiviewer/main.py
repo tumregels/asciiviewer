@@ -124,26 +124,17 @@ class MainWindow(wx.Frame):
         evt.Skip()
 
     def relayoutRightPanel(self):
-        """Recompute and repaint the right panel after the filter panel was shown, hidden or rebuilt"""
+        """Recompute and repaint the right panel after it was shown or hidden, or its content was replaced"""
+        # the right panel is a splitter pane that is shown and hidden directly (not via Split/Unsplit), so the
+        # splitter must be told to size it again
+        self.splitter.UpdateSize()
         # sizers are only recomputed on resize, and on macOS the area left by a hidden filter panel is not
         # repainted, so without this the stale combo boxes stay visible
         self.filterPanel.Layout()
         self.rightPanel.Layout()
+        # the grid only recomputes its scroll bars on resize, so they would not match a newly set table
+        self.sheet.AdjustScrollbars()
         self.rightPanel.Refresh()
-
-    def refresh(self):
-        """Tip to refresh the window"""
-        # following code resolves the problem of the sheet scroll bars when the window is not maximized
-        w, h = self.GetSize()
-        if not (self.IsMaximized()):
-            self.SetSize((w + 1, h))
-            self.SetSize((w, h))
-        else:
-            self.SetSize((w + 1, h))
-            self.SetSize((w, h))
-        # following line partly solves the problem of redrawing the tree
-        # when window is resized when tree vertical scroll bar is down
-        self.tree.Refresh()
 
     def OnSearch(self, event):
         # wx.FindReplaceDialog is a modeless dialog; ShowModal() desyncs the
@@ -316,14 +307,12 @@ class MainWindow(wx.Frame):
         # self.sheet.displayCalculation(myCalculation)
 
     def OnClickedCalculation(self, evt):
-        self.refresh()
         eltId = self.tree.GetSelection()
         eltData = self.tree.GetItemData(eltId)
         self.OnMyCalculation(eltData)
         self.relayoutRightPanel()
 
     def OnClickedRefcase(self, evt):
-        self.refresh()
         eltId = self.tree.GetSelection()
         eltData = self.tree.GetItemData(eltId)
         self.rightPanel.Show()
@@ -354,7 +343,6 @@ class MainWindow(wx.Frame):
         self.Update()
 
     def displaySelection(self, evt):
-        self.refresh()
         eltId = evt.GetItem()
         eltData = self.tree.GetItemData(eltId)
         parentId = self.tree.GetItemParent(eltId)
@@ -423,7 +411,6 @@ class MainWindow(wx.Frame):
             self.filterPanel.Hide()
 
         self.relayoutRightPanel()
-        self.refresh()
 
     def OnActivated(self, evt):
         self.SetStatusText("OnActivated:    " + self.tree.GetItemText(evt.GetItem()))
