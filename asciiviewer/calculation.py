@@ -351,7 +351,15 @@ class MyCalculation:
                     mValue += microLib.getInfo(xs, 0)
                 else:
                     for g in self.filteredGroup:
-                        mValue += microLib.getInfo(xs, g - 1)
+                        xsg = microLib.getInfo(xs, g - 1)
+                        if xs[:4] in ['SCAT']:
+                            # keep only the filtered groups, to match the labels from getDisplayLabel
+                            if len(xsg) == microLib.nGroup:
+                                xsg = [xsg[ga - 1] for ga in self.filteredGroup]
+                            else:
+                                # 'None' / 'Error' placeholder: one per label column
+                                xsg = xsg[:1] * len(self.filteredGroup)
+                        mValue += xsg
             row.append(mValue)
         return row
 
