@@ -529,9 +529,7 @@ if __name__ == "__main__":
         filePath = sys.argv[1]
     except IndexError:
         filePath = os.path.join(os.path.dirname(__file__), "..", "examples", "XsmMultiCompoV4")
-    elementList = []
-    with open(filePath, 'rb') as myFile:
-        iplist = xsm(myFile)
-        browseXsm([iplist], elementList)
+    # xsmToElementList sniffs the header for 32/64 bits, xsm(myFile) alone would assume 32 bits
+    elementList = xsmToElementList(filePath)
     for e in elementList:
         print(e)
