@@ -14,6 +14,13 @@
             "args": ["asciiviewer/examples/MCOMPO_UOX_TBH"],
             "cwd": "${workspaceFolder}",
             "justMyCode": false
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
         }
     ]
 }
