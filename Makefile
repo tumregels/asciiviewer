@@ -81,8 +81,8 @@ dist: ## create *.whl and *.tar.gz distributions
 	-unzip dist/*.whl -d dist/whl
 
 .PHONY: clean
-clean: ## remove all build and python artifacts
-clean: clean-build clean-pyc
+clean: ## remove build, cache and python artifacts
+clean: clean-build clean-pyc clean-cache
 
 .PHONY: clean-build
 clean-build:
@@ -98,3 +98,7 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+
+.PHONY: clean-cache
+clean-cache:
+	rm -rf .mypy_cache .ruff_cache
