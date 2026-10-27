@@ -1,4 +1,3 @@
-# -*- mode: python ; coding: utf-8 -*-
 import platform
 
 block_cipher = None
