@@ -33,8 +33,8 @@ make lint                                                       # ruff check .
 make lint-imports                                               # ruff check --select I .  (import sort only)
 make format                                                     # ruff format .
 make typecheck                                                  # mypy (checks the paths in [tool.mypy] files)
-make pre-commit-install                                         # one-time, enables the git pre-commit hooks (whitespace, ruff check, ruff format, mypy)
-make pre-commit-update                                          # bump remote hook versions (ruff hooks use the env's ruff, run with the env active)
+make pre-commit-install                                         # one-time, enables the git pre-commit hooks (whitespace, toml, ruff check, ruff format, mypy)
+make pre-commit-update                                          # no-op: all hooks are local and run the env's tools via `conda run`; bump versions in pyproject.toml instead
 
 conda run -n asciiviewer pyinstaller --clean --noconfirm ./asciiviewer.spec   # build a single-file executable into ./dist
 make build-mac / make build-linux                                             # same, via conda run, output to ./dist/<platform>
