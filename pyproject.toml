@@ -39,6 +39,7 @@ asciiviewer = "asciiviewer.main:main"
 dev = [
     "bump2version",
     "build",
+    "mypy>=2.4.0",
     "pre-commit>=4.4.0",
     "pyinstaller",
     "ruff>=0.16.5",
@@ -56,6 +57,9 @@ ignore = [
     "UP031",  # %-formatting can be a bit faster than f-strings, especially with format specs
     "BLE001", # blind `except Exception` is used deliberately in a few places to keep the UI from crashing
 ]
+
+[tool.mypy]
+files = ["asciiviewer"]
 
 [tool.setuptools]
 packages = ["asciiviewer", "asciiviewer.parser"]

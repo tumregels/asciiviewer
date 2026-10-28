@@ -54,6 +54,10 @@ lint: conda-env ## lint the codebase with ruff
 lint-imports: conda-env ## check import sorting with ruff
 	conda run --no-capture-output -n $(ENV_NAME) ruff check --select I .
 
+.PHONY: typecheck
+typecheck: conda-env ## type check the codebase with mypy
+	conda run --no-capture-output -n $(ENV_NAME) mypy
+
 .PHONY: pre-commit-install
 pre-commit-install: conda-env ## install the git pre-commit hooks
 	conda run --no-capture-output -n $(ENV_NAME) pre-commit install

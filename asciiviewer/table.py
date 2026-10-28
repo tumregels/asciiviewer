@@ -1,4 +1,4 @@
-import wx
+import wx.grid
 
 
 class MyTableColumn(wx.grid.GridTableBase):

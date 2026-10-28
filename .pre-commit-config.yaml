@@ -7,18 +7,28 @@ repos:
         # example DRAGON/DONJON files are fixed-format data, leave them untouched
         exclude: ^asciiviewer/examples/
       - id: check-toml
-  # use the ruff installed in the `asciiviewer` conda env, so hooks and `make lint`/`make format` always agree
+  # run tools via `conda run` so they come from the `asciiviewer` env even when git is invoked outside it
+  # (e.g. from VS Code), keeping hooks in sync with `make lint`/`make format`/`make typecheck`
   - repo: local
     hooks:
       - id: ruff-check
         name: ruff check
-        entry: ruff check --force-exclude --fix
+        entry: conda run -n asciiviewer ruff check --force-exclude --fix
         language: unsupported
         types_or: [python, pyi]
         require_serial: true
       - id: ruff-format
         name: ruff format
-        entry: ruff format --force-exclude
+        entry: conda run -n asciiviewer ruff format --force-exclude
         language: unsupported
         types_or: [python, pyi, markdown]
+        require_serial: true
+      # checks the whole package (`files` in pyproject.toml) rather than just the staged files,
+      # since mypy needs the full import graph to give the same results as `make typecheck`
+      - id: mypy
+        name: mypy
+        entry: conda run -n asciiviewer mypy
+        language: unsupported
+        types_or: [python, pyi]
+        pass_filenames: false
         require_serial: true

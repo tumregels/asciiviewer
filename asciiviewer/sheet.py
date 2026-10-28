@@ -24,7 +24,7 @@ class _DiscardedCellEditor(wx.grid.GridCellTextEditor):
         super().__init__()
 
 
-sheet.CCellEditor = _DiscardedCellEditor
+sheet.CCellEditor = _DiscardedCellEditor  # type: ignore[assignment,misc]  # intentional monkeypatch, see above
 
 
 class MySheet(sheet.CSheet):
