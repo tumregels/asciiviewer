@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-VERSION = 0.4.1
+VERSION = 0.5.0
 ENV_NAME = asciiviewer
 
 .PHONY: help
