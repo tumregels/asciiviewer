@@ -11,6 +11,10 @@ help: ## this help
 conda-env: ## create the conda environment if it doesn't already exist
 	@conda env list | grep -qE "^$(ENV_NAME)[[:space:]]" || conda env create -f environment.yml
 
+.PHONY: conda-update
+conda-update: ## update conda environment
+	@conda env update -f environment.yml --prune
+
 .PHONY: build-linux
 build-linux: conda-env ## build on linux
 	conda run --no-capture-output -n $(ENV_NAME) pyinstaller --dist ./dist/linux --clean --noconfirm ./asciiviewer.spec
