@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.5.0] - 2026-10-29
+
+### Added
+- Busy cursor while a file loads or a tree selection is being computed
+
+### Fixed
+- SCAT columns shifting under the wrong headers in the multicompo `CALCULATIONS` view when filtering by energy group
+- Filter combo boxes staying visible (or leaving an empty area) after switching between `CALCULATIONS`/`REF-CASE` nodes and other nodes
+- Grid scroll bars not matching a newly displayed table; replaced the 1px window-resize hack with an explicit relayout of the right panel
+- Crash sorting isotopes in the `REF-CASE` view under Python 3
+- Running `xsm_parser.py` directly failing with "UNABLE TO RECOVER DIRECTORY" on 64-bit XSM files
+
+### Changed
+- Status bar reports durations in adaptive units (ms / s / min) and shortens file paths to the file name and its two parent folders
+- Restructured the About dialog (description, authors, and Python/wxPython environment versions)
+- Upgraded wxPython to 4.3.2
+- Raised the minimum supported Python version to 3.12
+- Renamed `find_replace_dialog.py` to `find_dialog.py`
+
+### Packaging & CI
+- Added pre-commit hooks (whitespace, TOML, ruff check, ruff format, mypy), run from the conda environment
+- Added mypy type checking with a `make typecheck` target
+- `make clean` now also removes `.mypy_cache` and `.ruff_cache`
+- Added VS Code "current file" debugger configuration and associated `*.spec` files with Python
+- Added `CLAUDE.md` and updated the README
+
 ## [0.4.1] - 2026-09-02
 
 ### Fixed
