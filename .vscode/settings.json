@@ -3,5 +3,7 @@
     "python-envs.defaultPackageManager": "ms-python.python:conda",
     "files.associations": {
         "*.spec": "python"
-    }
+    },
+    "plantuml.render": "PlantUMLServer",
+    "plantuml.server": "http://localhost:8484"
 }

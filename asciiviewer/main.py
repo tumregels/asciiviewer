@@ -15,7 +15,7 @@ import wx.lib.agw.advancedsplash as AS
 
 import asciiviewer
 from asciiviewer.filter_panel import MyFilterPanel
-from asciiviewer.find_dialog import MyFindReplaceDialog
+from asciiviewer.find_dialog import MyFindDialog
 from asciiviewer.menu_bar import (
     ID_ABOUT,
     ID_COLLAPSE_ALL,
@@ -69,7 +69,7 @@ class MainWindow(wx.Frame):
 
         icon_path = os.path.join(application_path, 'assets', 'icon.ico')
         self.SetIcon(wx.Icon(icon_path))
-        self.findDlg = MyFindReplaceDialog(self)
+        self.findDlg = MyFindDialog(self)
         self.findDlg.Bind(wx.EVT_FIND, self.OnFind)
         self.findDlg.Bind(wx.EVT_FIND_NEXT, self.OnFindNext)
         self.findDlg.Bind(wx.EVT_FIND_CLOSE, self.OnFindClose)

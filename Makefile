@@ -2,6 +2,9 @@
 
 VERSION = 0.5.0
 ENV_NAME = asciiviewer
+PLANTUML_IMAGE = plantuml/plantuml:1.2026.8
+PLANTUML_SERVER_IMAGE = plantuml/plantuml-server:jetty-v1.2026.8
+PLANTUML_SERVER_PORT = 8484
 
 .PHONY: help
 help: ## this help
@@ -65,6 +68,22 @@ pre-commit-install: conda-env ## install the git pre-commit hooks
 .PHONY: pre-commit-update
 pre-commit-update: conda-env ## update pre-commit hooks
 	conda run --no-capture-output -n $(ENV_NAME) pre-commit autoupdate
+
+.PHONY: diagrams
+diagrams: ## render the PlantUML diagrams in docs/ to SVG in docs/diagrams (docker via colima)
+	@colima status >/dev/null 2>&1 || colima start
+	docker --context colima run --rm -v "$(CURDIR)/docs:/docs" -w /docs $(PLANTUML_IMAGE) \
+	-tsvg -failfast2 -o diagrams architecture.md
+
+.PHONY: plantuml-server
+plantuml-server: ## run a local PlantUML server for the VS Code markdown preview (docker via colima)
+	@colima status >/dev/null 2>&1 || colima start
+	docker --context colima run -d --rm --name $(ENV_NAME)-plantuml -p $(PLANTUML_SERVER_PORT):8080 $(PLANTUML_SERVER_IMAGE)
+	@echo "PlantUML server running at http://localhost:$(PLANTUML_SERVER_PORT)"
+
+.PHONY: plantuml-server-stop
+plantuml-server-stop: ## stop the local PlantUML server
+	docker --context colima stop $(ENV_NAME)-plantuml
 
 .PHONY: create-git-tag
 create-git-tag: ## create git tag

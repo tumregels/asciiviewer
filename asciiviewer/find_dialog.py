@@ -1,7 +1,7 @@
 import wx
 
 
-class MyFindReplaceDialog(wx.FindReplaceDialog):
+class MyFindDialog(wx.FindReplaceDialog):
     def __init__(self, parent):
         wx.FindReplaceDialog.__init__(
             self, parent, wx.FindReplaceData(1), "Search within nodes and cells", wx.FR_NOMATCHCASE

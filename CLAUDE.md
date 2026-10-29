@@ -70,8 +70,8 @@ encodes depth):
 
 **UI layer** (`asciiviewer/*.py`, not `parser/`) — classic wx three-pane app wired together in `main.py`:
 - `MainWindow` (`main.py`) is the wx.Frame: builds a `wx.SplitterWindow` with `MyTreeCtrl` on the left and a
-  `MyFilterPanel` + `MySheet` grid stacked on the right, wires menu/keyboard events, and owns the find/replace
-  flow (`MyFindReplaceDialog`).
+  `MyFilterPanel` + `MySheet` grid stacked on the right, wires menu/keyboard events, and owns the find
+  flow (`MyFindDialog`).
 - `MyTreeCtrl` (`tree_ctrl.py`) loads the parsed `LinkedListElement` list into a `wx.TreeCtrl`, lazily resolves
   `Content` into concrete data on selection, and implements search (`find`) and derived-calculation triggers
   (e.g. computing reaction rates or multicompo calculations on demand when a `GROUP`/`CALCULATIONS` node is
